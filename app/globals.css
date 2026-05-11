@@ -3,6 +3,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Logo colors - Freedom Baptist Mission School */
+  --color-navy-blue: #003d7a;
+  --color-navy-bright: #0055b8;
+  --color-navy-dark: #002556;
+  --color-gold: #FFD966;
+  --color-gold-bright: #FFC933;
+  --color-gold-dark: #F59E0B;
+  --color-green: #16a34a;
+  --color-cream: #FFFAED;
+  --color-light-blue: #E7F3FF;
+  --color-light-green: #ECFDF5;
 }
 
 @theme inline {
@@ -10,6 +22,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-navy-blue: var(--color-navy-blue);
+  --color-navy-bright: var(--color-navy-bright);
+  --color-navy-dark: var(--color-navy-dark);
+  --color-gold: var(--color-gold);
+  --color-gold-bright: var(--color-gold-bright);
+  --color-gold-dark: var(--color-gold-dark);
+  --color-green: var(--color-green);
+  --color-cream: var(--color-cream);
+  --color-light-blue: var(--color-light-blue);
+  --color-light-green: var(--color-light-green);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +44,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito), Arial, Helvetica, sans-serif;
 }
