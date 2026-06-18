@@ -2,13 +2,11 @@ export default function NavLinks() {
   return (
     <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-700 lg:flex">
       <a href="/" className="transition hover:text-[#0055b8]">Home</a>
-      <a href="/about" className="transition hover:text-[#0055b8]">About</a>
-      <a href="/admissions" className="transition hover:text-[#0055b8]">Admissions</a>
-      <a href="/academics" className="transition hover:text-[#0055b8]">Academics</a>
-      <a href="/spiritual-life" className="transition hover:text-[#0055b8]">Spiritual Life</a>
-      <a href="/gallery" className="transition hover:text-[#0055b8]">Gallery</a>
+      <a href="/about" className="transition hover:text-[#0055b8]">Our Mission</a>
+      <a href="/bible-college" className="transition hover:text-[#0055b8]">Bible College</a>
+      <a href="/church-planting" className="transition hover:text-[#0055b8]">Church Planting</a>
+      <a href="/faith-academy" className="transition hover:text-[#0055b8]">The School</a>
       <a href="/support-us" className="transition hover:text-[#0055b8]">Support Us</a>
-      <a href="/contact" className="transition hover:text-[#0055b8]">Contact</a>
     </nav>
   );
 }

@@ -124,7 +124,7 @@ export default function SpiritualLifePage() {
             <div className="rounded-[32px] border-2 border-[#0055b8] bg-[#E7F3FF] p-8">
               <h3 className="text-2xl font-bold text-slate-950 mb-4">Our Approach</h3>
               <p className="text-lg leading-8 text-slate-700 mb-6">
-                Discipline at Freedom Baptist Mission School is rooted in love, respect, and biblical principles. We believe children thrive when they understand expectations and feel secure in their relationships with teachers and peers.
+                Discipline at Christian Faith Academy is rooted in love, respect, and biblical principles. We believe children thrive when they understand expectations and feel secure in their relationships with teachers and peers.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">

@@ -9,7 +9,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Freedom Baptist Mission School",
+  title: "Christian Faith Academy",
   description: "A serious school with a strong Christian foundation serving early learners in Kisii, Kenya.",
 };
 

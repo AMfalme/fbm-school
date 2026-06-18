@@ -14,10 +14,10 @@ export default function AdmissionsPage() {
               Admissions Open
             </span>
             <h1 className="mt-8 text-5xl font-black leading-[1.02] tracking-[-0.03em] text-white sm:text-6xl">
-              Join Our Freedom Community
+              Join Our Community
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-50 sm:text-xl">
-              We're excited to welcome new families to Freedom Baptist Mission School. Discover our programs, requirements, and how to begin your child's educational journey with us.
+              We're excited to welcome new families to Christian Faith Academy. Discover our programs, requirements, and how to begin your child's educational journey with us.
             </p>
           </div>
         </section>
@@ -380,7 +380,7 @@ export default function AdmissionsPage() {
             Questions About Admissions?
           </h2>
           <p className="text-lg text-blue-50 mb-8 max-w-2xl mx-auto">
-            Our admissions team is here to help you through every step of the process. Contact us today to learn more about joining Freedom Baptist Mission School.
+            Our admissions team is here to help you through every step of the process. Contact us today to learn more about joining Christian Faith Academy.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row justify-center">
             <a href="mailto:admissions@fbm-school.org" className="inline-flex items-center justify-center bg-[#FFD966] text-[#003d7a] px-8 py-4 rounded-full font-semibold hover:bg-[#FFC933] transition">

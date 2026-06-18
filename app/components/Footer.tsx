@@ -3,17 +3,17 @@ export default function Footer() {
     <footer className="bg-slate-950 text-white">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-12 lg:py-16">
         <div className="grid gap-8 lg:grid-cols-4">
-          {/* School Info */}
+          {/* Mission Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Freedom Baptist Mission School logo" className="h-10 w-10 rounded-2xl" />
+              <img src="/logo.png" alt="Freedom Baptist Mission logo" className="h-10 w-10 rounded-2xl" />
               <div className="leading-tight">
                 <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#FFD966]">Freedom Baptist</p>
-                <p className="text-xs text-[#16a34a]">Mission School</p>
+                <p className="text-xs text-[#16a34a]">Mission</p>
               </div>
             </div>
             <p className="text-sm text-slate-300 leading-6">
-              Raising Christ-centered learners for life and service through quality early education grounded in Freedom and compassion.
+              Reaching Africa and beyond with the transformative message of Jesus Christ through church planting, missions, and biblical education.
             </p>
             <div className="flex items-center gap-4">
               <a href="https://wa.me/254723456789" className="text-[#FFD966] hover:text-white transition">
@@ -36,10 +36,11 @@ export default function Footer() {
             <h3 className="text-lg font-semibold text-[#FFD966]">Quick Links</h3>
             <nav className="flex flex-col space-y-2">
               <a href="/" className="text-sm text-slate-300 hover:text-white transition">Home</a>
-              <a href="/about" className="text-sm text-slate-300 hover:text-white transition">About Us</a>
-              <a href="/admissions" className="text-sm text-slate-300 hover:text-white transition">Admissions</a>
-              <a href="/#programs" className="text-sm text-slate-300 hover:text-white transition">Programs</a>
-              <a href="/#contact" className="text-sm text-slate-300 hover:text-white transition">Contact</a>
+              <a href="/about" className="text-sm text-slate-300 hover:text-white transition">The Mission</a>
+              <a href="/bible-college" className="text-sm text-slate-300 hover:text-white transition">Bible College</a>
+              <a href="/church-planting" className="text-sm text-slate-300 hover:text-white transition">Church Planting</a>
+              <a href="/school" className="text-sm text-slate-300 hover:text-white transition">The School</a>
+              <a href="/contact" className="text-sm text-slate-300 hover:text-white transition">Contact</a>
             </nav>
           </div>
 
@@ -67,7 +68,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-[#FFD966]">Our Mission</h3>
             <p className="text-sm text-slate-300 leading-6">
-              To provide quality, Christ-centered early education that nurtures intellectual growth, spiritual formation, and character development in a safe, loving, and engaging community.
+              To fulfill the Great Commission by making disciples, training biblical leaders, and planting healthy churches that multiply throughout Kenya and beyond.
             </p>
             <div className="pt-4 border-t border-slate-700">
               <p className="text-xs text-slate-400">
@@ -80,7 +81,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-slate-700">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <p className="text-sm text-slate-400">
-              © 2026 Freedom Baptist Mission School. All rights reserved.
+              © 2026 Freedom Baptist Mission. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-xs text-slate-400">
               <span>Built with Freedom and excellence</span>

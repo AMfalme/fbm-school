@@ -1,291 +1,217 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-export default function AboutPage() {
+export default function About() {
   return (
-    <div className="min-h-screen bg-[#fff7eb] text-slate-950">
-      <main className="mx-auto flex min-h-screen max-w-7xl flex-col gap-12 px-6 py-6 lg:gap-20 lg:px-12 lg:py-10">
+    <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a]">
+      {/* Global Banner Announcement */}
+      <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
+        📢 Transforming Lives Across Kenya & Beyond Through Sound Biblical Ministry
+      </div>
+
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 space-y-24 sm:space-y-32">
         <Navbar />
 
-        {/* Hero Section */}
-        <section className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-[#003d7a] via-[#0055b8] to-[#004da8] px-6 py-10 shadow-[0_30px_80px_rgba(0,61,122,0.15)] sm:px-12 sm:py-16 lg:px-16 lg:py-20">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#FCD34D] bg-[#FFD966] px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#003d7a]">
-              Our Story
+        {/* ================= HEADER HERO ================= */}
+        <section className="relative text-center max-w-4xl mx-auto space-y-6 pt-6">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 border border-blue-200 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0055b8]">
+            🌍 Independent • Biblical • Indigenous
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
+            Our Identity, Mandate, <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0055b8] to-[#16a34a]">
+              & Theological Pillars
             </span>
-            <h1 className="mt-8 text-5xl font-black leading-[1.02] tracking-[-0.03em] text-white sm:text-6xl">
-              About Freedom Baptist Mission School
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-50 sm:text-xl">
-              Discover how we're transforming lives through Christ-centered education rooted in excellence, compassion, and Freedom.
-            </p>
-          </div>
-        </section>
-
-        {/* Who We Are & Our Story */}
-        <section className="grid gap-8 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-4xl font-bold text-slate-950 sm:text-5xl">Who We Are</h2>
-              <div className="mt-2 h-1 w-24 bg-gradient-to-r from-[#0055b8] to-[#16a34a]"></div>
-            </div>
-            <p className="text-lg leading-8 text-slate-700">
-              Freedom Baptist Mission School is a Christ-centered early learning institution located in Kisii, Kenya, serving students from Kindergarten through Primary 3. We are part of the broader vision of Freedom Baptist Mission, which has been dedicated to reaching Kenya and beyond with the transformative message of Jesus Christ.
-            </p>
-            <p className="text-lg leading-8 text-slate-700">
-              Founded on the conviction that education is a sacred calling, our school exists to nurture not just academic excellence, but the spiritual formation and character development of our students. We believe that true education transforms the whole person—mind, heart, and spirit.
-            </p>
-            <p className="text-lg leading-8 text-slate-700">
-              Every decision we make, every lesson we teach, and every interaction we have is guided by our commitment to help children become Christ-centered learners equipped for life and service.
-            </p>
-          </div>
-          <div className="rounded-[32px] overflow-hidden shadow-[0_20px_60px_rgba(0,61,122,0.15)]">
-            <img 
-              src="https://images.unsplash.com/photo-1427504494785-cdda055acfe8?auto=format&fit=crop&w=600&q=80" 
-              alt="Children learning together" 
-              className="h-full w-full object-cover"
-            />
-          </div>
-        </section>
-
-        {/* Director's Message */}
-        <section className="rounded-[32px] border-2 border-[#FFD966] bg-gradient-to-r from-[#FFFAED] to-[#FFF9E6] p-8 lg:p-12">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-4xl">💬</span>
-              <h3 className="text-3xl font-bold text-slate-950">Director's Message</h3>
-            </div>
-            <div className="space-y-6 text-lg leading-8 text-slate-700">
-              <p>
-                <span className="font-semibold text-[#0055b8]">"Dear Parents and Friends,</span>
-              </p>
-              <p>
-                Welcome to Freedom Baptist Mission School. Our school exists with a clear purpose: to provide your child with an education that is not only academically excellent but deeply rooted in Christian Freedom and values.
-              </p>
-              <p>
-                In a world that often separates learning from Freedom, we believe education should integrate all areas of a child's development. We want every student to grow in knowledge, develop character, and most importantly, understand their value and purpose in God's design.
-              </p>
-              <p>
-                As a parent, you're looking for a school you can trust—one that shares your values and will care for your child as if they were our own. That's exactly what we strive to be. Our teachers are not just educators; they are mentors, role models, and trusted partners in your child's journey.
-              </p>
-              <p>
-                We invite you to visit our school, meet our team, and experience the warm, purposeful community we've built. We believe your child belongs here, learning not just to succeed in the world, but to serve it with Christ-centered conviction.
-              </p>
-              <p>
-                <span className="font-semibold text-[#0055b8]">With warmth and purpose,
-                <br />Director Benard Carry</span>"
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Our Vision & Mission */}
-        <section className="grid gap-8 lg:grid-cols-2">
-          <div className="rounded-[32px] border-2 border-[#0055b8] bg-[#E7F3FF] p-8 lg:p-10">
-            <div className="flex items-start gap-4">
-              <span className="text-5xl">🎯</span>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-slate-950 mb-4">Our Vision</h3>
-                <p className="text-lg leading-8 text-slate-700">
-                  To raise a generation of Christ-centered leaders who pursue excellence, serve with compassion, and make a lasting impact in their communities and the world.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-[32px] border-2 border-[#16a34a] bg-[#ECFDF5] p-8 lg:p-10">
-            <div className="flex items-start gap-4">
-              <span className="text-5xl">📋</span>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-slate-950 mb-4">Our Mission</h3>
-                <p className="text-lg leading-8 text-slate-700">
-                  To provide quality, Christ-centered early education that nurtures intellectual growth, spiritual formation, and character development in a safe, loving, and engaging community.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Core Values */}
-        <section className="space-y-8">
-          <div className="text-center">
-            <h2 className="text-4xl font-bold text-slate-950 sm:text-5xl">Our Core Values</h2>
-            <div className="mt-4 mx-auto h-1 w-24 bg-gradient-to-r from-[#0055b8] to-[#FFD966]"></div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                icon: "⛪",
-                title: "Freedom-Centered",
-                description: "Jesus Christ is the foundation of everything we do. We integrate biblical principles throughout our curriculum and community."
-              },
-              {
-                icon: "📚",
-                title: "Academic Excellence",
-                description: "We maintain high academic standards while making learning joyful, engaging, and developmentally appropriate."
-              },
-              {
-                icon: "❤️",
-                title: "Compassionate Care",
-                description: "Every child is valued, known, and loved. We create a safe environment where children can thrive emotionally and socially."
-              },
-              {
-                icon: "🤝",
-                title: "Community & Service",
-                description: "We prepare students to be servant leaders who contribute meaningfully to their families, church, and communities."
-              },
-              {
-                icon: "🌱",
-                title: "Holistic Development",
-                description: "We nurture the whole child—intellectually, emotionally, spiritually, and physically."
-              },
-              {
-                icon: "🏠",
-                title: "Family Partnership",
-                description: "Parents are vital partners in education. We maintain open communication and work together in your child's development."
-              },
-              {
-                icon: "✨",
-                title: "Integrity & Honesty",
-                description: "We model and teach truthfulness, responsibility, and ethical living in all we do."
-              },
-              {
-                icon: "🌍",
-                title: "Global Perspective",
-                description: "We prepare children to understand and engage with the world through a Christian worldview."
-              }
-            ].map((value) => (
-              <div key={value.title} className="rounded-[28px] border-2 border-[#E0E7FF] bg-gradient-to-br from-white to-[#F9FAFB] p-6 shadow-[0_4px_20px_rgba(0,61,122,0.08)] hover:shadow-[0_12px_35px_rgba(0,61,122,0.15)] transition">
-                <div className="text-4xl mb-4">{value.icon}</div>
-                <h4 className="text-xl font-bold text-slate-950 mb-3">{value.title}</h4>
-                <p className="text-sm leading-6 text-slate-600">{value.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Statement of Freedom */}
-        <section className="rounded-[32px] border-2 border-[#16a34a] bg-gradient-to-r from-[#ECFDF5] to-[#F0FDF4] p-8 lg:p-12">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="text-4xl">🕊️</span>
-              <h3 className="text-3xl font-bold text-slate-950">Statement of Freedom</h3>
-            </div>
-            <p className="text-lg leading-8 text-slate-700">
-              Freedom Baptist Mission School is built upon the foundation of God's Word. We believe:
-            </p>
-            <ul className="space-y-4 text-lg leading-8 text-slate-700">
-              <li className="flex items-start gap-4">
-                <span className="text-[#16a34a] font-bold text-2xl">✓</span>
-                <span><strong>In the God of the Bible:</strong> We believe in the eternal, omnipotent God revealed in Scripture—Father, Son, and Holy Spirit.</span>
-              </li>
-              <li className="flex items-start gap-4">
-                <span className="text-[#16a34a] font-bold text-2xl">✓</span>
-                <span><strong>In Jesus Christ:</strong> Jesus Christ is God's Son, sent to earth, died for our sins, rose from the dead, and offers salvation to all who believe in Him.</span>
-              </li>
-              <li className="flex items-start gap-4">
-                <span className="text-[#16a34a] font-bold text-2xl">✓</span>
-                <span><strong>In the Authority of Scripture:</strong> The Bible is God's inspired, authoritative Word and the foundation of our teaching and values.</span>
-              </li>
-              <li className="flex items-start gap-4">
-                <span className="text-[#16a34a] font-bold text-2xl">✓</span>
-                <span><strong>In Transformation:</strong> Education, combined with Freedom, has the power to transform lives and communities for God's glory.</span>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Philosophy of Christian Education */}
-        <section className="space-y-8">
-          <div>
-            <h2 className="text-4xl font-bold text-slate-950 sm:text-5xl">Why Christian Education Matters</h2>
-            <div className="mt-4 h-1 w-24 bg-gradient-to-r from-[#0055b8] to-[#FFD966]"></div>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div className="rounded-[32px] border-2 border-[#0055b8] bg-[#E7F3FF] p-8">
-              <h3 className="text-2xl font-bold text-slate-950 mb-4">Integrated Learning</h3>
-              <p className="text-lg leading-8 text-slate-700">
-                In Christian education, we don't separate Freedom from academics. Your child learns that Freedom informs how we approach science, history, language, and mathematics. This creates a cohesive worldview where knowledge serves God's purposes.
-              </p>
-            </div>
-
-            <div className="rounded-[32px] border-2 border-[#FFD966] bg-[#FFFAED] p-8">
-              <h3 className="text-2xl font-bold text-slate-950 mb-4">Character Formation</h3>
-              <p className="text-lg leading-8 text-slate-700">
-                Beyond test scores, we invest in developing character—honesty, kindness, courage, and integrity. We believe children who understand they are made in God's image grow into responsible, compassionate leaders.
-              </p>
-            </div>
-
-            <div className="rounded-[32px] border-2 border-[#16a34a] bg-[#ECFDF5] p-8">
-              <h3 className="text-2xl font-bold text-slate-950 mb-4">Spiritual Foundation</h3>
-              <p className="text-lg leading-8 text-slate-700">
-                We help children understand their identity and purpose in Christ. They learn that education is not just about personal advancement but about becoming instruments of God's love and service in the world.
-              </p>
-            </div>
-
-            <div className="rounded-[32px] border-2 border-[#0055b8] bg-[#F0F4FF] p-8">
-              <h3 className="text-2xl font-bold text-slate-950 mb-4">Safe, Nurturing Community</h3>
-              <p className="text-lg leading-8 text-slate-700">
-                Christian education creates a community bound by shared values and Freedom. Children feel secure knowing their teachers care about them holistically and are invested in their complete development.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Connection to Freedom Baptist Mission */}
-        <section className="rounded-[32px] border-2 border-[#0055b8] bg-gradient-to-br from-[#E7F3FF] to-[#F0F4FF] p-8 lg:p-12">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="text-4xl">🌍</span>
-              <h3 className="text-3xl font-bold text-slate-950">Connected to Freedom Baptist Mission</h3>
-            </div>
-            <p className="text-lg leading-8 text-slate-700">
-              Freedom Baptist Mission School is part of Freedom Baptist Mission's vision to reach Kenya and beyond with the Gospel of Jesus Christ. Our mission in education aligns with the organization's broader commitment to:
-            </p>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl bg-white/80 p-6 border border-[#0055b8]/20">
-                <h4 className="font-bold text-[#0055b8] mb-2">Spiritual Transformation</h4>
-                <p className="text-slate-700">Helping communities encounter and follow Jesus Christ.</p>
-              </div>
-              <div className="rounded-2xl bg-white/80 p-6 border border-[#0055b8]/20">
-                <h4 className="font-bold text-[#0055b8] mb-2">Community Development</h4>
-                <p className="text-slate-700">Strengthening families and communities through quality services.</p>
-              </div>
-              <div className="rounded-2xl bg-white/80 p-6 border border-[#0055b8]/20">
-                <h4 className="font-bold text-[#0055b8] mb-2">Empowerment</h4>
-                <p className="text-slate-700">Equipping individuals with education and skills for meaningful life.</p>
-              </div>
-              <div className="rounded-2xl bg-white/80 p-6 border border-[#0055b8]/20">
-                <h4 className="font-bold text-[#0055b8] mb-2">Excellence</h4>
-                <p className="text-slate-700">Demonstrating God's love through excellence in all we do.</p>
-              </div>
-            </div>
-            <p className="text-lg leading-8 text-slate-700 mt-6">
-              By choosing Freedom Baptist Mission School, you're partnering with an institution dedicated not just to academic excellence, but to the holistic development and spiritual formation of young Kenyans who will lead with integrity, compassion, and Freedom.
-            </p>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="rounded-[32px] border-2 border-[#FFD966] bg-gradient-to-br from-[#003d7a] to-[#0055b8] p-8 lg:p-12 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4 sm:text-4xl">
-            Ready to Join Our Community?
-          </h2>
-          <p className="text-lg text-blue-50 mb-8 max-w-2xl mx-auto">
-            Visit our school, meet our team, and see firsthand how Freedom Baptist Mission School can serve your family.
+          </h1>
+          <p className="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto">
+            Freedom Baptist Mission exists to glorify God by establishing indigenous local church movements and systemic educational networks across East Africa.
           </p>
-          <div className="flex flex-col gap-4 sm:flex-row justify-center">
-            <a href="/#contact" className="inline-flex h-12 items-center justify-center rounded-full bg-[#FFD966] px-8 text-sm font-semibold text-[#003d7a] transition hover:bg-[#FFC933]">
-              Contact Admissions
+        </section>
+
+        {/* ================= CORE HISTORIC MANDATE ================= */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#16a34a]/10 to-transparent rounded-[40px] blur-3xl -z-10" />
+            <div className="aspect-[4/5] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.12)] border-4 border-white">
+              <img 
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80" 
+                alt="Missionary team fellowship and collaboration" 
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+          
+          <div className="lg:col-span-7 space-y-6">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#16a34a]">The Philosophy</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              Moving Beyond Temporary Relief Work
+            </h2>
+            <p className="text-slate-600 leading-relaxed font-medium">
+              We believe that long-term community transformation is entirely dependent on spiritual alignment. Our administrative methodology focuses tightly on building permanent, structurally sound spiritual structures rather than transient, dependency-heavy relief. 
+            </p>
+            <p className="text-slate-600 leading-relaxed">
+              Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expansion matrix: evangelizing unreached rural communities, offering high-level academic pathways for local pastors, and training children via robust christian foundational schooling. You can review the frontlines team executing this strategy on our <a href="/missionaries" className="text-[#0055b8] font-bold underline">Missionaries tracker</a>.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+              <div className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                <h4 className="font-bold text-slate-950 text-base">Self-Supporting</h4>
+                <p className="text-xs text-slate-500 mt-1">We implement practical administrative models that allow local works to sustain themselves independent of external funds.</p>
+              </div>
+              <div className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                <h4 className="font-bold text-slate-950 text-base">Self-Propagating</h4>
+                <p className="text-xs text-slate-500 mt-1">Every ministry pillar we construct is intentionally designed to train, seed, and launch secondary off-shoot works directly.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= THE DETAILED ARMS SHOWCASE ================= */}
+        <section className="space-y-16">
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#0055b8]">Operational Ecosystem</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">Our Primary Pillars of Impact</h2>
+            <p className="text-slate-600 font-medium text-sm">A deep professional breakdown of the established systems driving the mission footprint forward daily.</p>
+          </div>
+
+          <div className="space-y-12">
+            {/* Pillar A: Church Planting */}
+            <div className="bg-white border border-slate-100 rounded-[40px] p-8 sm:p-12 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center group hover:shadow-md transition-all">
+              <div className="lg:col-span-7 space-y-4">
+                <div className="inline-flex items-center gap-2 text-xs font-bold text-[#0055b8] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-md">
+                  ⛪ Central Assembly & Extension Plants
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">Church Planting</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  The church is God's designated vehicle for the age. Our plant assemblies serve as model communities centered heavily on rigorous expository preaching, strict church discipline, comprehensive weekly family prayer fellowships, and strategic regional outposts.
+                </p>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Instead of establishing non-denominational groups, we systematically plant independent, fundamental Baptist churches that preserve absolute local body autonomy while maintaining warm, fraternal partnerships with sister assemblies.
+                </p>
+                <a href="/church-planting" className="inline-flex items-center gap-1 text-xs font-bold text-[#0055b8] hover:underline mt-2">
+                  Learn About Our Church Plants →
+                </a>
+              </div>
+              <div className="lg:col-span-5 aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border-2 border-slate-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80" 
+                  alt="Church assembly congregation gathering" 
+                  className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
+                />
+              </div>
+            </div>
+
+            {/* Pillar B: Bible College */}
+            <div className="bg-white border border-slate-100 rounded-[40px] p-8 sm:p-12 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center group hover:shadow-md transition-all">
+              <div className="lg:col-span-5 order-last lg:order-first aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border-2 border-slate-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" 
+                  alt="Theological classroom lecturing framework" 
+                  className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
+                />
+              </div>
+              <div className="lg:col-span-7 space-y-4">
+                <div className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-md">
+                  📚 Advanced Theological Academy
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">Bible College</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  A high-caliber, localized academic training institution structured purely to qualify and equip native pastors, church planters, and gospel workers. The curriculum bypasses Western cultural imports, targeting deep biblical text immersion.
+                </p>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Students undergo strict modular instruction covering Systematic Theology, Biblical Hermeneutics, Pastoral Epistles, and Homiletics. Every academic module requires concurrent hands-on evangelism deployment in local harvest fields.
+                </p>
+                <a href="/bible-college" className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 hover:underline mt-2">
+                  Explore Academic Programs →
+                </a>
+              </div>
+            </div>
+
+            {/* Pillar C: The School */}
+            <div className="bg-white border border-slate-100 rounded-[40px] p-8 sm:p-12 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center group hover:shadow-md transition-all">
+              <div className="lg:col-span-7 space-y-4">
+                <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-3 py-1 rounded-md">
+                  🎓 Foundational Community Schooling
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">The School (Christian Faith Academy)</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Our official institutional childhood educational asset, actively training students from Kindergarten up to Primary 3. We recognize that early childhood conditioning dictates subsequent generational culture, which is why we approach education seriously.
+                </p>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  While strictly adhering to and exceeding standard national academic guidelines, our curriculum seamlessly implements a thorough biblical worldview into all modules—ensuring literacy, logic, and numbering readiness are grounded beautifully in uncompromised truth.
+                </p>
+                <a href="/school" className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:underline mt-2">
+                  Visit the School Portal →
+                </a>
+              </div>
+              <div className="lg:col-span-5 aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border-2 border-slate-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80" 
+                  alt="Young primary children learning in safe classrooms" 
+                  className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= COMPREHENSIVE DOCTRINAL STATEMENT ================= */}
+        <section className="bg-gradient-to-br from-[#003d7a] to-[#004da8] rounded-[40px] text-white p-8 sm:p-16 shadow-2xl relative overflow-hidden">
+          <div className="absolute bottom-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl -mb-16 -mr-16"></div>
+          
+          <div className="relative z-10 space-y-12">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#FFD966]">Our Core Beliefs</span>
+              <h2 className="text-3xl font-black tracking-tight sm:text-4xl">What We Uncompromisingly Believe</h2>
+              <p className="text-xs text-blue-100/80">A direct, professional summary of Freedom Baptist Mission's strict operational doctrinal framework.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                <h4 className="font-bold text-[#FFD966] text-base">The Scriptures</h4>
+                <p className="text-xs text-blue-100/80 leading-relaxed">We believe in the absolute verbal, plenary inspiration of the Holy Scriptures in their original manuscripts; completely inerrant and our final rule of faith.</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                <h4 className="font-bold text-[#FFD966] text-base">The True Godhead</h4>
+                <p className="text-xs text-blue-100/80 leading-relaxed">We believe in one God eternally existing in three distinct persons: God the Father, God the Son, and God the Holy Spirit, co-equal in power and glory.</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                <h4 className="font-bold text-[#FFD966] text-base">Salvation by Grace</h4>
+                <p className="text-xs text-blue-100/80 leading-relaxed">We maintain that salvation is entirely by grace alone, separate from any human works or rituals, achieved solely via personal faith in Christ's substitutionary death.</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                <h4 className="font-bold text-[#FFD966] text-base">The Local Church</h4>
+                <p className="text-xs text-blue-100/80 leading-relaxed">We define the local church as an autonomous, visible congregation of baptized believers associated by covenant of faith and fellowship of the gospel.</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                <h4 className="font-bold text-[#FFD966] text-base">Total Separation</h4>
+                <p className="text-xs text-blue-100/80 leading-relaxed">We adhere to biblical separation from all forms of apostasy, modern ecumenical movements, compromise, and unscriptural theological unions.</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                <h4 className="font-bold text-[#FFD966] text-base">The Great Commission</h4>
+                <p className="text-xs text-blue-100/80 leading-relaxed">We believe it is the explicit, urgent obligation of every true local assembly to pray for, finance, and actively send qualified men to preach to all nations.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= BOTTOM ENGAGEMENT FOR GLOBAL PARTNERS ================= */}
+        <section className="bg-[#fff7eb] border-2 border-[#FFD966]/40 rounded-[40px] p-8 sm:p-16 text-center space-y-6 max-w-4xl mx-auto">
+          <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#0055b8]">Verify Our Work First-Hand</span>
+          <h3 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">Ready to Support the Field Advancement?</h3>
+          <p className="text-slate-600 leading-relaxed max-w-2xl mx-auto text-sm sm:text-base">
+            We operate with complete systemic transparency. Independent church missions boards, supportive pastors, and prospective field workers can request detailed operational documents, field reports, and student catalogs anytime.
+          </p>
+          <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/support-us" className="inline-flex h-12 items-center justify-center rounded-xl bg-[#0055b8] px-6 text-xs font-bold text-white hover:bg-[#003d7a] transition-all">
+              Partner via Support Us Portal
             </a>
-            <a href="/#programs" className="inline-flex h-12 items-center justify-center rounded-full border-2 border-[#FFD966] bg-transparent px-8 text-sm font-semibold text-white transition hover:bg-white/10">
-              Explore Programs
+            <a href="/" className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-all">
+              Return to Homepage
             </a>
           </div>
         </section>
       </main>
+
       <Footer />
     </div>
   );

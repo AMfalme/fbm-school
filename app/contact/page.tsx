@@ -13,10 +13,10 @@ export default function ContactPage() {
               Contact Us
             </span>
             <h1 className="mt-8 text-5xl font-black leading-[1.02] tracking-[-0.03em] text-white sm:text-6xl">
-              Connect with the school team
+              Connect with our team
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-50 sm:text-xl">
-              We are here to answer your questions about admissions, programs, campus visits, and how your child can join Freedom Baptist Mission School.
+              We are here to answer your questions about admissions, programs, campus visits, and how your child can join Christian Faith Academy.
             </p>
           </div>
         </section>
