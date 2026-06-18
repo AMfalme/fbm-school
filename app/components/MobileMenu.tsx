@@ -12,7 +12,7 @@ export default function MobileMenu() {
         <a href="/church-planting" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Church Planting</a>
         <a href="/faith-academy" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">The School</a>
         <a href="/support-us" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Support Us</a>
-        <a href="/patner" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Partner With Us</a>
+        <a href="/partner" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Partner With Us</a>
       </div>
     </details>
   );
