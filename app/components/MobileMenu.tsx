@@ -10,10 +10,9 @@ export default function MobileMenu() {
         <a href="/about" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Our Mission</a>
         <a href="/bible-college" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Bible College</a>
         <a href="/church-planting" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Church Planting</a>
-        <a href="/missionaries" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Missionaries</a>
-        <a href="/school" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">The School</a>
+        <a href="/faith-academy" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">The School</a>
         <a href="/support-us" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Support Us</a>
-        <a href="/contact" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Contact</a>
+        <a href="/patner" className="mt-2 block rounded-2xl px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#E7F3FF]">Partner With Us</a>
       </div>
     </details>
   );
