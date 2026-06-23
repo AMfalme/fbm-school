@@ -49,7 +49,7 @@ export default function Home() {
               {/* Main Image */}
               <div className="aspect-[3/4] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.18)] border-4 border-white">
                 <img 
-                  src="/church/home.PNG" 
+                  src="/church/home.png" 
                   alt="Mission outreach and community mobilization" 
                   className="h-full w-full object-cover transform hover:scale-105 transition duration-700"
                 />
