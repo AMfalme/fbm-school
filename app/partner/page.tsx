@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-
+import Navbar from "../components/Navbar";
 // Reusable Navigation Link Component to match standard layout architecture
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -38,33 +38,12 @@ export default function PartnerWithUs() {
       
       {/* ================= GLOBAL GREEN ANNOUNCEMENT BANNER ================= */}
       <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
-        📢 Transforming Lives Across Kenya & Beyond Through Sound Biblical Ministry
+        📢 Transforming Lives Across Kenya & Beyond Through Spreading The Gospel
       </div>
 
       <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 space-y-16 sm:space-y-24">
+          <Navbar />
         
-        {/* ================= COMPACT LOGO-ALIGNED NAVBAR ================= */}
-        <nav className="flex items-center justify-between py-6 border-b border-stone-200/50">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl" role="img" aria-label="Mission Shield Logo">🛡️</span>
-            <div>
-              <span className="block text-xs font-black uppercase tracking-widest text-stone-950">Freedom Baptist</span>
-              <span className="block text-[10px] font-bold text-stone-500 uppercase tracking-wider">Mission Trust</span>
-            </div>
-          </div>
-          <div className="hidden md:flex items-center gap-8">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/about">Our Mission</NavLink>
-            <NavLink href="/support-us">Support Us</NavLink>
-            <NavLink href="/partner-with-us">Partner With Us</NavLink>
-          </div>
-          <a 
-            href="/support-us" 
-            className="bg-stone-900 text-white rounded-xl py-2 px-4 text-xs font-bold hover:bg-stone-800 transition-all shadow-xs"
-          >
-            Give Online
-          </a>
-        </nav>
 
         {/* ================= HERO SEPARATOR BLOCK ================= */}
         <section className="text-center max-w-3xl mx-auto space-y-4 pt-4">

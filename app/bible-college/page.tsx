@@ -31,7 +31,7 @@ export default function BibleCollege() {
       cohort: "Class of 2024",
       category: "Ordination Track",
       location: "Central Campus Grounds",
-      url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80",
+      url: "/bible-college/bible college.jpg",
       description: "A high-moment showing our trained native ministers receiving their official theological commissions before being systematically sent out to modern village deployment lines.",
       extendedSummary: "This milestone event marked the completion of our intensive 3-year pastoral module system. The final examinations culminated in a public ordination council review led by senior fundamental Baptist pastors from across East Africa.",
       deploymentImpact: "Graduates from this cohort were successfully deployed into unreached pockets of Western and Coastal Kenya, establishing 4 new independent mission works within 90 days of commencement.",
@@ -112,7 +112,7 @@ export default function BibleCollege() {
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a]">
       {/* Shared Global Banner Announcement */}
       <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
-        📢 Transforming Lives Across Kenya & Beyond Through Sound Biblical Ministry
+        📢 Transforming Lives Across Kenya & Beyond Through Spreading The Gospel
       </div>
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 space-y-24 sm:space-y-32">

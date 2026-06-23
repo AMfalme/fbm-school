@@ -1,61 +1,28 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { initializeApp, getApps, getApp } from 'firebase/app';
 import { 
-  getAuth, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signInWithPopup, 
   GoogleAuthProvider, 
   signOut, 
   onAuthStateChanged,
-  signInWithCustomToken,
   User
 } from 'firebase/auth';
 import { 
-  getFirestore, 
   doc, 
   setDoc, 
-  updateDoc, 
-  onSnapshot, 
-  collection 
+  onSnapshot
 } from 'firebase/firestore';
+import { app, auth, db } from '../lib/firebase';
 
-// Safely extract global environment parameters or configure standard mocks
+// Check if Firebase is properly configured
+const hasValidConfig = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.includes("mock");
+
+// Safely extract app ID
 const appId = typeof (window as any).__app_id !== 'undefined' ? (window as any).__app_id : 'default-app-id';
-let firebaseConfig: any = null;
 
-try {
-  if (typeof (window as any).__firebase_config !== 'undefined' && (window as any).__firebase_config) {
-    firebaseConfig = JSON.parse((window as any).__firebase_config);
-  }
-} catch (e) {
-  console.warn("Failed to parse default __firebase_config, falling back to Simulation state.", e);
-}
-
-// Fallback config to prevent initialization crashes when running inside simple development sandboxes
-const fallbackConfig = {
-  apiKey: "mock-api-key-safe",
-  authDomain: "freedom-baptist-mission.firebaseapp.com",
-  projectId: "freedom-baptist-mission",
-  storageBucket: "freedom-baptist-mission.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:mockid"
-};
-
-// Singleton initialization pattern
-const app = getApps().length === 0 ? initializeApp(firebaseConfig || fallbackConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// Simple mock user schema for Sandbox simulation
-interface MockUser {
-  uid: string;
-  email: string;
-  displayName: string | null;
-  photoURL: string | null;
-}
 
 interface GivingRecord {
   id: string;
@@ -76,8 +43,7 @@ interface PrayerRequest {
 
 export default function AuthDashboardPage() {
   // Authentication states
-  const [user, setUser] = useState<User | MockUser | null>(null);
-  const [isSimulation, setIsSimulation] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
   const [authMode, setAuthMode] = useState<"SIGN_IN" | "SIGN_UP">("SIGN_IN");
   
   // Auth Form Fields
@@ -126,73 +92,48 @@ export default function AuthDashboardPage() {
   ]);
 
   useEffect(() => {
-    // Detect whether we are using an authenticated Google configuration or if we are in Mock sandbox
-    const hasRealFirebase = firebaseConfig && firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("mock");
-    
-    if (hasRealFirebase) {
-      setIsSimulation(false);
-      
-      // Execute strict path and initialization constraints (RULE 3)
-      const initAuth = async () => {
-        try {
-          if (typeof (window as any).__initial_auth_token !== 'undefined' && (window as any).__initial_auth_token) {
-            await signInWithCustomToken(auth, (window as any).__initial_auth_token);
-          }
-        } catch (err) {
-          console.error("Initial Token Auth failed, falling back to standard state.", err);
-        }
-      };
-      
-      initAuth();
-
-      // Monitor Real Auth Lifecycle
+    if (hasValidConfig) {
       const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
         if (firebaseUser) {
           setUser(firebaseUser);
-          // Sync real state values if document records exist in private paths (RULE 1)
           syncFirestoreProfile(firebaseUser.uid);
         } else {
           setUser(null);
         }
       });
       return () => unsubscribe();
-    } else {
-      // If no valid config parameters exist, run silently in Simulation Mode to prevent compile issues
-      setIsSimulation(true);
-      const cachedMock = localStorage.getItem("fbm_mock_session");
-      if (cachedMock) {
-        try {
-          setUser(JSON.parse(cachedMock));
-        } catch (_) {
-          setUser(null);
-        }
-      }
     }
+
+    setUser(null);
+    setAuthError("Firebase configuration is missing. Login is disabled until valid credentials are provided.");
   }, []);
 
   const syncFirestoreProfile = (uid: string) => {
-    if (isSimulation) return;
-    
-    // Strict path resolution rules enforced (RULE 1)
-    const userDocRef = doc(db, 'artifacts', appId, 'users', uid, 'profile');
-    
-    onSnapshot(userDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const data = docSnapshot.data();
-        if (data.totalContributed) setTotalContributed(data.totalContributed);
-        if (data.activeSponsorships) setActiveSponsorships(data.activeSponsorships);
-        if (data.collegeModulesSupported) setCollegeModulesSupported(data.collegeModulesSupported);
-      } else {
-        // Initialize default fields cleanly if it's a fresh account record
-        setDoc(userDocRef, {
-          totalContributed: 135,
-          activeSponsorships: 1,
-          collegeModulesSupported: 2
-        }, { merge: true }).catch(err => console.error("Error setting doc:", err));
-      }
-    }, (error) => {
-      console.error("Firestore onSnapshot path failed (RULE 1 protection):", error);
-    });
+    try {
+      const userDocRef = doc(db, 'artifacts', appId, 'users', uid, 'profile');
+      
+      const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          if (data.totalContributed) setTotalContributed(data.totalContributed);
+          if (data.activeSponsorships) setActiveSponsorships(data.activeSponsorships);
+          if (data.collegeModulesSupported) setCollegeModulesSupported(data.collegeModulesSupported);
+        } else {
+          // Initialize default fields if fresh account
+          setDoc(userDocRef, {
+            totalContributed: 135,
+            activeSponsorships: 1,
+            collegeModulesSupported: 2
+          }, { merge: true }).catch(err => console.error("Error initializing profile:", err));
+        }
+      }, (error) => {
+        console.error("Error syncing Firestore profile:", error);
+      });
+      
+      return unsubscribe;
+    } catch (err) {
+      console.error("Error in syncFirestoreProfile:", err);
+    }
   };
 
   const handleEmailAuth = async (e: React.FormEvent) => {
@@ -200,27 +141,9 @@ export default function AuthDashboardPage() {
     setAuthError(null);
     setIsLoading(true);
 
-    if (isSimulation) {
-      // Simulated Sandbox Pipeline
-      setTimeout(() => {
-        if (authMode === "SIGN_UP" && !fullName) {
-          setAuthError("Please fill out your full partnership name.");
-          setIsLoading(false);
-          return;
-        }
-        
-        const mockSessionUser: MockUser = {
-          uid: `demo-partner-${Math.random().toString(36).substr(2, 9)}`,
-          email: email || "partner@example.com",
-          displayName: fullName || email.split("@")[0],
-          photoURL: null
-        };
-        
-        localStorage.setItem("fbm_mock_session", JSON.stringify(mockSessionUser));
-        setUser(mockSessionUser);
-        triggerToast("Logged in successfully (Simulated Sandbox)");
-        setIsLoading(false);
-      }, 800);
+    if (!hasValidConfig) {
+      setAuthError("Cannot sign in because Firebase configuration is invalid.");
+      setIsLoading(false);
       return;
     }
 
@@ -254,19 +177,9 @@ export default function AuthDashboardPage() {
     setAuthError(null);
     setIsLoading(true);
 
-    if (isSimulation) {
-      setTimeout(() => {
-        const mockGoogleUser: MockUser = {
-          uid: "google-partner-777",
-          email: "faithful.steward@gmail.com",
-          displayName: "Faithful Steward",
-          photoURL: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80"
-        };
-        localStorage.setItem("fbm_mock_session", JSON.stringify(mockGoogleUser));
-        setUser(mockGoogleUser);
-        triggerToast("Connected instantly via Google Sandbox");
-        setIsLoading(false);
-      }, 600);
+    if (!hasValidConfig) {
+      setAuthError("Cannot sign in with Google because Firebase configuration is invalid.");
+      setIsLoading(false);
       return;
     }
 
@@ -290,13 +203,6 @@ export default function AuthDashboardPage() {
   };
 
   const handleLogout = async () => {
-    if (isSimulation) {
-      localStorage.removeItem("fbm_mock_session");
-      setUser(null);
-      triggerToast("Mock session disconnected cleanly");
-      return;
-    }
-
     try {
       await signOut(auth);
       triggerToast("Logged out of partner session");
@@ -327,7 +233,7 @@ export default function AuthDashboardPage() {
       
       {/* Shared Global Top Banner */}
       <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
-        📢 Transforming Lives Across Kenya & Beyond Through Sound Biblical Ministry
+        📢 Transforming Lives Across Kenya & Beyond Through Spreading The Gospel
       </div>
 
       <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 space-y-12 sm:space-y-16">
@@ -345,7 +251,7 @@ export default function AuthDashboardPage() {
             <a href="/" className="hover:text-slate-950 transition-colors">Home</a>
             <a href="/about" className="hover:text-slate-950 transition-colors">Our Mission</a>
             <a href="/support-us" className="hover:text-slate-950 transition-colors">Support Us</a>
-            <a href="/partner-with-us" className="hover:text-slate-950 transition-colors">Partner With Us</a>
+            <a href="/partner" className="hover:text-slate-950 transition-colors">Partner With Us</a>
           </div>
           <div className="flex items-center gap-2">
             {user && (
@@ -370,21 +276,6 @@ export default function AuthDashboardPage() {
           <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-4 duration-300">
             <span>🛡️</span>
             <span>{activeToast}</span>
-          </div>
-        )}
-
-        {/* ================= SIMULATION MODE BANNER INDICATOR ================= */}
-        {isSimulation && (
-          <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
-            <div className="flex items-center gap-2.5">
-              <span className="text-xl">⚙️</span>
-              <p className="font-medium">
-                <strong>Simulated Playground:</strong> Standard API connections are bypassing real servers so you can test all features (like registration, dashboard edits, and prayer feeds) instantly without setting credentials.
-              </p>
-            </div>
-            <span className="bg-amber-600/10 text-amber-800 font-black uppercase tracking-wider px-2.5 py-1 rounded-md text-[10px] shrink-0">
-              Demo Active
-            </span>
           </div>
         )}
 
