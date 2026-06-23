@@ -21,8 +21,8 @@ import { app, auth, db } from '../lib/firebase';
 // Check if Firebase is properly configured
 const hasValidConfig = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.includes("mock");
 
-// Safely extract app ID
-const appId = typeof (window as any).__app_id !== 'undefined' ? (window as any).__app_id : 'default-app-id';
+
+
 
 
 interface GivingRecord {
