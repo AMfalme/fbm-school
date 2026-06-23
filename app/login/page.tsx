@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth';
 import { 
   doc, 
+  getDoc, 
   setDoc, 
   onSnapshot
 } from 'firebase/firestore';
@@ -108,22 +109,49 @@ export default function AuthDashboardPage() {
     setAuthError("Firebase configuration is missing. Login is disabled until valid credentials are provided.");
   }, []);
 
+  const ensureUserDocument = async (uid: string, name?: string | null, emailAddress?: string | null) => {
+    try {
+      const userDocRef = doc(db, 'users', uid);
+      const existingDoc = await getDoc(userDocRef);
+      const payload: any = {
+        name: name || "",
+        email: emailAddress || "",
+        lastLogin: new Date().toISOString(),
+      };
+
+      if (!existingDoc.exists()) {
+        payload.role = "member";
+        payload.totalContributed = 0;
+        payload.activeSponsorships = 0;
+        payload.collegeModulesSupported = 0;
+        payload.createdAt = new Date().toISOString();
+      }
+
+      await setDoc(userDocRef, payload, { merge: true });
+    } catch (error) {
+      console.error("Error ensuring user document:", error);
+    }
+  };
+
   const syncFirestoreProfile = (uid: string) => {
     try {
-      const userDocRef = doc(db, 'artifacts', appId, 'users', uid, 'profile');
+      const userDocRef = doc(db, 'users', uid);
       
       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const data = docSnapshot.data();
-          if (data.totalContributed) setTotalContributed(data.totalContributed);
-          if (data.activeSponsorships) setActiveSponsorships(data.activeSponsorships);
-          if (data.collegeModulesSupported) setCollegeModulesSupported(data.collegeModulesSupported);
+          if (data.totalContributed !== undefined) setTotalContributed(data.totalContributed);
+          if (data.activeSponsorships !== undefined) setActiveSponsorships(data.activeSponsorships);
+          if (data.collegeModulesSupported !== undefined) setCollegeModulesSupported(data.collegeModulesSupported);
         } else {
           // Initialize default fields if fresh account
           setDoc(userDocRef, {
+            role: "member",
             totalContributed: 135,
             activeSponsorships: 1,
-            collegeModulesSupported: 2
+            collegeModulesSupported: 2,
+            lastLogin: new Date().toISOString(),
+            createdAt: new Date().toISOString()
           }, { merge: true }).catch(err => console.error("Error initializing profile:", err));
         }
       }, (error) => {
@@ -150,20 +178,12 @@ export default function AuthDashboardPage() {
     // Real Firebase pipeline
     try {
       if (authMode === "SIGN_IN") {
-        await signInWithEmailAndPassword(auth, email, password);
+        const credential = await signInWithEmailAndPassword(auth, email, password);
+        await ensureUserDocument(credential.user.uid, credential.user.displayName, credential.user.email);
         triggerToast("Welcome back to your partner desk!");
       } else {
         const credential = await createUserWithEmailAndPassword(auth, email, password);
-        // Safely write initial account details to strict Firestore path (RULE 1)
-        const userDocRef = doc(db, 'artifacts', appId, 'users', credential.user.uid, 'profile');
-        await setDoc(userDocRef, {
-          displayName: fullName,
-          email: email,
-          totalContributed: 0,
-          activeSponsorships: 0,
-          collegeModulesSupported: 0,
-          createdAt: new Date().toISOString()
-        });
+        await ensureUserDocument(credential.user.uid, fullName || credential.user.displayName, credential.user.email);
         triggerToast("Your partnership profile has been established!");
       }
     } catch (err: any) {
@@ -186,14 +206,11 @@ export default function AuthDashboardPage() {
     try {
       const provider = new GoogleAuthProvider();
       const credential = await signInWithPopup(auth, provider);
-      // Initialize basic user profile card if non-existent
-      const userDocRef = doc(db, 'artifacts', appId, 'users', credential.user.uid, 'profile');
-      await setDoc(userDocRef, {
-        displayName: credential.user.displayName,
-        email: credential.user.email,
-        photoURL: credential.user.photoURL,
-        lastLogin: new Date().toISOString()
-      }, { merge: true });
+      await ensureUserDocument(
+        credential.user.uid,
+        credential.user.displayName,
+        credential.user.email
+      );
       triggerToast("Welcome back via Google Sign-In!");
     } catch (err: any) {
       setAuthError(err.message || "Google connection could not establish securely.");

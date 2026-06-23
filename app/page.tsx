@@ -49,7 +49,7 @@ export default function Home() {
               {/* Main Image */}
               <div className="aspect-[3/4] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.18)] border-4 border-white">
                 <img 
-                  src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=800&q=80" 
+                  src="/church/home.PNG" 
                   alt="Mission outreach and community mobilization" 
                   className="h-full w-full object-cover transform hover:scale-105 transition duration-700"
                 />
@@ -179,7 +179,7 @@ export default function Home() {
           </div>
           <div className="rounded-[32px] overflow-hidden aspect-[4/3] bg-slate-100 shadow-inner">
             <img 
-              src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" 
+              src="bible-college/bible college.jpg" 
               alt="Community building and long term structural works" 
               className="h-full w-full object-cover"
             />

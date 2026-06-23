@@ -2,17 +2,31 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
 
 export default function NavLinks() {
   const [user, setUser] = useState<User | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (!firebaseUser) {
         setProfileMenuOpen(false);
+        setIsAdmin(false);
+        return;
+      }
+
+      try {
+        const userDocRef = doc(db, "users", firebaseUser.uid);
+        const snapshot = await getDoc(userDocRef);
+        const data = snapshot.exists() ? snapshot.data() : null;
+        setIsAdmin(Boolean(data?.role === "admin"));
+      } catch (error) {
+        console.error("Error checking admin role:", error);
+        setIsAdmin(false);
       }
     });
 
@@ -36,9 +50,17 @@ export default function NavLinks() {
         Home
       </a>
 
-      <a href="/about" className="transition hover:text-[#0055b8]">
-        Our Mission
-      </a>
+      <div className="group relative">
+        <button className="flex items-center gap-1 transition hover:text-[#0055b8]">
+          Our Mission
+          <span>▼</span>
+        </button>
+
+        <div className="absolute left-0 top-full hidden min-w-[200px] rounded-lg bg-white p-2 shadow-xl group-hover:block">
+          <a href="/about" className="block rounded px-4 py-2 hover:bg-slate-100">Overview</a>
+          <a href="/about/team" className="block rounded px-4 py-2 hover:bg-slate-100">Team</a>
+        </div>
+      </div>
 
       {/* Ministries Dropdown */}
       <div className="group relative">
@@ -102,6 +124,14 @@ export default function NavLinks() {
               >
                 Dashboard
               </a>
+              {isAdmin && (
+                <a
+                  href="/admin"
+                  className="block border-t border-slate-200 px-4 py-3 text-slate-700 transition hover:bg-slate-50 font-semibold text-[#0055b8]"
+                >
+                  Admin Panel
+                </a>
+              )}
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import GalleryMedia from "../components/GalleryMedia";
 
 export default function GalleryPage() {
   return (
@@ -21,6 +22,9 @@ export default function GalleryPage() {
             </p>
           </div>
         </section>
+
+        {/* Uploaded Media (Firestore) */}
+        <GalleryMedia />
 
         {/* Construction Updates */}
         <section className="space-y-8">

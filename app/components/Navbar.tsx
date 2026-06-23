@@ -2,6 +2,7 @@ import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 import MobileMenu from "./MobileMenu";
 import EnrollButton from "./EnrollButton";
+import DonateButton from "./DonateButton";
 
 export default function Navbar() {
   return (
@@ -9,6 +10,7 @@ export default function Navbar() {
       <Logo />
       <NavLinks />
       <div className="flex items-center gap-3">
+        <DonateButton />
         <EnrollButton />
         <MobileMenu />
       </div>
