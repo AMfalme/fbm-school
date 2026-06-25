@@ -119,7 +119,7 @@ export default function NavLinks() {
           {profileMenuOpen && (
             <div className="absolute right-0 top-full z-10 mt-2 w-44 overflow-hidden rounded-3xl border border-slate-200 bg-white text-sm shadow-2xl">
               <a
-                href="/login"
+                href="/dashboard"
                 className="block px-4 py-3 text-slate-700 transition hover:bg-slate-50"
               >
                 Dashboard

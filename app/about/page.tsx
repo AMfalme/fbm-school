@@ -24,7 +24,7 @@ export default function About() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto">
-            Freedom Baptist Mission exists to glorify God by establishing indigenous local church movements and systemic educational networks across East Africa.
+            Freedom Baptist Mission exists to spread the Gospel, Glorify God by establishing indigenous local church movements and systemic educational networks across East Africa.
           </p>
         </section>
 
@@ -34,9 +34,9 @@ export default function About() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#16a34a]/10 to-transparent rounded-[40px] blur-3xl -z-10" />
             <div className="aspect-[4/5] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.12)] border-4 border-white">
               <img 
-                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80" 
+                src="/church/church choir.png" 
                 alt="Missionary team fellowship and collaboration" 
-                className="h-full w-full object-cover"
+                className="h-full w-full cover"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function About() {
               </div>
               <div className="lg:col-span-5 aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border-2 border-slate-100">
                 <img 
-                  src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80" 
+                  src="church/construct.jpg" 
                   alt="Church assembly congregation gathering" 
                   className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
                 />
@@ -104,7 +104,7 @@ export default function About() {
             <div className="bg-white border border-slate-100 rounded-[40px] p-8 sm:p-12 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center group hover:shadow-md transition-all">
               <div className="lg:col-span-5 order-last lg:order-first aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border-2 border-slate-100">
                 <img 
-                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" 
+                  src="bible-college/class.jpeg" 
                   alt="Theological classroom lecturing framework" 
                   className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
                 />
@@ -145,7 +145,7 @@ export default function About() {
               </div>
               <div className="lg:col-span-5 aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border-2 border-slate-100">
                 <img 
-                  src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80" 
+                  src="school/bestcare.jpeg" 
                   alt="Young primary children learning in safe classrooms" 
                   className="w-full h-full object-cover group-hover:scale-102 transition duration-500"
                 />

@@ -19,7 +19,7 @@ export default function Home() {
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
               The Great Commission in Action
             </div>
-            
+
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
               Preaching Truth. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0055b8] to-[#16a34a]">
@@ -27,7 +27,7 @@ export default function Home() {
               </span> <br />
               Equipping Leaders.
             </h1>
-            
+
             <p className="max-w-xl text-lg text-slate-600 font-medium leading-relaxed">
               Freedom Baptist Mission is a professional, independent global agency mobilizing local resources to establish self-sustaining, gospel-centered works across East Africa.
             </p>
@@ -48,9 +48,9 @@ export default function Home() {
             <div className="relative w-full max-w-[440px]">
               {/* Main Image */}
               <div className="aspect-[3/4] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.18)] border-4 border-white">
-                <img 
-                  src="/church/home.png" 
-                  alt="Mission outreach and community mobilization" 
+                <img
+                  src="/church/home.png"
+                  alt="Mission outreach and community mobilization"
                   className="h-full w-full object-cover transform hover:scale-105 transition duration-700"
                 />
               </div>
@@ -66,7 +66,7 @@ export default function Home() {
         {/* ================= HIGH-COMPETITION METRICS ================= */}
         <section className="bg-gradient-to-br from-[#003d7a] to-[#0055b8] rounded-[40px] text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
-          
+
           <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="pt-6 md:pt-0">
               <span className="text-4xl sm:text-5xl font-black block text-[#FFD966]">01</span>
@@ -178,9 +178,9 @@ export default function Home() {
             </div>
           </div>
           <div className="rounded-[32px] overflow-hidden aspect-[4/3] bg-slate-100 shadow-inner">
-            <img 
-              src="bible-college/bible college.jpg" 
-              alt="Community building and long term structural works" 
+            <img
+              src="bible-college/bible college.jpg"
+              alt="Community building and long term structural works"
               className="h-full w-full object-cover"
             />
           </div>
@@ -200,7 +200,7 @@ export default function Home() {
             </p>
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700">
               <p>📍 HQ: Kisii, Kenya | Box 4183-40200</p>
-              <p>📧 Office: office@freedommission.org</p>
+              <p>📧 Office: kenyafbmission@gmail.com</p>
             </div>
           </div>
 

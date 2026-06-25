@@ -51,11 +51,11 @@ export default function FaithAcademy() {
 
           <div className="lg:col-span-5 relative">
             <div className="absolute -inset-2 bg-gradient-to-r from-amber-500 to-emerald-500 rounded-[32px] opacity-10 blur-xl"></div>
-            <div className="relative border border-slate-100 bg-white p-4 rounded-[32px] shadow-md">
+            <div className="relative border border-slate-100 bg-grey p-4 rounded-[32px] shadow-md">
               <img 
-                src="https://christchurchcressage.co.uk/wp-content/uploads/2026/01/CCS-119-scaled-450x350.jpg" 
+                src="/church/academic.jpg" 
                 alt="Children engaging with early literacy stories inside an active classroom library context" 
-                className="w-full h-auto object-cover rounded-2xl"
+                className="w-full h-auto cover rounded-2xl"
               />
               <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center">
                 <span className="text-xs font-black uppercase tracking-wider text-slate-500 block">Current Focus Matrix</span>
@@ -278,7 +278,7 @@ export default function FaithAcademy() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-xs bg-white p-3">
               <img 
-                src="https://media.istockphoto.com/id/1470158757/photo/group-of-multi-cultural-elementary-school-pupils-running-along-walkway-outdoors-at-school.jpg?s=612x612&w=0&k=20&c=yKyzqXFhKGYApsLCvFuEILECNxkfqcA3WftPp3TGMKI=" 
+                src="/school/playground.jpeg" 
                 alt="Happy elementary school children running along a walkway outdoors in a school yard" 
                 className="w-full h-56 object-cover rounded-xl"
               />
@@ -289,13 +289,11 @@ export default function FaithAcademy() {
             </div>
 
             <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-xs bg-white p-3">
-              <div className="w-full h-56 bg-gradient-to-br from-emerald-800 to-teal-900 rounded-xl flex flex-col items-center justify-center p-6 text-center text-white relative">
-                <span className="text-3xl mb-2">🌿</span>
-                <h4 className="font-bold text-sm">Spiritual Safeguards &amp; Community Care</h4>
-                <p className="text-[11px] text-slate-300 mt-1 leading-relaxed max-w-xs">
-                  Our learning spaces are heavily secured, fully staff-supervised, and intentionally insulated from secular agendas. We protect your child's moral and emotional environment completely.
-                </p>
-              </div>
+              <img 
+                src="/school/playground 1.jpeg" 
+                alt="Happy elementary school children running along a walkway outdoors in a school yard" 
+                className="w-full h-56 object-cover rounded-xl"
+              />
               <div className="p-3">
                 <h4 className="font-bold text-sm text-slate-950">Safe, Insulated Environments</h4>
                 <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">A wholesome atmosphere where young minds grow securely, away from ideological distractions.</p>

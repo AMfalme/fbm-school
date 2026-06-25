@@ -226,7 +226,7 @@ export default function MobileMenu() {
 
             {user ? (
               <a
-                href="/login"
+                href="/dashboard"
                 onClick={closeMenu}
                 className="mt-2 flex items-center justify-center rounded-xl border border-slate-700 px-4 py-3 text-center font-bold transition hover:border-slate-600 hover:bg-slate-800"
               >

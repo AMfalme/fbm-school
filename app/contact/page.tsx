@@ -30,18 +30,18 @@ export default function ContactPage() {
             <div className="space-y-4 text-slate-700">
               <div>
                 <p className="font-semibold text-[#0055b8]">📞 Phone</p>
-                <p>+254 (723) 456-7890</p>
+                <p>+254 (701) 940 540</p>
               </div>
               <div>
                 <p className="font-semibold text-[#0055b8]">📧 Email</p>
-                <p>admissions@fbm-school.org</p>
+                <p>kenyafbmission@gmail.com</p>
               </div>
               <div>
                 <p className="font-semibold text-[#0055b8]">📍 Location</p>
                 <p>Kisii, Kenya | P.O Box 4183-40200</p>
               </div>
             </div>
-            <a href="mailto:admissions@fbm-school.org" className="inline-flex items-center justify-center rounded-full bg-[#0055b8] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#003d7a]">
+            <a href="mailto:kenyafbmission@gmail.com" className="inline-flex items-center justify-center rounded-full bg-[#0055b8] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#003d7a]">
               Email Admissions
             </a>
           </div>

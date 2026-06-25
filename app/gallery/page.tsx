@@ -26,80 +26,7 @@ export default function GalleryPage() {
         {/* Uploaded Media (Firestore) */}
         <GalleryMedia />
 
-        {/* Construction Updates */}
-        <section className="space-y-8">
-          <div className="text-center">
-            <h2 className="text-4xl font-bold text-slate-950 sm:text-5xl">Construction Progress</h2>
-            <div className="mt-4 mx-auto h-1 w-24 bg-gradient-to-r from-[#FFD966] to-[#0055b8]"></div>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
-              Watch our beautiful school take shape as we prepare a nurturing environment for our students.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Foundation & Structure",
-                description: "Strong foundations laid with quality materials and expert craftsmanship.",
-                image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
-                status: "Completed"
-              },
-              {
-                title: "Classroom Construction",
-                description: "Bright, spacious classrooms designed for optimal learning and natural light.",
-                image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80",
-                status: "In Progress"
-              },
-              {
-                title: "Playground Development",
-                description: "Safe outdoor spaces for physical activity and creative play.",
-                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80",
-                status: "Upcoming"
-              },
-              {
-                title: "Administrative Block",
-                description: "Office spaces and facilities for smooth school operations.",
-                image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80",
-                status: "Planning"
-              },
-              {
-                title: "Library & Resource Center",
-                description: "A place for books, learning materials, and quiet study time.",
-                image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=600&q=80",
-                status: "Design Phase"
-              },
-              {
-                title: "Chapel & Assembly Hall",
-                description: "A sacred space for worship, assemblies, and community gatherings.",
-                image: "https://images.unsplash.com/photo-1507692049790-de58290a4354?auto=format&fit=crop&w=600&q=80",
-                status: "Future Phase"
-              }
-            ].map((update) => (
-              <div key={update.title} className="rounded-[28px] border-2 border-[#E0E7FF] bg-white overflow-hidden shadow-[0_4px_20px_rgba(0,61,122,0.08)] hover:shadow-[0_12px_35px_rgba(0,61,122,0.15)] transition">
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={update.image}
-                    alt={update.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-bold text-slate-950">{update.title}</h3>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      update.status === 'Completed' ? 'bg-[#16a34a] text-white' :
-                      update.status === 'In Progress' ? 'bg-[#FFD966] text-[#003d7a]' :
-                      'bg-slate-200 text-slate-600'
-                    }`}>
-                      {update.status}
-                    </span>
-                  </div>
-                  <p className="text-sm leading-6 text-slate-600">{update.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+       
 
         {/* Classroom Setup */}
         <section className="rounded-[32px] border-2 border-[#0055b8] bg-gradient-to-r from-[#E7F3FF] to-[#F0F4FF] p-8 lg:p-12">
@@ -137,7 +64,7 @@ export default function GalleryPage() {
             </div>
             <div className="rounded-[32px] overflow-hidden shadow-[0_20px_60px_rgba(0,61,122,0.15)]">
               <img
-                src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80"
+                src="/school/class seats.jpeg"
                 alt="Classroom setup"
                 className="h-full w-full object-cover"
               />

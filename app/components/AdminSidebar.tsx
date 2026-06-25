@@ -11,13 +11,29 @@ import {
   ClipboardList,
   HandCoins,
   Church,
+  Home,
+  LogOut,
 } from "lucide-react";
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { useRouter } from "next/navigation";
 
 export default function AdminSidebar({
   className,
 }: {
   className?: string;
 }) {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push("/login");
+    } catch (error) {
+      console.error("Error logging out from admin panel:", error);
+    }
+  };
+
   return (
     <aside
       className={`fixed left-0 top-0 flex h-screen w-72 flex-col overflow-y-auto bg-slate-950 text-white shadow-2xl ${
@@ -132,6 +148,31 @@ export default function AdminSidebar({
               <Users size={18} />
               Missionaries
             </a>
+          </nav>
+        </div>
+
+        {/* Session & Navigation */}
+        <div className="mt-8">
+          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Session & Navigation
+          </p>
+
+          <nav className="flex flex-col gap-1">
+            <a
+              href="/"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
+            >
+              <Home size={18} />
+              Go to Homepage
+            </a>
+
+            <button
+              onClick={handleLogout}
+              className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-red-400 transition hover:bg-red-950/30 hover:text-red-300"
+            >
+              <LogOut size={18} />
+              Log Out
+            </button>
           </nav>
         </div>
       </div>

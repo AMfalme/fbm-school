@@ -66,10 +66,9 @@ export default function AdmissionsPage() {
                 </div>
                 <p className="text-sm leading-6 text-slate-600 mb-4">{classInfo.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    classInfo.capacity === 'Available' ? 'bg-[#ECFDF5] text-[#16a34a]' :
-                    'bg-[#FFF9E6] text-[#F59E0B]'
-                  }`}>
+                  <span className={`text-xs px-2 py-1 rounded-full ${classInfo.capacity === 'Available' ? 'bg-[#ECFDF5] text-[#16a34a]' :
+                      'bg-[#FFF9E6] text-[#F59E0B]'
+                    }`}>
                     {classInfo.capacity}
                   </span>
                 </div>
@@ -383,7 +382,7 @@ export default function AdmissionsPage() {
             Our admissions team is here to help you through every step of the process. Contact us today to learn more about joining Christian Faith Academy.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row justify-center">
-            <a href="mailto:admissions@fbm-school.org" className="inline-flex items-center justify-center bg-[#FFD966] text-[#003d7a] px-8 py-4 rounded-full font-semibold hover:bg-[#FFC933] transition">
+            <a href="mailto:kenyafbmission@gmail.com" className="inline-flex items-center justify-center bg-[#FFD966] text-[#003d7a] px-8 py-4 rounded-full font-semibold hover:bg-[#FFC933] transition">
               📧 Email Admissions
             </a>
             <a href="https://wa.me/254723456789?text=Hi%20I%27d%20like%20to%20learn%20more%20about%20admissions" className="inline-flex items-center justify-center border-2 border-[#FFD966] bg-transparent text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition">
