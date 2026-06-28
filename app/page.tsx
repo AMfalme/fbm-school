@@ -25,7 +25,10 @@ export default function Home() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0055b8] to-[#16a34a]">
                 Planting Churches.
               </span> <br />
-              Equipping Leaders.
+              Equipping Leaders.<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2eaf21] to-[#6e680c]">
+              Spreading the Gospel.
+              </span>
             </h1>
 
             <p className="max-w-xl text-lg text-slate-600 font-medium leading-relaxed">

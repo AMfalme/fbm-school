@@ -1,15 +1,27 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged, User, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
+import { useRouter } from "next/navigation";
 
 export default function NavLinks() {
   const [user, setUser] = useState<User | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+
+  
+    const router = useRouter();
+  const handleLogout = async () => {
+      try {
+        await signOut(auth);
+        router.push("/login");
+      } catch (error) {
+        console.error("Error logging out from admin panel:", error);
+      }
+    };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
@@ -124,6 +136,7 @@ export default function NavLinks() {
               >
                 Dashboard
               </a>
+              
               {isAdmin && (
                 <a
                   href="/admin"
@@ -132,6 +145,13 @@ export default function NavLinks() {
                   Admin Panel
                 </a>
               )}
+              <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="block w-full border-t border-slate-200 px-4 py-3 text-left text-red-600 transition hover:bg-red-50"
+                >
+                  Logout
+                </button>
             </div>
           )}
         </div>

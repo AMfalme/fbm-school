@@ -8,8 +8,15 @@ interface Manager {
   id: string;
   name: string;
   role: string;
-  image?: string;
+  imageUrl?: string;
   description?: string;
+
+  department?: string;
+  branch?: string;
+  email?: string;
+  phone?: string;
+
+  status?: string;
 }
 
 const STATIC_MANAGEMENT: Manager[] = [
@@ -54,30 +61,133 @@ export default function ManagementTeam() {
   }
 
   const listToRender = (team && team.length > 0) ? team : STATIC_MANAGEMENT;
-
+  console.log(listToRender);
   return (
     <section className="space-y-8">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-slate-950">Team</h2>
+        <h2 className="text-3xl font-bold text-slate-950">Management Team</h2>
         <p className="mt-2 text-sm text-slate-600">Meet the management team overseeing our mission and programs.</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {listToRender.map((m) => (
-          <div key={m.id} className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm text-left">
-            <div className="flex items-start gap-4">
-              <div className="h-20 w-20 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
-                <img src={m.image} alt={m.name} className="h-full w-full object-cover" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-slate-950">{m.name}</h3>
-                <p className="text-sm font-semibold text-slate-600">{m.role}</p>
-                {m.description && <p className="mt-2 text-sm text-slate-600">{m.description}</p>}
-              </div>
-            </div>
-          </div>
-        ))}
+      <div
+        className={
+          listToRender.length === 1
+            ? "grid gap-8 grid-cols-1 justify-items-center"
+            : "grid gap-8 md:grid-cols-2 xl:grid-cols-3"
+        }
+      >
+  {listToRender.map((m) => (
+   <div
+  key={m.id}
+  className={
+    listToRender.length === 1
+      ? "group w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      : "group overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+  }
+>
+  {/* Leadership Banner */}
+  <div className="h-28 bg-gradient-to-r from-[#0055b8] via-[#0b67d0] to-[#3b82f6]" />
+
+  {/* Profile Content */}
+  <div className="px-6 pb-8">
+    <div className="-mt-14 flex justify-center">
+      <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-lg">
+        <img
+          src={m.imageUrl || "/placeholder-profile.jpg"}
+          alt={m.name}
+          className="h-full w-full object-cover"
+        />
       </div>
+    </div>
+
+    <div className="mt-5 text-center">
+      <h3 className="text-2xl font-black text-slate-900">
+        {m.name}
+      </h3>
+
+      <span className="mt-3 inline-flex rounded-full bg-blue-50 px-4 py-1 text-xs font-bold uppercase tracking-wider text-[#0055b8]">
+        {m.role}
+      </span>
+
+      {m.status && (
+        <div className="mt-3">
+          <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-bold text-green-700">
+            {m.status}
+          </span>
+        </div>
+      )}
+
+      {m.description && (
+        <p className="mt-5 text-sm leading-relaxed text-slate-700">
+          {m.description}
+        </p>
+      )}
+    </div>
+
+    {/* Details */}
+    <div className="mt-6 rounded-2xl bg-slate-50 p-5">
+      <div className="space-y-4">
+        {m.department && (
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Department
+            </p>
+
+            <p className="mt-1 font-semibold text-slate-900">
+              {m.department}
+            </p>
+          </div>
+        )}
+
+        {m.branch && (
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Branch
+            </p>
+
+            <p className="mt-1 font-semibold text-slate-900">
+              {m.branch}
+            </p>
+          </div>
+        )}
+
+        {m.email && (
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Email
+            </p>
+
+            <p className="mt-1 break-all font-semibold text-slate-900">
+              {m.email}
+            </p>
+          </div>
+        )}
+
+        {m.phone && (
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Phone
+            </p>
+
+            <p className="mt-1 font-semibold text-slate-900">
+              {m.phone}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* Ministry Quote */}
+    <div className="mt-6 rounded-2xl border-l-4 border-[#0055b8] bg-blue-50 p-4">
+      <p className="text-sm italic text-slate-700">
+        "Serving Christ faithfully through leadership,
+        discipleship and ministry excellence."
+      </p>
+    </div>
+  </div>
+</div>
+  ))}
+</div>
     </section>
   );
 }

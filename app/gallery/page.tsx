@@ -73,7 +73,7 @@ export default function GalleryPage() {
         </section>
 
         {/* Student Activities */}
-        <section className="space-y-8">
+        {/* <section className="space-y-8">
           <div>
             <h2 className="text-4xl font-bold text-slate-950 sm:text-5xl">Student Activities & Learning</h2>
             <div className="mt-4 h-1 w-24 bg-gradient-to-r from-[#16a34a] to-[#FFD966]"></div>
@@ -148,7 +148,7 @@ export default function GalleryPage() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Church Involvement */}
         <section className="rounded-[32px] border-2 border-[#16a34a] bg-gradient-to-br from-[#ECFDF5] to-[#F0FDF4] p-8 lg:p-12">

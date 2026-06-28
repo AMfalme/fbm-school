@@ -124,9 +124,9 @@ export default function MobileMenu() {
                   <a
                     href="/faith-academy"
                     onClick={closeMenu}
-                    className="col-span-2 rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                    className=" rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
                   >
-                    Faith Academy
+                    FBM - Christian Faith Academy
                   </a>
 
                   <a
@@ -184,7 +184,7 @@ export default function MobileMenu() {
                   <a
                     href="/mission-reports"
                     onClick={closeMenu}
-                    className="col-span-2 rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                    className="rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white"
                   >
                     Mission Reports
                   </a>

@@ -42,9 +42,9 @@ export default function BibleCollege() {
         { label: "Initial Converts", value: "120+" }
       ],
       sliderImages: [
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1525921429624-479b6c294521?auto=format&fit=crop&w=800&q=80"
+        "/bible-college/graduation.jpg",
+        "/bible-college/bible college.jpg",
+        "/bible-college/bible college 2.jpg"
       ]
     },
     {
@@ -53,7 +53,7 @@ export default function BibleCollege() {
       cohort: "Class of 2023",
       category: "Academic Module",
       location: "Main Assembly Hall",
-      url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
+      url: "/church/graduant.jpg",
       description: "Showcasing our senior operational leadership providing the standard text-critical modules, final assessments, and official recognition keys to our regional field evangelists.",
       extendedSummary: "Focused entirely on building structural academic excellence, this conferral recognized men who completed rigorous advancements in original Greek/Hebrew text-critical methodologies and historical church polity modules.",
       deploymentImpact: "These graduates have taken up key structural posts as instructors within regional Bible institutes and technical leadership roles across our primary urban church planting operations.",
@@ -64,9 +64,9 @@ export default function BibleCollege() {
         { label: "Assigned Institutes", value: "3 Stations" }
       ],
       sliderImages: [
-        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1525921429624-479b6c294521?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80"
+        "/church/management.png",
+        "/church/outreach.jpg",
+        "/church/visiting.jpg"
       ]
     },
     {
@@ -75,7 +75,7 @@ export default function BibleCollege() {
       cohort: "Class of 2022",
       category: "Alumni Network",
       location: "Rift Valley Mission Outpost",
-      url: "https://images.unsplash.com/photo-1525921429624-479b6c294521?auto=format&fit=crop&w=600&q=80",
+      url: "/bible-college/class.jpeg",
       description: "Our previous graduates returning to base camp to coordinate, map geographical target profiles, and build comprehensive expansion protocols for new church planting zones.",
       extendedSummary: "A critical accountability and tactical planning framework. Our deployed alumni returned to the primary campus lines to exchange field logs, review regional linguistic challenges, and reinforce doctrinal unity.",
       deploymentImpact: "Coordinated strategy mapping from this specific assembly resulted in a multi-state network expansion, connecting isolated rural outposts with centralized logistical supply chains.",
@@ -86,9 +86,9 @@ export default function BibleCollege() {
         { label: "New Plant Budgets", value: "Fully Sourced" }
       ],
       sliderImages: [
-        "https://images.unsplash.com/photo-1525921429624-479b6c294521?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=800&q=80"
+        "/bible-college/mission bible college.png",
+        "/bible-college/bible class.jpeg",
+        "/bible-college/graduation.jpg"
       ]
     }
   ]);

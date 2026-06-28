@@ -11,6 +11,9 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Christian Faith Academy",
   description: "A serious school with a strong Christian foundation serving early learners in Kisii, Kenya.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

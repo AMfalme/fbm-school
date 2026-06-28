@@ -36,7 +36,7 @@ export default function About() {
               <img 
                 src="/church/church choir.png" 
                 alt="Missionary team fellowship and collaboration" 
-                className="h-full w-full cover"
+                className="h-full w-full object-cover"
               />
             </div>
           </div>

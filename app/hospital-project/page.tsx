@@ -53,7 +53,7 @@ export default function MedicalMinistry() {
             <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-[32px] opacity-10 blur-xl"></div>
             <div className="relative border border-slate-100 bg-white p-4 rounded-[32px] shadow-md">
               <img 
-                src="https://media.istockphoto.com/id/1458217316/photo/african-doctor-examining-a-young-patient.jpg?s=612x612&w=0&k=20&c=uVd6Zf9k2M42S8PylvFvB_y9wzW1Y69WlE7P8kXo56A=" 
+                src="/church/visit.jpg" 
                 alt="Compassionate healthcare worker providing clinical assessment with dignity" 
                 className="w-full h-auto object-cover rounded-2xl"
               />
@@ -278,7 +278,7 @@ export default function MedicalMinistry() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-xs bg-white p-3">
               <img 
-                src="https://media.istockphoto.com/id/1312706413/photo/modern-hospital-laboratory.jpg?s=612x612&w=0&k=20&c=L_v4I_pYm2ZqS3y0uXWwW6vR47Hnpxp6_RzY6U8lS2A=" 
+                src="/church/medical.png" 
                 alt="Modern, clean clinical laboratory setup with analysis tools" 
                 className="w-full h-56 object-cover rounded-xl"
               />
