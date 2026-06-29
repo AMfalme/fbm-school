@@ -20,9 +20,9 @@ interface Manager {
 }
 
 const STATIC_MANAGEMENT: Manager[] = [
-  { id: "m1", name: "Elder Samuel N.", role: "Executive Director", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80", description: "Visionary leader with 20+ years in evangelical ministry, guiding FBM's strategic expansion in church planting and theological education across Kenya." },
-  { id: "m2", name: "Dr. Rebecca A.", role: "Academic Dean", image: "https://images.unsplash.com/photo-1545996124-1c1b6f107b3f?auto=format&fit=crop&w=800&q=80", description: "Doctorate holder in Christian Education, dedicated to advancing quality theological training and mentoring the next generation of faith leaders." },
-  { id: "m3", name: "Mr. Peter K.", role: "Operations Manager", image: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=800&q=80", description: "Experienced project manager overseeing campus infrastructure development, resource allocation, and ensuring smooth execution of all operational initiatives." },
+  { id: "m1", name: "Elder Samuel N.", role: "Executive Director", imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80", description: "Visionary leader with 20+ years in evangelical ministry, guiding FBM's strategic expansion in church planting and theological education across Kenya." },
+  { id: "m2", name: "Dr. Rebecca A.", role: "Academic Dean", imageUrl: "https://images.unsplash.com/photo-1545996124-1c1b6f107b3f?auto=format&fit=crop&w=800&q=80", description: "Doctorate holder in Christian Education, dedicated to advancing quality theological training and mentoring the next generation of faith leaders." },
+  { id: "m3", name: "Mr. Peter K.", role: "Operations Manager", imageUrl: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=800&q=80", description: "Experienced project manager overseeing campus infrastructure development, resource allocation, and ensuring smooth execution of all operational initiatives." },
 ];
 
 export default function ManagementTeam() {

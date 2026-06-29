@@ -4,11 +4,6 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// Update page title
-useEffect(() => {
-  document.title = "FBM - Church Planting";
-}, []);
-
 interface ChurchPlant {
   id: string;
   name: string;
@@ -28,6 +23,11 @@ interface ChurchPlant {
 }
 
 export default function ChurchPlanting() {
+  // Update page title
+  useEffect(() => {
+    document.title = "FBM - Church Planting";
+  }, []);
+
   const [churchPlants] = useState<ChurchPlant[]>([
     {
       id: "plant-1",

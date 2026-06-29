@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-// Update page title
-useEffect(() => {
-  document.title = "FBM - Missionary Outreach";
-}, []);
-
 export default function MissionOutreach() {
+  // Update page title
+  useEffect(() => {
+    document.title = "FBM - Missionary Outreach";
+  }, []);
   // Central active state controller for the global ministries index matrix
   const [activeTab, setActiveTab] = useState<"education" | "medical" | "theology" | "planting">("education");
 

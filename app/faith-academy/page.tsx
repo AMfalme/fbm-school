@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// Update page title
-useEffect(() => {
-  document.title = "FBM - Christian Faith Academy";
-}, []);
-
 export default function FaithAcademy() {
+  // Update page title
+  useEffect(() => {
+    document.title = "FBM - Christian Faith Academy";
+  }, []);
   const [activeTab, setActiveTab] = useState<"academics" | "philosophy" | "admissions">("academics");
 
   return (

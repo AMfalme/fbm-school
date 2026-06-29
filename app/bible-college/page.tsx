@@ -4,11 +4,6 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// Update page title
-useEffect(() => {
-  document.title = "FBM - Freedom Baptist Bible Mission College";
-}, []);
-
 // Define strict typing for our archive records
 interface GalleryRecord {
   id: string;
@@ -28,6 +23,11 @@ interface GalleryRecord {
 }
 
 export default function BibleCollege() {
+  // Update page title
+  useEffect(() => {
+    document.title = "FBM - Freedom Baptist Bible Mission College";
+  }, []);
+
   // 1. Central active record archive dataset with extended modal metrics
   const [galleryRecords] = useState<GalleryRecord[]>([
     {

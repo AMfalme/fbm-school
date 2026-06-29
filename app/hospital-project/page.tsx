@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// Update page title
-useEffect(() => {
-  document.title = "FBM - Medical Ministry";
-}, []);
-
 export default function MedicalMinistry() {
+  // Update page title
+  useEffect(() => {
+    document.title = "FBM - Medical Ministry";
+  }, []);
   // Central active state controller for the medical service matrices
   const [activeTab, setActiveTab] = useState<"services" | "outreach" | "admissions">("services");
 
