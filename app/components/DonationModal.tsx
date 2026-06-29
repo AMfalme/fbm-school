@@ -198,9 +198,15 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                 </div>
               </div>
 
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
                 <p className="text-sm text-gray-700">
                   <strong>🔒 Secure Payment:</strong> Your donation is processed through our secure payment gateway. We accept all major credit cards and mobile money options.
+                </p>
+              </div>
+
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                <p className="text-sm text-gray-700">
+                  <strong>💳 Payment Integration:</strong> Paystack payment gateway is configured in skeleton mode. The actual payment processing will be activated once the API keys are added in the admin settings.
                 </p>
               </div>
             </div>

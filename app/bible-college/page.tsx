@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
+// Update page title
+useEffect(() => {
+  document.title = "FBM - Freedom Baptist Bible Mission College";
+}, []);
 
 // Define strict typing for our archive records
 interface GalleryRecord {

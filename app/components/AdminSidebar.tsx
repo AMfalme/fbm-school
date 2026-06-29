@@ -13,6 +13,9 @@ import {
   Church,
   Home,
   LogOut,
+  Mail,
+  MessageSquare,
+  Bell,
 } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
@@ -114,6 +117,48 @@ export default function AdminSidebar({
             >
               <HeartHandshake size={18} />
               Partners
+            </a>
+          </nav>
+        </div>
+
+        {/* Messages */}
+        <div className="mt-8">
+          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Messages
+          </p>
+
+          <nav className="flex flex-col gap-1">
+            <a
+              href="/admin/contacts"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
+            >
+              <Mail size={18} />
+              Contact Messages
+            </a>
+
+            <a
+              href="/admin/partners"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
+            >
+              <MessageSquare size={18} />
+              Partner Inquiries
+            </a>
+          </nav>
+        </div>
+
+        {/* Notifications */}
+        <div className="mt-8">
+          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Notifications
+          </p>
+
+          <nav className="flex flex-col gap-1">
+            <a
+              href="/admin/notifications"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
+            >
+              <Bell size={18} />
+              All Notifications
             </a>
           </nav>
         </div>

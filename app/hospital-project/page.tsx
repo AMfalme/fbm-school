@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
+// Update page title
+useEffect(() => {
+  document.title = "FBM - Medical Ministry";
+}, []);
 
 export default function MedicalMinistry() {
   // Central active state controller for the medical service matrices

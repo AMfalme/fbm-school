@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
+// Update page title
+useEffect(() => {
+  document.title = "FBM - Christian Faith Academy";
+}, []);
 
 export default function FaithAcademy() {
   const [activeTab, setActiveTab] = useState<"academics" | "philosophy" | "admissions">("academics");
