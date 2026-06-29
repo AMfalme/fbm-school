@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -38,8 +39,8 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
     handleClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+  const modalContent = (
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-8 overflow-y-auto">
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black/60 backdrop-blur-sm"
@@ -47,7 +48,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
       />
       
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[calc(100vh-4rem)] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
@@ -235,4 +236,11 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
       </div>
     </div>
   );
+
+  // Use portal to render modal at the root level to avoid z-index and overflow issues
+  if (typeof document !== "undefined") {
+    return createPortal(modalContent, document.body);
+  }
+
+  return null;
 }
