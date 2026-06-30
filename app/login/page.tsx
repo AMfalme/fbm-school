@@ -34,10 +34,23 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (hasValidConfig) {
-      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
           setUser(firebaseUser);
-          router.push('/dashboard');
+          
+          // Check user role and redirect accordingly
+          try {
+            const { doc, getDoc } = await import("firebase/firestore");
+            const userDocRef = doc(db, "users", firebaseUser.uid);
+            const snapshot = await getDoc(userDocRef);
+            const data = snapshot.exists() ? snapshot.data() : null;
+            const isAdmin = data?.role === "admin";
+            
+            router.push(isAdmin ? '/admin' : '/dashboard');
+          } catch (error) {
+            console.error("Error checking user role:", error);
+            router.push('/dashboard');
+          }
         } else {
           setUser(null);
           setAuthLoading(false);
@@ -87,13 +100,26 @@ export default function LoginPage() {
     }
 
     try {
+      let credential;
       if (authMode === "SIGN_IN") {
-        const credential = await signInWithEmailAndPassword(auth, email, password);
-        await ensureUserDocument(credential.user.uid, credential.user.displayName, credential.user.email);
-        router.push('/dashboard');
+        credential = await signInWithEmailAndPassword(auth, email, password);
       } else {
-        const credential = await createUserWithEmailAndPassword(auth, email, password);
-        await ensureUserDocument(credential.user.uid, fullName || credential.user.displayName, credential.user.email);
+        credential = await createUserWithEmailAndPassword(auth, email, password);
+      }
+      
+      await ensureUserDocument(credential.user.uid, credential.user.displayName, credential.user.email);
+      
+      // Check user role and redirect accordingly
+      try {
+        const { doc, getDoc } = await import("firebase/firestore");
+        const userDocRef = doc(db, "users", credential.user.uid);
+        const snapshot = await getDoc(userDocRef);
+        const data = snapshot.exists() ? snapshot.data() : null;
+        const isAdmin = data?.role === "admin";
+        
+        router.push(isAdmin ? '/admin' : '/dashboard');
+      } catch (error) {
+        console.error("Error checking user role:", error);
         router.push('/dashboard');
       }
     } catch (err: any) {
@@ -121,7 +147,20 @@ export default function LoginPage() {
         credential.user.displayName,
         credential.user.email
       );
-      router.push('/dashboard');
+      
+      // Check user role and redirect accordingly
+      try {
+        const { doc, getDoc } = await import("firebase/firestore");
+        const userDocRef = doc(db, "users", credential.user.uid);
+        const snapshot = await getDoc(userDocRef);
+        const data = snapshot.exists() ? snapshot.data() : null;
+        const isAdmin = data?.role === "admin";
+        
+        router.push(isAdmin ? '/admin' : '/dashboard');
+      } catch (error) {
+        console.error("Error checking user role:", error);
+        router.push('/dashboard');
+      }
     } catch (err: any) {
       setAuthError(err.message || "Google connection could not establish securely.");
     } finally {

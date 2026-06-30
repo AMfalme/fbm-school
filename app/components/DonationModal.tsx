@@ -25,8 +25,12 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [donationAmount, setDonationAmount] = useState<string>("");
   const [donationType, setDonationType] = useState<string>("one-time");
+  const [donorName, setDonorName] = useState<string>("");
+  const [donorEmail, setDonorEmail] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [settings, setSettings] = useState<Settings>({});
   const [loadingSettings, setLoadingSettings] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -57,6 +61,10 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
     setCurrentStep(1);
     setDonationAmount("");
     setDonationType("one-time");
+    setDonorName("");
+    setDonorEmail("");
+    setPaymentMethod("");
+    setIsProcessing(false);
     onClose();
   };
 
@@ -72,13 +80,115 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
     }
   };
 
-  const handleSubmit = () => {
-    alert("Thank you for your generous donation! This would integrate with a payment processor.");
-    handleClose();
+  const handlePaystackPayment = async () => {
+    if (!donorName || !donorEmail || !donationAmount) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Initialize Paystack transaction
+      const response = await fetch("/api/paystack/initialize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: donorEmail,
+          amount: donationAmount,
+          donorName: donorName,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Failed to initialize payment");
+      }
+
+      // Load Paystack inline script
+      const script = document.createElement("script");
+      script.src = "https://js.paystack.co/v1/inline.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        // @ts-ignore - Paystack is loaded dynamically
+        const paystack = window.PaystackPop.setup({
+          key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+          email: donorEmail,
+          amount: Math.round(parseFloat(donationAmount) * 100),
+          ref: data.reference,
+          currency: "USD",
+          metadata: {
+            donorName: donorName,
+            donationType: donationType,
+          },
+          onClose: () => {
+            setIsProcessing(false);
+            alert("Payment cancelled. You can try again.");
+          },
+          callback: (response: { reference: string }) => {
+            // Verify payment on server
+            verifyPayment(response.reference);
+          },
+        });
+
+        paystack.openIframe();
+      };
+
+      script.onerror = () => {
+        setIsProcessing(false);
+        alert("Failed to load payment gateway. Please try again.");
+      };
+    } catch (error) {
+      setIsProcessing(false);
+      console.error("Payment initialization error:", error);
+      alert(error instanceof Error ? error.message : "Failed to initialize payment. Please try again.");
+    }
   };
 
+  const verifyPayment = async (reference: string) => {
+    try {
+      const response = await fetch(`/api/paystack/verify/${reference}`);
+      const data = await response.json();
+
+      if (response.ok && data.success && data.status === "success") {
+        alert("Thank you for your generous donation! Your payment has been processed successfully.");
+        handleClose();
+      } else {
+        alert("Payment verification failed. Please contact us if you were charged.");
+        setIsProcessing(false);
+      }
+    } catch (error) {
+      console.error("Payment verification error:", error);
+      alert("Payment verification failed. Please contact us if you were charged.");
+      setIsProcessing(false);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!paymentMethod) {
+      alert("Please select a payment method");
+      return;
+    }
+
+    if (paymentMethod === "paystack") {
+      handlePaystackPayment();
+    } else {
+      // For M-Pesa and Bank Transfer, just show confirmation
+      alert("Thank you for your generous donation! Please follow the payment instructions above to complete your donation.");
+      handleClose();
+    }
+  };
+
+  const canProceedFromStep2 = donationAmount && parseFloat(donationAmount) > 0;
+  const canProceedFromStep1 = donationType;
+
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-8 overflow-y-auto">
+    <div className="fixed inset-0 z-150 flex items-start justify-center p-4 pt-8 overflow-y-auto">
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black/60 backdrop-blur-sm"
@@ -164,7 +274,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
             </div>
           )}
 
-          {/* Step 2: Choose Amount */}
+          {/* Step 2: Choose Amount & Personal Details */}
           {currentStep === 2 && (
             <div className="space-y-6">
               <div>
@@ -176,9 +286,9 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                 {["$25", "$50", "$100", "$250"].map((amount) => (
                   <button
                     key={amount}
-                    onClick={() => setDonationAmount(amount)}
+                    onClick={() => setDonationAmount(amount.replace("$", ""))}
                     className={`p-4 rounded-xl border-2 transition-all font-bold ${
-                      donationAmount === amount
+                      donationAmount === amount.replace("$", "")
                         ? "border-emerald-600 bg-emerald-50 text-emerald-700"
                         : "border-gray-200 hover:border-gray-300 text-gray-700"
                     }`}
@@ -189,13 +299,15 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Or enter custom amount:</label>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Or enter custom amount (USD):</label>
                 <input
                   type="number"
                   value={donationAmount}
                   onChange={(e) => setDonationAmount(e.target.value)}
                   placeholder="Enter amount"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-600 focus:outline-none"
+                  min="1"
+                  step="0.01"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-600 focus:outline-none text-slate-900"
                 />
               </div>
 
@@ -203,6 +315,41 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                 <p className="text-sm text-gray-700">
                   <strong>🌟 Every gift matters:</strong> Even small contributions help us provide medical care, education, and spiritual guidance to communities in need.
                 </p>
+              </div>
+
+              <div className="border-t border-gray-200 pt-6">
+                <h4 className="text-base font-bold text-gray-900 mb-4">Your Information</h4>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={donorName}
+                      onChange={(e) => setDonorName(e.target.value)}
+                      placeholder="Enter your full name"
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-600 focus:outline-none text-slate-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      Email Address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={donorEmail}
+                      onChange={(e) => setDonorEmail(e.target.value)}
+                      placeholder="Enter your email address"
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-600 focus:outline-none text-slate-900"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">We'll send you a receipt and donation confirmation</p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -212,10 +359,15 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Review Your Donation</h3>
-                <p className="text-sm text-gray-600">Please confirm your donation details.</p>
+                <p className="text-sm text-gray-600">Please confirm your donation details and select a payment method.</p>
               </div>
 
               <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-gray-200">
+                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Donor Name</span>
+                  <span className="text-sm font-bold text-gray-900">{donorName || "Not provided"}</span>
+                </div>
+
                 <div className="flex justify-between items-center pb-3 border-b border-gray-200">
                   <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Donation Type</span>
                   <span className="text-sm font-bold text-gray-900">
@@ -226,17 +378,79 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                 <div className="flex justify-between items-center pb-3 border-b border-gray-200">
                   <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Amount</span>
                   <span className="text-sm font-bold text-emerald-700">
-                    {donationAmount ? `$${donationAmount}` : "Not specified"}
+                    {donationAmount ? `$${parseFloat(donationAmount).toFixed(2)}` : "Not specified"}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Payment Method</span>
-                  <span className="text-sm font-bold text-gray-900">M-Pesa</span>
+                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Email</span>
+                  <span className="text-sm font-bold text-gray-900">{donorEmail || "Not provided"}</span>
                 </div>
               </div>
 
-              {!loadingSettings && settings.mpesaPaybill && (
+              {/* Payment Method Selection */}
+              <div>
+                <h4 className="text-base font-bold text-gray-900 mb-3">Select Payment Method</h4>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => setPaymentMethod("paystack")}
+                    className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+                      paymentMethod === "paystack"
+                        ? "border-emerald-600 bg-emerald-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl">💳</div>
+                      <div>
+                        <h5 className="font-bold text-gray-900">Pay with Card / Paystack</h5>
+                        <p className="text-xs text-gray-600 mt-1">Visa, Mastercard, or American Express</p>
+                      </div>
+                    </div>
+                  </button>
+
+                  {!loadingSettings && settings.mpesaPaybill && (
+                    <button
+                      onClick={() => setPaymentMethod("mpesa")}
+                      className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+                        paymentMethod === "mpesa"
+                          ? "border-emerald-600 bg-emerald-50"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="text-2xl">📱</div>
+                        <div>
+                          <h5 className="font-bold text-gray-900">M-Pesa</h5>
+                          <p className="text-xs text-gray-600 mt-1">Pay via M-Pesa mobile money</p>
+                        </div>
+                      </div>
+                    </button>
+                  )}
+
+                  {settings.bankAccounts && settings.bankAccounts.length > 0 && (
+                    <button
+                      onClick={() => setPaymentMethod("bank")}
+                      className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+                        paymentMethod === "bank"
+                          ? "border-emerald-600 bg-emerald-50"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="text-2xl">🏦</div>
+                        <div>
+                          <h5 className="font-bold text-gray-900">Bank Transfer</h5>
+                          <p className="text-xs text-gray-600 mt-1">Direct bank transfer</p>
+                        </div>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Payment Instructions */}
+              {paymentMethod === "mpesa" && !loadingSettings && settings.mpesaPaybill && (
                 <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl">
                   <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
                     <span className="text-2xl">📱</span>
@@ -276,7 +490,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                 </div>
               )}
 
-              {settings.bankAccounts && settings.bankAccounts.length > 0 && (
+              {paymentMethod === "bank" && settings.bankAccounts && settings.bankAccounts.length > 0 && (
                 <div className="p-6 bg-blue-50 border-2 border-blue-200 rounded-xl">
                   <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
                     <span className="text-2xl">🏦</span>
@@ -293,6 +507,36 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                         </div>
                       </div>
                     ))}
+                  </div>
+                  <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p className="text-xs text-gray-700">
+                      <strong>⚠️ Important:</strong> After completing the bank transfer, please send proof of payment to <strong>kenyafbmission@gmail.com</strong> with your full name and donation purpose.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {paymentMethod === "paystack" && (
+                <div className="p-6 bg-purple-50 border-2 border-purple-200 rounded-xl">
+                  <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">💳</span>
+                    Secure Card Payment
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="bg-white rounded-lg p-4 border border-purple-100">
+                      <p className="text-sm text-gray-700">
+                        <strong>🔒 Secure Payment:</strong> Your payment is secured by Paystack, a PCI-DSS compliant payment processor. We accept Visa, Mastercard, and American Express.
+                      </p>
+                    </div>
+                    <div className="bg-white rounded-lg p-4 border border-purple-100">
+                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">What to expect:</p>
+                      <ul className="text-sm text-gray-700 space-y-1 list-disc list-inside">
+                        <li>You'll be redirected to a secure payment page</li>
+                        <li>Enter your card details on Paystack's secure server</li>
+                        <li>Receive an instant payment confirmation</li>
+                        <li>Get a receipt via email</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               )}
@@ -311,7 +555,8 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
           {currentStep > 1 && (
             <button
               onClick={handleBack}
-              className="flex-1 inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors"
+              disabled={isProcessing}
+              className="flex-1 inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               ← Back
             </button>
@@ -319,16 +564,28 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
           {currentStep < 3 ? (
             <button
               onClick={handleNext}
-              className="flex-1 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-500 transition-colors"
+              disabled={currentStep === 2 && !canProceedFromStep2}
+              className="flex-1 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue →
             </button>
           ) : (
             <button
               onClick={handleSubmit}
-              className="flex-1 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-500 transition-colors"
+              disabled={!paymentMethod || isProcessing}
+              className="flex-1 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              💚 Complete Donation
+              {isProcessing ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                <>💚 Complete Donation</>
+              )}
             </button>
           )}
         </div>

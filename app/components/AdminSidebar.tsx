@@ -179,6 +179,14 @@ export default function AdminSidebar({
             </a>
 
             <a
+              href="/admin/ministries"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
+            >
+              <Church size={18} />
+              Ministries
+            </a>
+
+            <a
               href="/admin/logs"
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
@@ -187,11 +195,11 @@ export default function AdminSidebar({
             </a>
 
             <a
-              href="/admin/missionaries"
+              href="/admin/ministries"
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <Users size={18} />
-              Missionaries
+              Ministies
             </a>
           </nav>
         </div>

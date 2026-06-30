@@ -204,14 +204,31 @@ export default function DashboardPage() {
               <h1 className="text-3xl font-black tracking-tight text-slate-900">Partner Dashboard</h1>
               <p className="text-xs text-slate-500 font-medium mt-1">Monitor your giving history, commit to prayer targets, and view ministry impact.</p>
             </div>
-            {isAdmin && (
-              <a 
-                href="/admin"
-                className="inline-flex items-center gap-2 bg-[#0055b8] hover:bg-[#003d7a] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs shrink-0"
-              >
-                <span>⚙️</span> Go to Admin Panel
-              </a>
-            )}
+            <div className="flex gap-2">
+              {isAdmin ? (
+                <>
+                  <a 
+                    href="/admin"
+                    className="inline-flex items-center gap-2 bg-[#0055b8] hover:bg-[#003d7a] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs shrink-0"
+                  >
+                    <span>⚙️</span> Admin Panel
+                  </a>
+                  <a 
+                    href="/dashboard/profile"
+                    className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs shrink-0"
+                  >
+                    <span>👤</span> My Profile
+                  </a>
+                </>
+              ) : (
+                <a 
+                  href="/dashboard/profile"
+                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs shrink-0"
+                >
+                  <span>👤</span> My Profile
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Admin Quick Link Banner */}
