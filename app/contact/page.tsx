@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useNotification } from "../components/Notification";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ export default function ContactPage() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { showNotification, NotificationComponent } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,12 +41,15 @@ export default function ContactPage() {
           subject: "",
           message: ""
         });
+        showNotification("Message sent successfully! We'll get back to you within 24-48 hours.", "success");
       } else {
-        alert(data.error || "Failed to submit form. Please try again.");
+        const errorMsg = data.error || "Failed to submit form. Please try again.";
+        showNotification(errorMsg, "error");
+        console.error("Contact form error:", errorMsg);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Failed to submit form. Please try again.");
+      showNotification("Failed to submit form. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -61,6 +66,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-[#fff7eb] text-slate-950">
       <main className="mx-auto flex min-h-screen max-w-7xl flex-col gap-20 px-6 py-6 lg:px-12 lg:py-10">
         <Navbar />
+        {NotificationComponent}
 
         <section className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-[#003d7a] via-[#0055b8] to-[#004da8] px-6 py-10 shadow-[0_30px_80px_rgba(0,61,122,0.15)] sm:px-12 sm:py-16 lg:px-16 lg:py-20">
           <div className="max-w-3xl">

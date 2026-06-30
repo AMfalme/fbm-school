@@ -40,9 +40,21 @@ export async function POST(request: Request) {
       createdAt: serverTimestamp(),
     });
 
-    // TODO: Send email notification to configured recipients
-    // This will be implemented with Nodemailer or similar service
-    console.log(`New partner submission from ${fullName} (${email})`);
+    // Try to send email notification (non-blocking)
+    try {
+      // TODO: Implement email sending with Nodemailer or similar service
+      // This is a placeholder for future email integration
+      console.log(`[Email Service] New partner submission from ${fullName} (${email})`);
+      console.log(`[Email Service] Organization: ${organization || "Independent"}`);
+      console.log(`[Email Service] Partnership Type: ${partnershipType}`);
+      console.log(`[Email Service] Message: ${message}`);
+      // When email service is implemented, wrap the actual send logic here
+      // Example: await sendEmail({ to: "admin@example.com", subject: "New Partner Inquiry", text: message });
+    } catch (emailError) {
+      // Log email error but don't fail the request since data is saved
+      console.error("[Email Service] Failed to send email notification:", emailError);
+      console.error("[Email Service] Partner data was saved successfully to Firestore");
+    }
 
     return NextResponse.json(
       { success: true, message: "Partner inquiry submitted successfully" },

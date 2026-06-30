@@ -39,9 +39,20 @@ export async function POST(request: Request) {
       createdAt: serverTimestamp(),
     });
 
-    // TODO: Send email notification to configured recipients
-    // This will be implemented with Nodemailer or similar service
-    console.log(`New contact submission from ${fullName} (${email})`);
+    // Try to send email notification (non-blocking)
+    try {
+      // TODO: Implement email sending with Nodemailer or similar service
+      // This is a placeholder for future email integration
+      console.log(`[Email Service] New contact submission from ${fullName} (${email})`);
+      console.log(`[Email Service] Subject: ${subject}`);
+      console.log(`[Email Service] Message: ${message}`);
+      // When email service is implemented, wrap the actual send logic here
+      // Example: await sendEmail({ to: "admin@example.com", subject, text: message });
+    } catch (emailError) {
+      // Log email error but don't fail the request since data is saved
+      console.error("[Email Service] Failed to send email notification:", emailError);
+      console.error("[Email Service] Contact data was saved successfully to Firestore");
+    }
 
     return NextResponse.json(
       { success: true, message: "Contact form submitted successfully" },

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Navbar from "../components/Navbar";
+import { useNotification } from "../components/Notification";
 
 export default function PartnerWithUs() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ export default function PartnerWithUs() {
   
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { showNotification, NotificationComponent } = useNotification();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,12 +43,15 @@ export default function PartnerWithUs() {
           partnershipType: "MISSIONARY",
           message: ""
         });
+        showNotification("Partnership inquiry submitted successfully! An executive elder will follow up within 48 business hours.", "success");
       } else {
-        alert(data.error || "Failed to submit form. Please try again.");
+        const errorMsg = data.error || "Failed to submit form. Please try again.";
+        showNotification(errorMsg, "error");
+        console.error("Partner form error:", errorMsg);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Failed to submit form. Please try again.");
+      showNotification("Failed to submit form. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -69,6 +74,7 @@ export default function PartnerWithUs() {
 
       <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 space-y-16 sm:space-y-24">
           <Navbar />
+          {NotificationComponent}
         
 
         {/* ================= HERO SEPARATOR BLOCK ================= */}

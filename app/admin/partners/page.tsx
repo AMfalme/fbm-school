@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 import { db } from "../../lib/firebase";
-import { collection, getDocs, orderBy, query, Timestamp } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, Timestamp, doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,8 @@ export default function AdminPartnersPage() {
   const [loading, setLoading] = useState(true);
   const [partners, setPartners] = useState<Partner[]>([]);
   const [fetchingPartners, setFetchingPartners] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
@@ -83,6 +85,25 @@ export default function AdminPartnersPage() {
     } finally {
       setFetchingPartners(false);
     }
+  };
+
+  const handleViewPartner = (partner: Partner) => {
+    setSelectedPartner(partner);
+    setShowModal(true);
+    // Mark as read
+    if (partner.status === "new") {
+      const partnerRef = doc(db, "partner", partner.id);
+      updateDoc(partnerRef, { status: "read" }).catch(err => 
+        console.error("Error updating partner status:", err)
+      );
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedPartner(null);
+    // Refresh partners to update status
+    fetchPartners();
   };
 
   if (loading) {
@@ -181,6 +202,14 @@ export default function AdminPartnersPage() {
                         </span>
                       </td>
                       <td className="py-4 text-sm text-slate-600 max-w-xs truncate">{partner.message}</td>
+                      <td className="py-4">
+                        <button
+                          onClick={() => handleViewPartner(partner)}
+                          className="rounded-lg bg-[#0055b8] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#003d7a] transition-colors"
+                        >
+                          View
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -188,6 +217,81 @@ export default function AdminPartnersPage() {
             </div>
           )}
         </div>
+
+        {/* View Partner Modal */}
+        {showModal && selectedPartner && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={handleCloseModal}>
+            <div className="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-black text-slate-900">Partner Inquiry Details</h2>
+                <button
+                  onClick={handleCloseModal}
+                  className="rounded-full bg-slate-100 p-2 hover:bg-slate-200 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Full Name</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedPartner.fullName}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Email</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedPartner.email}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Phone</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedPartner.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedPartner.organization || "N/A"}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Partnership Type</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{getPartnershipTypeLabel(selectedPartner.partnershipType)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Status</p>
+                    <span className={`inline-flex mt-1 rounded-full px-3 py-1 text-xs font-bold ${
+                      selectedPartner.status === "new" 
+                        ? "bg-blue-100 text-blue-700" 
+                        : selectedPartner.status === "read"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-green-100 text-green-700"
+                    }`}>
+                      {selectedPartner.status}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Message</p>
+                  <div className="mt-2 rounded-xl bg-slate-50 p-4">
+                    <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{selectedPartner.message}</p>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200">
+                  <p className="text-xs text-slate-500">
+                    Submitted on {formatDate(selectedPartner.createdAt)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

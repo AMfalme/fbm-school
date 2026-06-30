@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 import { db } from "../../lib/firebase";
-import { collection, getDocs, orderBy, query, Timestamp } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, Timestamp, doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { useRouter } from "next/navigation";
@@ -26,6 +26,8 @@ export default function AdminContactsPage() {
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [fetchingContacts, setFetchingContacts] = useState(false);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
@@ -82,6 +84,25 @@ export default function AdminContactsPage() {
     } finally {
       setFetchingContacts(false);
     }
+  };
+
+  const handleViewContact = (contact: Contact) => {
+    setSelectedContact(contact);
+    setShowModal(true);
+    // Mark as read
+    if (contact.status === "new") {
+      const contactRef = doc(db, "contact", contact.id);
+      updateDoc(contactRef, { status: "read" }).catch(err => 
+        console.error("Error updating contact status:", err)
+      );
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedContact(null);
+    // Refresh contacts to update status
+    fetchContacts();
   };
 
   if (loading) {
@@ -168,6 +189,14 @@ export default function AdminContactsPage() {
                         </span>
                       </td>
                       <td className="py-4 text-sm text-slate-600 max-w-xs truncate">{contact.message}</td>
+                      <td className="py-4">
+                        <button
+                          onClick={() => handleViewContact(contact)}
+                          className="rounded-lg bg-[#0055b8] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#003d7a] transition-colors"
+                        >
+                          View
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -175,6 +204,75 @@ export default function AdminContactsPage() {
             </div>
           )}
         </div>
+
+        {/* View Contact Modal */}
+        {showModal && selectedContact && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={handleCloseModal}>
+            <div className="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-black text-slate-900">Contact Details</h2>
+                <button
+                  onClick={handleCloseModal}
+                  className="rounded-full bg-slate-100 p-2 hover:bg-slate-200 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Full Name</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedContact.fullName}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Email</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedContact.email}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Phone</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedContact.phone || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Subject</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">{selectedContact.subject}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Status</p>
+                  <span className={`inline-flex mt-1 rounded-full px-3 py-1 text-xs font-bold ${
+                    selectedContact.status === "new" 
+                      ? "bg-blue-100 text-blue-700" 
+                      : selectedContact.status === "read"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-green-100 text-green-700"
+                  }`}>
+                    {selectedContact.status}
+                  </span>
+                </div>
+
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Message</p>
+                  <div className="mt-2 rounded-xl bg-slate-50 p-4">
+                    <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{selectedContact.message}</p>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200">
+                  <p className="text-xs text-slate-500">
+                    Submitted on {formatDate(selectedContact.createdAt)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
