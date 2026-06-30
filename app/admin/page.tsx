@@ -3,7 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AdminSidebar from "../components/AdminSidebar";
-import { doc, getDoc } from "firebase/firestore";
+import { 
+  doc, 
+  getDoc, 
+  collection, 
+  getDocs, 
+  query, 
+  orderBy, 
+  limit 
+} from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
 
@@ -12,6 +20,16 @@ export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    users: 0,
+    media: 0,
+    managementTeam: 0,
+    missionReports: 0,
+    donationsThisMonth: 0,
+    annualGiving: 0,
+    activeDonors: 0,
+    pendingDonations: 0
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
@@ -30,13 +48,12 @@ export default function AdminPage() {
         const adminStatus = Boolean(data?.role === "admin");
         setIsAdmin(adminStatus);
 
-        if (!adminStatus) {
-          setLoading(false);
+        if (adminStatus) {
+          await fetchDashboardData();
         }
       } catch (error) {
         console.error("Error fetching admin profile:", error);
         setIsAdmin(false);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -44,6 +61,85 @@ export default function AdminPage() {
 
     return () => unsubscribe();
   }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const { 
+        collection, 
+        getDocs, 
+        query, 
+        orderBy, 
+        limit,
+        where,
+        getCountFromServer
+      } = await import("firebase/firestore");
+
+      // Fetch users count
+      const usersSnapshot = await getCountFromServer(collection(db, "users"));
+      const usersCount = usersSnapshot.data().count;
+
+      // Fetch media count
+      const mediaSnapshot = await getCountFromServer(collection(db, "media"));
+      const mediaCount = mediaSnapshot.data().count;
+
+      // Fetch management team count
+      const managementSnapshot = await getCountFromServer(collection(db, "management"));
+      const managementCount = managementSnapshot.data().count;
+
+      // Fetch mission reports count
+      const reportsSnapshot = await getCountFromServer(collection(db, "reports"));
+      const reportsCount = reportsSnapshot.data().count;
+
+      // Fetch donations statistics
+      const donationsSnapshot = await getDocs(collection(db, "donations"));
+      const donationsData = donationsSnapshot.docs.map(doc => doc.data());
+      
+      const now = new Date();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+      
+      let donationsThisMonth = 0;
+      let annualGiving = 0;
+      const uniqueDonors = new Set<string>();
+      let pendingCount = 0;
+
+      donationsData.forEach((donation: any) => {
+        const amount = donation.amount || 0;
+        uniqueDonors.add(donation.donorEmail);
+
+        if (donation.createdAt) {
+          const donationDate = donation.createdAt.toDate();
+          
+          if (donationDate.getMonth() === currentMonth && 
+              donationDate.getFullYear() === currentYear) {
+            donationsThisMonth += amount;
+          }
+          
+          if (donationDate.getFullYear() === currentYear) {
+            annualGiving += amount;
+          }
+        }
+
+        if (donation.status === "pending") {
+          pendingCount++;
+        }
+      });
+
+      setStats({
+        users: usersCount,
+        media: mediaCount,
+        managementTeam: managementCount,
+        missionReports: reportsCount,
+        donationsThisMonth,
+        annualGiving,
+        activeDonors: uniqueDonors.size,
+        pendingDonations: pendingCount
+      });
+
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
+  };
 
   if (loading) {
     return (
@@ -104,64 +200,92 @@ export default function AdminPage() {
 
         {/* Stats */}
         <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-3xl bg-white p-6 shadow-lg shadow-blue-100">
-            <p className="text-sm text-slate-500">Media Library</p>
-            <h2 className="mt-2 text-4xl font-black text-[#0055b8]">0</h2>
-          </div>
+          <a 
+            href="/admin/media" 
+            className="rounded-3xl bg-white p-6 shadow-lg shadow-blue-100 hover:shadow-xl transition-all cursor-pointer group"
+          >
+            <p className="text-sm text-slate-500 group-hover:text-[#0055b8]">Media Library</p>
+            <h2 className="mt-2 text-4xl font-black text-[#0055b8]">{stats.media}</h2>
+            <p className="text-xs text-slate-400 mt-2 group-hover:text-[#0055b8]">Click to manage →</p>
+          </a>
 
-          <div className="rounded-3xl bg-white p-6 shadow-lg shadow-emerald-100">
-            <p className="text-sm text-slate-500">Mission Reports</p>
-            <h2 className="mt-2 text-4xl font-black text-emerald-600">0</h2>
-          </div>
+          <a 
+            href="/admin/managements" 
+            className="rounded-3xl bg-white p-6 shadow-lg shadow-emerald-100 hover:shadow-xl transition-all cursor-pointer group"
+          >
+            <p className="text-sm text-slate-500 group-hover:text-emerald-600">Management Team</p>
+            <h2 className="mt-2 text-4xl font-black text-emerald-600">{stats.managementTeam}</h2>
+            <p className="text-xs text-slate-400 mt-2 group-hover:text-emerald-600">Click to manage →</p>
+          </a>
 
-          <div className="rounded-3xl bg-white p-6 shadow-lg shadow-purple-100">
-            <p className="text-sm text-slate-500">Management Team</p>
-            <h2 className="mt-2 text-4xl font-black text-purple-600">0</h2>
-          </div>
+          <a 
+            href="/admin/reports" 
+            className="rounded-3xl bg-white p-6 shadow-lg shadow-purple-100 hover:shadow-xl transition-all cursor-pointer group"
+          >
+            <p className="text-sm text-slate-500 group-hover:text-purple-600">Mission Reports</p>
+            <h2 className="mt-2 text-4xl font-black text-purple-600">{stats.missionReports}</h2>
+            <p className="text-xs text-slate-400 mt-2 group-hover:text-purple-600">Click to manage →</p>
+          </a>
 
-          <div className="rounded-3xl bg-white p-6 shadow-lg shadow-amber-100">
-            <p className="text-sm text-slate-500">Registered Users</p>
-            <h2 className="mt-2 text-4xl font-black text-amber-600">0</h2>
-          </div>
+          <a 
+            href="/admin/users" 
+            className="rounded-3xl bg-white p-6 shadow-lg shadow-amber-100 hover:shadow-xl transition-all cursor-pointer group"
+          >
+            <p className="text-sm text-slate-500 group-hover:text-amber-600">Registered Users</p>
+            <h2 className="mt-2 text-4xl font-black text-amber-600">{stats.users}</h2>
+            <p className="text-xs text-slate-400 mt-2 group-hover:text-amber-600">Click to manage →</p>
+          </a>
         </section>
 
         {/* Donation Overview */}
         <section className="mt-8 grid gap-6 lg:grid-cols-3">
-          <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-emerald-700 p-6 text-white shadow-xl">
+          <a 
+            href="/donations" 
+            className="rounded-3xl bg-gradient-to-br from-emerald-500 to-emerald-700 p-6 text-white shadow-xl hover:shadow-2xl transition-all cursor-pointer group"
+          >
             <p className="text-sm uppercase tracking-wider">
               Donations This Month
             </p>
 
-            <h2 className="mt-3 text-4xl font-black">$0</h2>
+            <h2 className="mt-3 text-4xl font-black">${stats.donationsThisMonth.toLocaleString()}</h2>
 
             <p className="mt-2 text-emerald-100">
               Total donations received this month.
             </p>
-          </div>
+            <p className="text-xs text-emerald-200 mt-2 group-hover:text-white">View details →</p>
+          </a>
 
-          <div className="rounded-3xl bg-gradient-to-br from-[#0055b8] to-[#0f77ff] p-6 text-white shadow-xl">
+          <a 
+            href="/donations" 
+            className="rounded-3xl bg-gradient-to-br from-[#0055b8] to-[#0f77ff] p-6 text-white shadow-xl hover:shadow-2xl transition-all cursor-pointer group"
+          >
             <p className="text-sm uppercase tracking-wider">
               Annual Giving
             </p>
 
-            <h2 className="mt-3 text-4xl font-black">$0</h2>
+            <h2 className="mt-3 text-4xl font-black">${stats.annualGiving.toLocaleString()}</h2>
 
             <p className="mt-2 text-blue-100">
               Total donations received this year.
             </p>
-          </div>
+            <p className="text-xs text-blue-200 mt-2 group-hover:text-white">View details →</p>
+          </a>
 
-          <div className="rounded-3xl bg-gradient-to-br from-amber-500 to-orange-600 p-6 text-white shadow-xl">
+          <a 
+            href="/donations" 
+            className="rounded-3xl bg-gradient-to-br from-amber-500 to-orange-600 p-6 text-white shadow-xl hover:shadow-2xl transition-all cursor-pointer group"
+          >
             <p className="text-sm uppercase tracking-wider">
               Active Donors
             </p>
 
-            <h2 className="mt-3 text-4xl font-black">0</h2>
+            <h2 className="mt-3 text-4xl font-black">{stats.activeDonors}</h2>
 
             <p className="mt-2 text-orange-100">
               Individuals supporting the ministry.
             </p>
-          </div>
+            <p className="text-xs text-orange-200 mt-2 group-hover:text-white">View details →</p>
+          </a>
         </section>
 
         {/* Quick Actions */}
@@ -171,21 +295,33 @@ export default function AdminPage() {
           </h2>
 
           <div className="flex flex-wrap gap-3">
-            <button className="rounded-2xl bg-[#0055b8] px-5 py-3 font-semibold text-white shadow-lg transition hover:scale-[1.02]">
+            <a 
+              href="/admin/media" 
+              className="rounded-2xl bg-[#0055b8] px-5 py-3 font-semibold text-white shadow-lg transition hover:scale-[1.02] inline-block"
+            >
               Add Media
-            </button>
+            </a>
 
-            <button className="rounded-2xl bg-white px-5 py-3 font-semibold shadow-md transition hover:bg-slate-50">
+            <a 
+              href="/admin/reports" 
+              className="rounded-2xl bg-white px-5 py-3 font-semibold shadow-md transition hover:bg-slate-50 inline-block"
+            >
               Create Report
-            </button>
+            </a>
 
-            <button className="rounded-2xl bg-white px-5 py-3 font-semibold shadow-md transition hover:bg-slate-50">
+            <a 
+              href="/admin/users" 
+              className="rounded-2xl bg-white px-5 py-3 font-semibold shadow-md transition hover:bg-slate-50 inline-block"
+            >
               Manage Users
-            </button>
+            </a>
 
-            <button className="rounded-2xl bg-white px-5 py-3 font-semibold shadow-md transition hover:bg-slate-50">
+            <a 
+              href="/admin/settings" 
+              className="rounded-2xl bg-white px-5 py-3 font-semibold shadow-md transition hover:bg-slate-50 inline-block"
+            >
               Site Settings
-            </button>
+            </a>
           </div>
         </section>
 
@@ -227,41 +363,50 @@ export default function AdminPage() {
           </h2>
 
           <div className="grid gap-6 lg:grid-cols-3">
-            <div className="rounded-3xl bg-white p-6 shadow-lg">
-              <h3 className="text-lg font-bold">Media & Gallery</h3>
+            <a 
+              href="/admin/media" 
+              className="rounded-3xl bg-white p-6 shadow-lg hover:shadow-xl transition-all group"
+            >
+              <h3 className="text-lg font-bold group-hover:text-[#0055b8]">Media & Gallery</h3>
 
               <p className="mt-2 text-sm text-slate-600">
                 Upload, organize and manage ministry photos and media.
               </p>
 
-              <button className="mt-5 rounded-xl bg-slate-900 px-4 py-2 text-white">
+              <div className="mt-5 rounded-xl bg-slate-900 px-4 py-2 text-white text-center group-hover:bg-[#0055b8]">
                 Open Module
-              </button>
-            </div>
+              </div>
+            </a>
 
-            <div className="rounded-3xl bg-white p-6 shadow-lg">
-              <h3 className="text-lg font-bold">User Roles</h3>
+            <a 
+              href="/admin/users" 
+              className="rounded-3xl bg-white p-6 shadow-lg hover:shadow-xl transition-all group"
+            >
+              <h3 className="text-lg font-bold group-hover:text-[#0055b8]">User Roles</h3>
 
               <p className="mt-2 text-sm text-slate-600">
                 Assign administrator permissions and manage access.
               </p>
 
-              <button className="mt-5 rounded-xl bg-slate-900 px-4 py-2 text-white">
+              <div className="mt-5 rounded-xl bg-slate-900 px-4 py-2 text-white text-center group-hover:bg-[#0055b8]">
                 Open Module
-              </button>
-            </div>
+              </div>
+            </a>
 
-            <div className="rounded-3xl bg-white p-6 shadow-lg">
-              <h3 className="text-lg font-bold">Management Team</h3>
+            <a 
+              href="/admin/managements" 
+              className="rounded-3xl bg-white p-6 shadow-lg hover:shadow-xl transition-all group"
+            >
+              <h3 className="text-lg font-bold group-hover:text-[#0055b8]">Management Team</h3>
 
               <p className="mt-2 text-sm text-slate-600">
                 Maintain leadership, pastors and ministry staff profiles.
               </p>
 
-              <button className="mt-5 rounded-xl bg-slate-900 px-4 py-2 text-white">
+              <div className="mt-5 rounded-xl bg-slate-900 px-4 py-2 text-white text-center group-hover:bg-[#0055b8]">
                 Open Module
-              </button>
-            </div>
+              </div>
+            </a>
           </div>
         </section>
 
@@ -270,9 +415,12 @@ export default function AdminPage() {
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-xl font-black">Recent Donations</h2>
 
-            <button className="rounded-xl bg-[#0055b8] px-4 py-2 text-white">
+            <a 
+              href="/donations" 
+              className="rounded-xl bg-[#0055b8] px-4 py-2 text-white hover:bg-[#003d7a] transition-colors"
+            >
               View All
-            </button>
+            </a>
           </div>
 
           <div className="overflow-x-auto">
@@ -289,7 +437,7 @@ export default function AdminPage() {
               <tbody>
                 <tr>
                   <td className="py-5 text-slate-500">
-                    No donations recorded yet
+                    {stats.pendingDonations > 0 ? `${stats.pendingDonations} pending donations` : "No donations recorded yet"}
                   </td>
                   <td>-</td>
                   <td>-</td>
