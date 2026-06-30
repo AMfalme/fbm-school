@@ -18,8 +18,8 @@ interface Settings {
     branch: string;
     swiftCode?: string;
   }>;
-  paystackPublicKey?: string;
-  paystackSecretKey?: string;
+  mpesaPaybill?: string;
+  mpesaAccount?: string;
   siteName: string;
   siteDescription: string;
   contactPhone: string;
@@ -36,6 +36,8 @@ export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<Settings>({
     emailRecipients: ["kenyafbmission@gmail.com", "griffinmfalme@gmail.com"],
     bankAccounts: [],
+    mpesaPaybill: "522533",
+    mpesaAccount: "8064880",
     siteName: "Freedom Baptist Mission",
     siteDescription: "Transforming Lives Across Kenya & Beyond Through Spreading The Gospel",
     contactPhone: "+254 701 940 540",
@@ -211,7 +213,7 @@ export default function AdminSettingsPage() {
                     value={email}
                     onChange={(e) => handleUpdateEmail(index, e.target.value)}
                     placeholder="email@example.com"
-                    className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                    className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900"
                   />
                   {settings.emailRecipients.length > 1 && (
                     <button
@@ -266,7 +268,7 @@ export default function AdminSettingsPage() {
                           value={account.bankName}
                           onChange={(e) => handleUpdateBankAccount(index, "bankName", e.target.value)}
                           placeholder="e.g. Equity Bank"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
                         />
                       </div>
                       <div>
@@ -276,7 +278,7 @@ export default function AdminSettingsPage() {
                           value={account.accountName}
                           onChange={(e) => handleUpdateBankAccount(index, "accountName", e.target.value)}
                           placeholder="e.g. Freedom Baptist Mission"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
                         />
                       </div>
                       <div>
@@ -286,7 +288,7 @@ export default function AdminSettingsPage() {
                           value={account.accountNumber}
                           onChange={(e) => handleUpdateBankAccount(index, "accountNumber", e.target.value)}
                           placeholder="e.g. 0123456789"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
                         />
                       </div>
                       <div>
@@ -296,7 +298,7 @@ export default function AdminSettingsPage() {
                           value={account.branch}
                           onChange={(e) => handleUpdateBankAccount(index, "branch", e.target.value)}
                           placeholder="e.g. Kisii Branch"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
                         />
                       </div>
                       <div className="md:col-span-2">
@@ -306,7 +308,7 @@ export default function AdminSettingsPage() {
                           value={account.swiftCode}
                           onChange={(e) => handleUpdateBankAccount(index, "swiftCode", e.target.value)}
                           placeholder="e.g. EQBLKENA"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
                         />
                       </div>
                     </div>
@@ -322,37 +324,44 @@ export default function AdminSettingsPage() {
             )}
           </div>
 
-          {/* Payment Integration Section */}
+          {/* M-Pesa Payment Settings Section */}
           <div className="rounded-3xl bg-white p-6 shadow-lg">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Payment Integration</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">M-Pesa Payment Settings</h2>
             <p className="text-sm text-slate-600 mb-4">
-              Configure payment gateway credentials. These will be used for processing donations.
+              Configure Lipa Na M-Pesa payment details. These will be displayed to users for donations via M-Pesa.
             </p>
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Paystack Public Key</label>
-                <input
-                  type="text"
-                  value={settings.paystackPublicKey || ""}
-                  onChange={(e) => setSettings({ ...settings, paystackPublicKey: e.target.value })}
-                  placeholder="pk_test_..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Paybill Number *</label>
+                  <input
+                    type="text"
+                    value={settings.mpesaPaybill || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
+                    placeholder="e.g. 522533"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">M-Pesa paybill business number</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Account Number *</label>
+                  <input
+                    type="text"
+                    value={settings.mpesaAccount || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaAccount: e.target.value })}
+                    placeholder="e.g. 8064880"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Account number for the donation</p>
+                </div>
               </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Paystack Secret Key</label>
-                <input
-                  type="password"
-                  value={settings.paystackSecretKey || ""}
-                  onChange={(e) => setSettings({ ...settings, paystackSecretKey: e.target.value })}
-                  placeholder="sk_test_..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
-                />
+
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <p className="text-sm text-gray-700">
+                  <strong>ℹ️ M-Pesa Integration:</strong> These details will be displayed to users on the donation page. Users can donate via Lipa Na M-Pesa using the paybill and account number provided.
+                </p>
               </div>
-              <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-xl p-3">
-                ⚠️ Note: Paystack integration is currently in skeleton mode. The actual payment processing will be implemented once you provide the API keys.
-              </p>
             </div>
           </div>
 
@@ -367,7 +376,7 @@ export default function AdminSettingsPage() {
                   type="text"
                   value={settings.siteName}
                   onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900"
                 />
               </div>
               <div>
@@ -376,7 +385,7 @@ export default function AdminSettingsPage() {
                   value={settings.siteDescription}
                   onChange={(e) => setSettings({ ...settings, siteDescription: e.target.value })}
                   rows={3}
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -386,7 +395,7 @@ export default function AdminSettingsPage() {
                     type="tel"
                     value={settings.contactPhone}
                     onChange={(e) => setSettings({ ...settings, contactPhone: e.target.value })}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900"
                   />
                 </div>
                 <div>
@@ -395,7 +404,7 @@ export default function AdminSettingsPage() {
                     type="email"
                     value={settings.contactEmail}
                     onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900"
                   />
                 </div>
               </div>

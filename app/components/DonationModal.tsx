@@ -1,17 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { db } from "../lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 interface DonationModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface Settings {
+  mpesaPaybill?: string;
+  mpesaAccount?: string;
+  bankAccounts?: Array<{
+    bankName: string;
+    accountName: string;
+    accountNumber: string;
+    branch: string;
+  }>;
+}
+
 export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [donationAmount, setDonationAmount] = useState<string>("");
   const [donationType, setDonationType] = useState<string>("one-time");
+  const [settings, setSettings] = useState<Settings>({});
+  const [loadingSettings, setLoadingSettings] = useState(true);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchSettings();
+    }
+  }, [isOpen]);
+
+  const fetchSettings = async () => {
+    try {
+      const { doc, getDoc } = await import("firebase/firestore");
+      const settingsRef = doc(db, "settings", "configuration");
+      const snapshot = await getDoc(settingsRef);
+      
+      if (snapshot.exists()) {
+        const data = snapshot.data() as Settings;
+        setSettings(data);
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    } finally {
+      setLoadingSettings(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -194,19 +232,74 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
 
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Payment Method</span>
-                  <span className="text-sm font-bold text-gray-900">Credit/Debit Card</span>
+                  <span className="text-sm font-bold text-gray-900">M-Pesa</span>
                 </div>
               </div>
 
-          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-                <p className="text-sm text-gray-700">
-                  <strong>🔒 Secure Payment:</strong> Your donation is processed through our secure payment gateway. We accept all major credit cards and mobile money options.
-                </p>
-              </div>
+              {!loadingSettings && settings.mpesaPaybill && (
+                <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl">
+                  <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">📱</span>
+                    Pay via M-Pesa
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="bg-white rounded-lg p-4 border border-emerald-100">
+                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Step 1: Go to M-Pesa Menu</p>
+                      <p className="text-sm text-gray-700">Open your M-Pesa menu on your phone and select <strong>Lipa Na M-Pesa</strong></p>
+                    </div>
+                    
+                    <div className="bg-white rounded-lg p-4 border border-emerald-100">
+                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Step 2: Enter Payment Details</p>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Paybill Number:</span>
+                          <span className="text-lg font-black text-emerald-700">{settings.mpesaPaybill}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Account Number:</span>
+                          <span className="text-lg font-black text-emerald-700">{settings.mpesaAccount}</span>
+                        </div>
+                      </div>
+                    </div>
 
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                    <div className="bg-white rounded-lg p-4 border border-emerald-100">
+                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Step 3: Enter Amount</p>
+                      <p className="text-sm text-gray-700">Enter the donation amount: <strong className="text-emerald-700">${donationAmount || "0"}</strong></p>
+                    </div>
+
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                      <p className="text-xs text-gray-700">
+                        <strong>⚠️ Important:</strong> After completing the M-Pesa transaction, please take a screenshot of the confirmation message and send it to <strong>kenyafbmission@gmail.com</strong> with your full name and donation purpose.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {settings.bankAccounts && settings.bankAccounts.length > 0 && (
+                <div className="p-6 bg-blue-50 border-2 border-blue-200 rounded-xl">
+                  <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">🏦</span>
+                    Bank Transfer Option
+                  </h4>
+                  <div className="space-y-3">
+                    {settings.bankAccounts.map((account, index) => (
+                      <div key={index} className="bg-white rounded-lg p-4 border border-blue-100">
+                        <p className="text-sm font-bold text-gray-900 mb-2">{account.bankName}</p>
+                        <div className="space-y-1 text-sm">
+                          <p className="text-gray-700"><span className="font-semibold">Account Name:</span> {account.accountName}</p>
+                          <p className="text-gray-700"><span className="font-semibold">Account Number:</span> {account.accountNumber}</p>
+                          <p className="text-gray-700"><span className="font-semibold">Branch:</span> {account.branch}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
                 <p className="text-sm text-gray-700">
-                  <strong>💳 Payment Integration:</strong> Paystack payment gateway is configured in skeleton mode. The actual payment processing will be activated once the API keys are added in the admin settings.
+                  <strong>✅ Thank you for your generosity!</strong> Your support helps us transform lives across Kenya and beyond through spreading the Gospel.
                 </p>
               </div>
             </div>
