@@ -169,7 +169,7 @@ export default function AdminPage() {
     <div>
       <AdminSidebar />
 
-      <main className="ml-64 min-h-screen bg-[#F8FAFC] p-8">
+      <main className="ml-0 lg:ml-64 min-h-screen bg-[#F8FAFC] p-8 pt-20 lg:pt-8">
         {/* Hero */}
         <div className="mb-8 overflow-hidden rounded-[32px] bg-gradient-to-r from-[#0055b8] via-[#0b67d0] to-[#3b82f6] p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">

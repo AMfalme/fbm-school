@@ -197,7 +197,7 @@ export default function AdminSettingsPage() {
     <div>
       <AdminSidebar />
 
-      <main className="ml-64 min-h-screen bg-[#F8FAFC] p-8">
+      <main className="ml-0 lg:ml-64 min-h-screen bg-[#F8FAFC] p-8 pt-20 lg:pt-8">
         <div className="mb-8">
           <h1 className="text-4xl font-black text-slate-900">Site Settings</h1>
           <p className="mt-2 text-slate-600">Manage email recipients, bank accounts, and site configuration</p>

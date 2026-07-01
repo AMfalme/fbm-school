@@ -198,7 +198,7 @@ export default function AdminNotificationsPage() {
     <div>
       <AdminSidebar />
 
-      <main className="ml-64 min-h-screen bg-[#F8FAFC] p-8">
+      <main className="ml-0 lg:ml-64 min-h-screen bg-[#F8FAFC] p-8 pt-20 lg:pt-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-black text-slate-900">Notifications</h1>

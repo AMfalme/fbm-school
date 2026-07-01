@@ -259,12 +259,13 @@ export default function AdminSidebar({
 
   return (
     <>
-      {/* Mobile Menu Button */}
+      {/* Mobile Menu Button - Sticky */}
       <button
         type="button"
         onClick={() => setIsMobileOpen(true)}
         className="fixed top-4 left-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white shadow-lg transition hover:bg-slate-800 lg:hidden"
         aria-label="Open admin menu"
+        style={{ position: 'fixed' }}
       >
         <Menu size={20} />
       </button>
