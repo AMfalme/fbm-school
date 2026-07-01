@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 import { auth } from "../lib/firebase";
+import DonationModal from "./DonationModal";
 
 export default function MobileMenu() {
   const [mounted, setMounted] = useState(false);
@@ -13,6 +14,7 @@ export default function MobileMenu() {
   const [ministriesOpen, setMinistriesOpen] = useState(false);
   const [missionsOpen, setMissionsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -41,6 +43,11 @@ export default function MobileMenu() {
     setOpen(false);
     setMinistriesOpen(false);
     setMissionsOpen(false);
+  };
+
+  const handleDonateClick = () => {
+    closeMenu();
+    setIsDonationModalOpen(true);
   };
 
   const menuContent = (
@@ -250,13 +257,12 @@ export default function MobileMenu() {
             Make a Difference Today
           </p>
 
-          <a
-            href="/give"
-            onClick={closeMenu}
+          <button
+            onClick={handleDonateClick}
             className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-3 text-sm font-bold text-[#0055b8] transition hover:bg-slate-100 hover:text-slate-900"
           >
             Donate
-          </a>
+          </button>
         </div>
       </aside>
     </div>
@@ -275,6 +281,10 @@ export default function MobileMenu() {
       </button>
 
       {mounted && open && createPortal(menuContent, document.body)}
+      <DonationModal 
+        isOpen={isDonationModalOpen} 
+        onClose={() => setIsDonationModalOpen(false)} 
+      />
     </>
   );
 }

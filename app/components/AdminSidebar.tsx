@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   LayoutDashboard,
   ImageIcon,
@@ -16,6 +16,8 @@ import {
   Mail,
   MessageSquare,
   Bell,
+  Menu,
+  X,
 } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
@@ -27,6 +29,7 @@ export default function AdminSidebar({
   className?: string;
 }) {
   const router = useRouter();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -37,12 +40,12 @@ export default function AdminSidebar({
     }
   };
 
-  return (
-    <aside
-      className={`fixed left-0 top-0 flex h-screen w-72 flex-col overflow-y-auto bg-slate-950 text-white shadow-2xl ${
-        className || ""
-      }`}
-    >
+  const closeMobileSidebar = () => {
+    setIsMobileOpen(false);
+  };
+
+  const sidebarContent = (
+    <>
       {/* Header */}
       <div className="border-b border-slate-800 p-6">
         <div className="rounded-2xl bg-gradient-to-r from-[#0055b8] to-[#3b82f6] p-4">
@@ -65,6 +68,7 @@ export default function AdminSidebar({
         <nav className="flex flex-col gap-1">
           <a
             href="/admin"
+            onClick={closeMobileSidebar}
             className="flex items-center gap-3 rounded-xl bg-[#0055b8] px-4 py-3 font-medium text-white transition hover:bg-[#0b67d0]"
           >
             <LayoutDashboard size={18} />
@@ -73,6 +77,7 @@ export default function AdminSidebar({
 
           <a
             href="/admin/media"
+            onClick={closeMobileSidebar}
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
           >
             <ImageIcon size={18} />
@@ -81,6 +86,7 @@ export default function AdminSidebar({
 
           <a
             href="/admin/managements"
+            onClick={closeMobileSidebar}
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
           >
             <Church size={18} />
@@ -89,6 +95,7 @@ export default function AdminSidebar({
 
           <a
             href="/admin/users"
+            onClick={closeMobileSidebar}
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
           >
             <UserCog size={18} />
@@ -105,6 +112,7 @@ export default function AdminSidebar({
           <nav className="flex flex-col gap-1">
             <a
               href="/admin/donations"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <HandCoins size={18} />
@@ -113,6 +121,7 @@ export default function AdminSidebar({
 
             <a
               href="/admin/partners"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <HeartHandshake size={18} />
@@ -130,6 +139,7 @@ export default function AdminSidebar({
           <nav className="flex flex-col gap-1">
             <a
               href="/admin/contacts"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <Mail size={18} />
@@ -138,6 +148,7 @@ export default function AdminSidebar({
 
             <a
               href="/admin/partners"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <MessageSquare size={18} />
@@ -155,6 +166,7 @@ export default function AdminSidebar({
           <nav className="flex flex-col gap-1">
             <a
               href="/admin/notifications"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <Bell size={18} />
@@ -172,6 +184,7 @@ export default function AdminSidebar({
           <nav className="flex flex-col gap-1">
             <a
               href="/admin/settings"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <Settings size={18} />
@@ -180,6 +193,7 @@ export default function AdminSidebar({
 
             <a
               href="/admin/ministries"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <Church size={18} />
@@ -188,13 +202,12 @@ export default function AdminSidebar({
 
             <a
               href="/admin/logs"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <ClipboardList size={18} />
               Activity Logs
             </a>
-
-            
           </nav>
         </div>
 
@@ -207,6 +220,7 @@ export default function AdminSidebar({
           <nav className="flex flex-col gap-1">
             <a
               href="/"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
             >
               <Home size={18} />
@@ -240,6 +254,59 @@ export default function AdminSidebar({
           </p>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        type="button"
+        onClick={() => setIsMobileOpen(true)}
+        className="fixed top-4 left-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white shadow-lg transition hover:bg-slate-800 lg:hidden"
+        aria-label="Open admin menu"
+      >
+        <Menu size={20} />
+      </button>
+
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          onClick={closeMobileSidebar}
+        />
+      )}
+
+      {/* Desktop Sidebar */}
+      <aside
+        className={`hidden lg:flex fixed left-0 top-0 h-screen w-72 flex-col overflow-y-auto bg-slate-950 text-white shadow-2xl ${
+          className || ""
+        }`}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Sidebar */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <aside className="absolute left-0 top-0 h-screen w-72 overflow-y-auto bg-slate-950 text-white shadow-2xl animate-in slide-in-from-left duration-300">
+            <div className="flex items-center justify-between border-b border-slate-800 p-4">
+              <span className="text-sm font-semibold uppercase tracking-[0.24em]">
+                Menu
+              </span>
+              <button
+                type="button"
+                onClick={closeMobileSidebar}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800 text-slate-200 transition hover:bg-slate-700 hover:text-white"
+                aria-label="Close menu"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }
