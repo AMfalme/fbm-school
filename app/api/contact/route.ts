@@ -41,17 +41,22 @@ export async function POST(request: Request) {
 
     // Try to send email notification (non-blocking)
     try {
-      // TODO: Implement email sending with Nodemailer or similar service
-      // This is a placeholder for future email integration
-      console.log(`[Email Service] New contact submission from ${fullName} (${email})`);
-      console.log(`[Email Service] Subject: ${subject}`);
-      console.log(`[Email Service] Message: ${message}`);
-      // When email service is implemented, wrap the actual send logic here
-      // Example: await sendEmail({ to: "admin@example.com", subject, text: message });
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/send-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subject: `New Contact Message: ${subject || "No subject"}`,
+          template: "contact-notification",
+          data: {
+            message: `You have received a new contact message from ${fullName}.\n\nEmail: ${email}\nPhone: ${phone || "Not provided"}\nSubject: ${subject || "No subject"}\n\nMessage:\n${message}`,
+          },
+        }),
+      });
     } catch (emailError) {
       // Log email error but don't fail the request since data is saved
-      console.error("[Email Service] Failed to send email notification:", emailError);
-      console.error("[Email Service] Contact data was saved successfully to Firestore");
+      console.error("Failed to send email notification:", emailError);
     }
 
     return NextResponse.json(

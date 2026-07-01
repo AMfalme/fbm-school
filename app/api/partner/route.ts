@@ -42,18 +42,22 @@ export async function POST(request: Request) {
 
     // Try to send email notification (non-blocking)
     try {
-      // TODO: Implement email sending with Nodemailer or similar service
-      // This is a placeholder for future email integration
-      console.log(`[Email Service] New partner submission from ${fullName} (${email})`);
-      console.log(`[Email Service] Organization: ${organization || "Independent"}`);
-      console.log(`[Email Service] Partnership Type: ${partnershipType}`);
-      console.log(`[Email Service] Message: ${message}`);
-      // When email service is implemented, wrap the actual send logic here
-      // Example: await sendEmail({ to: "admin@example.com", subject: "New Partner Inquiry", text: message });
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/send-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subject: `New Partner Inquiry: ${partnershipType || "MISSIONARY"}`,
+          template: "partner-notification",
+          data: {
+            message: `You have received a new partner inquiry from ${fullName}.\n\nEmail: ${email}\nPhone: ${phone}\nOrganization: ${organization || "Independent"}\nPartnership Type: ${partnershipType}\n\nMessage:\n${message}`,
+          },
+        }),
+      });
     } catch (emailError) {
       // Log email error but don't fail the request since data is saved
-      console.error("[Email Service] Failed to send email notification:", emailError);
-      console.error("[Email Service] Partner data was saved successfully to Firestore");
+      console.error("Failed to send email notification:", emailError);
     }
 
     return NextResponse.json(

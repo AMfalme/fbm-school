@@ -6,8 +6,10 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ reference: string }> }
 ) {
+  console.log("🔍 PAYSTACK VERIFY ENDPOINT CALLED");
   try {
     const { reference } = await params;
+    console.log("📋 Verifying reference:", reference);
 
     if (!reference) {
       return NextResponse.json(
@@ -20,7 +22,7 @@ export async function GET(
     const secretKey = process.env.PAYSTACK_SECRET_KEY;
 
     if (!secretKey) {
-      console.error("PAYSTACK_SECRET_KEY is not configured");
+      console.error("❌ PAYSTACK_SECRET_KEY is not configured");
       return NextResponse.json(
         { error: "Payment service is not configured" },
         { status: 500 }
@@ -28,6 +30,7 @@ export async function GET(
     }
 
     // Verify transaction with Paystack
+    console.log("📡 Calling Paystack verify API...");
     const response = await fetch(
       `https://api.paystack.co/transaction/verify/${reference}`,
       {
@@ -40,9 +43,11 @@ export async function GET(
     );
 
     const data = await response.json();
+    console.log("📊 Paystack verify response status:", response.status);
+    console.log("📊 Transaction status from Paystack:", data.data?.status);
 
     if (!response.ok || !data.status) {
-      console.error("Paystack verification error:", data);
+      console.error("❌ Paystack verification error:", data);
       return NextResponse.json(
         { error: data.message || "Failed to verify payment" },
         { status: 400 }
@@ -50,8 +55,10 @@ export async function GET(
     }
 
     const transaction = data.data;
-
+    console.log("✅ Paystack verification successful, transaction status:", transaction.status);
+    console.log("💳 Transaction details:", JSON.stringify(transaction, null, 2));
     // Save/update donation record in Firestore
+    console.log("💾 Saving transaction to Firestore...");
     try {
       // Check if transaction already exists
       const donationsRef = collection(db, "donations");
@@ -60,6 +67,7 @@ export async function GET(
       
       // Determine status message based on Paystack response
       let statusMessage = "";
+      console.log("I am here");
       if (transaction.status === "success") {
         statusMessage = "Payment completed successfully";
       } else if (transaction.status === "failed") {
@@ -71,14 +79,11 @@ export async function GET(
       } else {
         statusMessage = transaction.gateway_response || `Payment ${transaction.status}`;
       }
-
-      console.log(`Saving transaction ${transaction.reference} with status: ${transaction.status}`);
-      console.log("Status message:", statusMessage);
-      console.log("Full Paystack response:", JSON.stringify(transaction, null, 2));
-
+      console.log("ℹ️ Status message determined:", statusMessage);
       if (!querySnapshot.empty) {
         // Update existing transaction
         const docRef = querySnapshot.docs[0].ref;
+        console.log("📝 Updating existing transaction:", docRef.id);
         await setDoc(docRef, {
           status: transaction.status,
           statusMessage: statusMessage,
@@ -99,12 +104,11 @@ export async function GET(
           metadata: transaction.metadata,
           card: transaction.card,
         }, { merge: true });
-        
-        console.log(`Transaction ${transaction.reference} updated successfully`);
-        console.log("Document ID:", docRef.id);
+        console.log("✅ Transaction updated successfully");
       } else {
         // Create new transaction record
         const donationRef = doc(collection(db, "donations"));
+        console.log("📝 Creating new transaction:", donationRef.id);
         await setDoc(donationRef, {
           reference: transaction.reference,
           amount: transaction.amount / 100, // Convert from cents to dollars
@@ -127,13 +131,43 @@ export async function GET(
           metadata: transaction.metadata,
           card: transaction.card,
         });
-        
-        console.log(`Transaction ${transaction.reference} created successfully`);
-        console.log("Document ID:", donationRef.id);
+        console.log("✅ Transaction created successfully");
       }
 
-      // Create notification for admin if payment was successful
+      // Send email notification for successful payments
       if (transaction.status === "success") {
+        console.log("📧 Payment successful, sending email notification...");
+        try {
+          const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/send-email`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              subject: "New Donation Received - Freedom Baptist Mission",
+              template: "donation-confirmation",
+              data: {
+                donorName: transaction.metadata?.donorName || "Anonymous",
+                amount: (transaction.amount / 100).toFixed(2),
+                reference: transaction.reference,
+                currency: transaction.currency,
+              },
+            }),
+          });
+
+          if (emailResponse.ok) {
+            const emailResult = await emailResponse.json();
+            console.log("✅ Email sent successfully:", emailResult.sentCount, "recipients");
+          } else {
+            const errorData = await emailResponse.json();
+            console.error("❌ Failed to send email:", errorData);
+          }
+        } catch (emailError) {
+          console.error("❌ Error sending email:", emailError);
+        }
+
+        // Create notification for admin
+        console.log("🔔 Creating admin notification...");
         const notificationRef = doc(collection(db, "notifications"));
         await setDoc(notificationRef, {
           type: "new_donation",
@@ -143,9 +177,10 @@ export async function GET(
           link: "/admin/donations",
           createdAt: serverTimestamp(),
         });
+        console.log("✅ Admin notification created");
       }
     } catch (firebaseError) {
-      console.error("Error saving donation to Firestore:", firebaseError);
+      console.error("❌ Error saving donation to Firestore:", firebaseError);
       // Don't fail the request if Firestore save fails
     }
 

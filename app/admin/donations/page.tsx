@@ -311,14 +311,14 @@ export default function AdminDonationsPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <a
-                          href={getPaystackDashboardUrl(donation.reference)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-bold text-[#0055b8] hover:text-[#003d7a]"
-                        >
-                          View on Paystack →
-                        </a>
+                      <a
+                        href="https://dashboard.paystack.com/#/transactions"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#0055b8] hover:text-[#003d7a] font-bold text-xs"
+                      >
+                        View in Paystack
+                      </a>
                       </td>
                     </tr>
                   ))

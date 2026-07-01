@@ -29,9 +29,8 @@
     const [donationAmount, setDonationAmount] = useState<string>("");
     const [donationType, setDonationType] = useState<string>("");
     const [donorName, setDonorName] = useState<string>("");
-    const [donorEmail, setDonorEmail] = useState<string>("");
-    const [paymentMethod, setPaymentMethod] = useState<string>("");
-    const [currency, setCurrency] = useState<string>("USD");
+  const [donorEmail, setDonorEmail] = useState<string>("");
+  const [currency, setCurrency] = useState<string>("USD");
     const [settings, setSettings] = useState<Settings>({});
     const [loadingSettings, setLoadingSettings] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -75,7 +74,6 @@
       setDonationType("");
       setDonorName("");
       setDonorEmail("");
-      setPaymentMethod("");
       setCurrency("USD");
       setIsProcessing(false);
       onClose();
@@ -103,7 +101,7 @@
       }
     }
     
-    if (currentStep < 3) {
+    if (currentStep < 2) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -212,14 +210,9 @@
       }
     };
 
-    const handleSubmit = async () => {
-      if (!paymentMethod) {
-        triggerToast("Please select a payment method");
-        return;
-      }
-
-    // Always trigger Paystack API to handle the transaction
-    // The payment method selection is for user preference and instructions
+  const handleSubmit = async () => {
+    // Directly trigger Paystack API to handle the transaction
+    // Paystack will show available payment options (Card, M-Pesa, etc.)
     await handlePaystackPayment();
   };
 
@@ -235,10 +228,10 @@
         <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
           {/* Header - Fixed */}
           <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-gray-200">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">Support Our Mission</h2>
-              <p className="text-sm text-gray-500 mt-1">Step {currentStep} of 3</p>
-            </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Support Our Mission</h2>
+                <p className="text-sm text-gray-500 mt-1">Step {currentStep} of 2</p>
+              </div>
             <button
               onClick={handleClose}
               className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
@@ -253,7 +246,7 @@
           {/* Progress Bar - Fixed */}
           <div className="flex-shrink-0 px-6 pt-4">
             <div className="flex gap-2">
-              {[1, 2, 3].map((step) => (
+              {[1, 2].map((step) => (
                 <div
                   key={step}
                   className={`h-2 flex-1 rounded-full transition-all ${
@@ -416,164 +409,6 @@
               </div>
             </div>
           )}
-
-          {/* Step 3: Review & Confirm */}
-          {currentStep === 3 && (
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Review Your Donation</h3>
-                <p className="text-sm text-gray-600">Please confirm your donation details and select a payment method.</p>
-              </div>
-
-              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-4">
-                <div className="flex justify-between items-center pb-3 border-b border-gray-200">
-                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Donor Name</span>
-                  <span className="text-sm font-bold text-gray-900">{donorName || "Not provided"}</span>
-                </div>
-
-                <div className="flex justify-between items-center pb-3 border-b border-gray-200">
-                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Donation Type</span>
-                  <span className="text-sm font-bold text-gray-900">
-                    {donationType === "one-time" ? "One-Time Gift" : "Monthly Partner"}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center pb-3 border-b border-gray-200">
-                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Amount</span>
-                  <span className="text-sm font-bold text-emerald-700">
-                    {donationAmount ? `${currency === "USD" ? "$" : "KSh "}${parseFloat(donationAmount).toFixed(2)}` : "Not specified"}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">Email</span>
-                  <span className="text-sm font-bold text-gray-900">{donorEmail || "Not provided"}</span>
-                </div>
-              </div>
-
-              {/* Payment Method Selection */}
-              <div>
-                <h4 className="text-base font-bold text-gray-900 mb-3">Select Payment Method</h4>
-                <div className="space-y-3">
-                  <button
-                    onClick={() => setPaymentMethod("paystack")}
-                    className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                      paymentMethod === "paystack"
-                        ? "border-emerald-600 bg-emerald-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-2xl">💳</div>
-                      <div>
-                        <h5 className="font-bold text-gray-900">Pay with Card</h5>
-                        <p className="text-xs text-gray-600 mt-1">Visa, Mastercard, or American Express</p>
-                      </div>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setPaymentMethod("mpesa")}
-                    className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                      paymentMethod === "mpesa"
-                        ? "border-emerald-600 bg-emerald-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-2xl">📱</div>
-                      <div>
-                        <h5 className="font-bold text-gray-900">Pay with M-Pesa</h5>
-                        <p className="text-xs text-gray-600 mt-1">Mobile money payment</p>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Payment Instructions */}
-              {paymentMethod === "mpesa" && !loadingSettings && settings.mpesaPaybill && (
-                <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl">
-                  <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <span className="text-2xl">📱</span>
-                    Pay via M-Pesa
-                  </h4>
-                  <div className="space-y-3">
-                    <div className="bg-white rounded-lg p-4 border border-emerald-100">
-                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Step 1: Go to M-Pesa Menu</p>
-                      <p className="text-sm text-gray-700">Open your M-Pesa menu on your phone and select <strong>Lipa Na M-Pesa</strong></p>
-                    </div>
-                    
-                    <div className="bg-white rounded-lg p-4 border border-emerald-100">
-                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Step 2: Enter Payment Details</p>
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">Paybill Number:</span>
-                          <span className="text-lg font-black text-emerald-700">{settings.mpesaPaybill}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">Account Number:</span>
-                          <span className="text-lg font-black text-emerald-700">{settings.mpesaAccount}</span>
-                        </div>
-                        {settings.mpesaAccountName && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600">Account Name:</span>
-                            <span className="text-lg font-black text-emerald-700">{settings.mpesaAccountName}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="bg-white rounded-lg p-4 border border-emerald-100">
-                      <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Step 3: Enter Amount</p>
-                      <p className="text-sm text-gray-700">Enter the donation amount: <strong className="text-emerald-700">{currency === "USD" ? "$" : "KSh "}{donationAmount || "0"}</strong></p>
-                    </div>
-
-                    {settings.mpesaPaymentMessage && (
-                      <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                        <p className="text-xs text-gray-700">
-                          <strong>⚠️ Important:</strong> {settings.mpesaPaymentMessage}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Bank transfer section removed - using Paystack for all transactions */}
-
-                  {paymentMethod === "paystack" && (
-                    <div className="p-6 bg-purple-50 border-2 border-purple-200 rounded-xl">
-                      <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <span className="text-2xl">💳</span>
-                        Secure Card Payment
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="bg-white rounded-lg p-4 border border-purple-100">
-                          <p className="text-sm text-gray-700">
-                            <strong>🔒 Secure Payment:</strong> Your payment is secured by Paystack, a PCI-DSS compliant payment processor. We accept Visa, Mastercard, and American Express.
-                          </p>
-                        </div>
-                        <div className="bg-white rounded-lg p-4 border border-purple-100">
-                          <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">What to expect:</p>
-                          <ul className="text-sm text-gray-700 space-y-1 list-disc list-inside">
-                            <li>You'll be redirected to a secure payment page</li>
-                            <li>Enter your card details on our secure server</li>
-                            <li>Receive an instant payment confirmation</li>
-                            <li>Get a receipt via email</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-                <p className="text-sm text-gray-700">
-                  <strong>✅ Thank you for your generosity!</strong> Your support helps us transform lives across Kenya and beyond through spreading the Gospel.
-                </p>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Footer with Navigation Buttons - Fixed */}
@@ -587,7 +422,7 @@
               ← Back
             </button>
           )}
-          {currentStep < 3 ? (
+          {currentStep < 2 ? (
             <button
               onClick={handleNext}
               disabled={
@@ -601,7 +436,7 @@
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={!paymentMethod || isProcessing}
+              disabled={isProcessing}
               className="flex-1 inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isProcessing ? (

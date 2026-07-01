@@ -4,11 +4,11 @@ import nodemailer from "nodemailer";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { to, subject, template, data } = body;
+    const { subject, template, data, recipients } = body;
 
-    if (!to || !subject) {
+    if (!subject) {
       return NextResponse.json(
-        { error: "Missing required fields: to and subject are required" },
+        { error: "Missing required fields: subject is required" },
         { status: 400 }
       );
     }
@@ -21,10 +21,34 @@ export async function POST(request: Request) {
     const emailFrom = process.env.EMAIL_FROM || emailUser;
 
     if (!emailHost || !emailUser || !emailPassword) {
-      console.error("Email configuration is incomplete");
       return NextResponse.json(
         { error: "Email service is not configured" },
         { status: 500 }
+      );
+    }
+
+    // Fetch recipients from settings if not provided
+    let emailRecipients = recipients;
+    if (!emailRecipients || emailRecipients.length === 0) {
+      const { doc, getDoc } = await import("firebase/firestore");
+      const { db } = await import("@/app/lib/firebase");
+      
+      try {
+        const settingsRef = doc(db, "settings", "configuration");
+        const snapshot = await getDoc(settingsRef);
+        if (snapshot.exists()) {
+          const settingsData = snapshot.data();
+          emailRecipients = settingsData.emailRecipients || [];
+        }
+      } catch (error) {
+        console.error("Error fetching email recipients:", error);
+      }
+    }
+
+    if (!emailRecipients || emailRecipients.length === 0) {
+      return NextResponse.json(
+        { error: "No email recipients configured" },
+        { status: 400 }
       );
     }
 
@@ -126,6 +150,88 @@ export async function POST(request: Request) {
         Blessings,
         The Freedom Baptist Mission Team
       `;
+    } else if (template === "contact-notification") {
+      const messageText = data?.message || "No message provided";
+      
+      htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>New Contact Message</title>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #0055b8, #3b82f6); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center; }
+            .content { background: #f8fafc; padding: 30px; border-radius: 0 0 10px 10px; }
+            .message-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0055b8; white-space: pre-wrap; }
+            .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb; color: #64748b; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>📧 New Contact Message</h1>
+            <p>Freedom Baptist Mission</p>
+          </div>
+          <div class="content">
+            <p>You have received a new contact message from your website.</p>
+            
+            <div class="message-box">
+              ${messageText}
+            </div>
+            
+            <p style="margin-top: 30px;">Please respond to this message as soon as possible.</p>
+          </div>
+          <div class="footer">
+            <p>© ${new Date().getFullYear()} Freedom Baptist Mission. All rights reserved.</p>
+            <p>This is an automated message. Please do not reply to this email.</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      textContent = `New Contact Message\n\n${messageText}\n\nPlease respond to this message as soon as possible.`;
+    } else if (template === "partner-notification") {
+      const messageText = data?.message || "No message provided";
+      
+      htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>New Partner Inquiry</title>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #0055b8, #3b82f6); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center; }
+            .content { background: #f8fafc; padding: 30px; border-radius: 0 0 10px 10px; }
+            .message-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0055b8; white-space: pre-wrap; }
+            .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb; color: #64748b; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>🤝 New Partner Inquiry</h1>
+            <p>Freedom Baptist Mission</p>
+          </div>
+          <div class="content">
+            <p>You have received a new partnership inquiry from your website.</p>
+            
+            <div class="message-box">
+              ${messageText}
+            </div>
+            
+            <p style="margin-top: 30px;">Please review this inquiry and respond as soon as possible.</p>
+          </div>
+          <div class="footer">
+            <p>© ${new Date().getFullYear()} Freedom Baptist Mission. All rights reserved.</p>
+            <p>This is an automated message. Please do not reply to this email.</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      textContent = `New Partner Inquiry\n\n${messageText}\n\nPlease review this inquiry and respond as soon as possible.`;
     } else {
       // Generic email template
       htmlContent = `
@@ -153,22 +259,30 @@ export async function POST(request: Request) {
       textContent = `${subject}\n\n${data?.message || "Thank you for your support!"}`;
     }
 
-    // Send email
-    const info = await transporter.sendMail({
-      from: `"Freedom Baptist Mission" <${emailFrom}>`,
-      to: to,
-      subject: subject,
-      text: textContent,
-      html: htmlContent,
-    });
+    // Send email to all recipients
+    const results = [];
+    for (const recipient of emailRecipients) {
+      try {
+        const info = await transporter.sendMail({
+          from: `"Freedom Baptist Mission" <${emailFrom}>`,
+          to: recipient,
+          subject: subject,
+          text: textContent,
+          html: htmlContent,
+        });
+        results.push({ recipient, success: true, messageId: info.messageId });
+      } catch (error) {
+        console.error(`Failed to send email to ${recipient}:`, error);
+        results.push({ recipient, success: false, error });
+      }
+    }
 
-    console.log("Email sent successfully:", info.messageId);
-    console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
-
+    const successCount = results.filter(r => r.success).length;
     return NextResponse.json({
       success: true,
-      messageId: info.messageId,
-      previewUrl: nodemailer.getTestMessageUrl(info),
+      sentCount: successCount,
+      totalCount: emailRecipients.length,
+      results,
     });
   } catch (error) {
     console.error("Error sending email:", error);
