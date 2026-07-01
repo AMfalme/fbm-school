@@ -58,12 +58,23 @@ export async function GET(
       const q = query(donationsRef, where("reference", "==", transaction.reference));
       const querySnapshot = await getDocs(q);
       
-      const statusMessage = transaction.status === "success" 
-        ? "Payment completed successfully" 
-        : transaction.gateway_response || `Payment ${transaction.status}`;
+      // Determine status message based on Paystack response
+      let statusMessage = "";
+      if (transaction.status === "success") {
+        statusMessage = "Payment completed successfully";
+      } else if (transaction.status === "failed") {
+        statusMessage = transaction.gateway_response || "Payment failed";
+      } else if (transaction.status === "pending") {
+        statusMessage = "Payment is being processed";
+      } else if (transaction.status === "cancelled" || transaction.status === "reversed") {
+        statusMessage = "Payment was cancelled or reversed";
+      } else {
+        statusMessage = transaction.gateway_response || `Payment ${transaction.status}`;
+      }
 
       console.log(`Saving transaction ${transaction.reference} with status: ${transaction.status}`);
-      console.log("Transaction data:", JSON.stringify(transaction, null, 2));
+      console.log("Status message:", statusMessage);
+      console.log("Full Paystack response:", JSON.stringify(transaction, null, 2));
 
       if (!querySnapshot.empty) {
         // Update existing transaction
@@ -82,6 +93,11 @@ export async function GET(
           gatewayResponse: transaction.gateway_response,
           channel: transaction.channel,
           ipAddress: transaction.ip_address,
+          // Save additional Paystack data
+          authorization: transaction.authorization,
+          customer: transaction.customer,
+          metadata: transaction.metadata,
+          card: transaction.card,
         }, { merge: true });
         
         console.log(`Transaction ${transaction.reference} updated successfully`);
@@ -105,6 +121,11 @@ export async function GET(
           gatewayResponse: transaction.gateway_response,
           channel: transaction.channel,
           ipAddress: transaction.ip_address,
+          // Save additional Paystack data
+          authorization: transaction.authorization,
+          customer: transaction.customer,
+          metadata: transaction.metadata,
+          card: transaction.card,
         });
         
         console.log(`Transaction ${transaction.reference} created successfully`);

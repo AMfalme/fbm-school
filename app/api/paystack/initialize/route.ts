@@ -40,28 +40,6 @@ export async function POST(request: Request) {
     // Generate unique reference
     const reference = `DON-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 
-    // Create transaction record in Firestore
-    try {
-      const transactionRef = doc(collection(db, "donations"));
-      await setDoc(transactionRef, {
-        reference: reference,
-        amount: parseFloat(amount),
-        currency: currency,
-        status: "pending",
-        statusMessage: "Payment initiated, awaiting completion",
-        donorName: donorName || "Anonymous",
-        donorEmail: email,
-        paymentMethod: "paystack",
-        paymentType: "one-time",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-      console.log(`Transaction record created for ${reference}`);
-    } catch (firebaseError) {
-      console.error("Error creating transaction record:", firebaseError);
-      // Don't fail the request if Firestore save fails
-    }
-
     // Initialize transaction with Paystack
     // Try with user's selected currency first, fallback to USD if not supported
     let paystackCurrency = currency;
@@ -141,11 +119,43 @@ export async function POST(request: Request) {
       }
     }
 
+    // Save transaction to Firestore AFTER successful Paystack API call
+    try {
+      console.log("Attempting to save transaction to Firestore...");
+      const transactionRef = doc(collection(db, "donations"));
+      const docData = {
+        reference: data.data.reference || reference,
+        amount: parseFloat(amount),
+        currency: paystackCurrency,
+        originalCurrency: currency,
+        status: "pending",
+        statusMessage: "Payment initiated, awaiting completion",
+        donorName: donorName || "Anonymous",
+        donorEmail: email,
+        paymentMethod: "paystack",
+        paymentType: "one-time",
+        authorizationUrl: data.data.authorization_url,
+        accessCode: data.data.access_code,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+      console.log("Document data to save:", JSON.stringify(docData, null, 2));
+      
+      await setDoc(transactionRef, docData);
+      
+      console.log(`✅ Transaction saved to Firestore: ${data.data.reference || reference}`);
+      console.log(`Document ID: ${transactionRef.id}`);
+    } catch (firebaseError) {
+      console.error("❌ Error saving transaction to Firestore:", firebaseError);
+      console.error("Error details:", JSON.stringify(firebaseError, null, 2));
+      // Don't fail the request if Firestore save fails
+    }
+
     // Return the authorization URL and reference
     return NextResponse.json({
       success: true,
       authorizationUrl: data.data.authorization_url,
-      reference: data.data.reference,
+      reference: data.data.reference || reference,
       accessCode: data.data.access_code,
     });
   } catch (error) {

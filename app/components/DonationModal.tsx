@@ -34,9 +34,17 @@
     const [currency, setCurrency] = useState<string>("USD");
     const [settings, setSettings] = useState<Settings>({});
     const [loadingSettings, setLoadingSettings] = useState(true);
-    const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [activeToast, setActiveToast] = useState<string | null>(null);
 
-    useEffect(() => {
+  const triggerToast = (msg: string) => {
+    setActiveToast(msg);
+    setTimeout(() => {
+      setActiveToast(null);
+    }, 4000);
+  };
+
+  useEffect(() => {
       if (isOpen) {
         fetchSettings();
       }
@@ -73,32 +81,32 @@
       onClose();
     };
 
-    const handleNext = () => {
-      // Validation before proceeding
-      if (currentStep === 1 && !donationType) {
-        alert("Please select a donation type to continue.");
+  const handleNext = () => {
+    // Validation before proceeding
+    if (currentStep === 1 && !donationType) {
+      triggerToast("Please select a donation type to continue.");
+      return;
+    }
+    
+    if (currentStep === 2) {
+      if (!donationAmount || parseFloat(donationAmount) <= 0) {
+        triggerToast("Please enter a valid donation amount.");
         return;
       }
-      
-      if (currentStep === 2) {
-        if (!donationAmount || parseFloat(donationAmount) <= 0) {
-          alert("Please enter a valid donation amount.");
-          return;
-        }
-        if (!donorName.trim()) {
-          alert("Please enter your full name.");
-          return;
-        }
-        if (!donorEmail.trim()) {
-          alert("Please enter your email address.");
-          return;
-        }
+      if (!donorName.trim()) {
+        triggerToast("Please enter your full name.");
+        return;
       }
-      
-      if (currentStep < 3) {
-        setCurrentStep(currentStep + 1);
+      if (!donorEmail.trim()) {
+        triggerToast("Please enter your email address.");
+        return;
       }
-    };
+    }
+    
+    if (currentStep < 3) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
 
     const handleBack = () => {
       if (currentStep > 1) {
@@ -110,11 +118,11 @@
     const canProceedFromStep1 = donationType !== "";
     const canProceedFromStep2 = donationAmount && parseFloat(donationAmount) > 0 && donorName.trim() !== "" && donorEmail.trim() !== "";
 
-    const handlePaystackPayment = async () => {
-      if (!donorName || !donorEmail || !donationAmount) {
-        alert("Please fill in all required fields");
-        return;
-      }
+  const handlePaystackPayment = async () => {
+    if (!donorName || !donorEmail || !donationAmount) {
+      triggerToast("Please fill in all required fields");
+      return;
+    }
 
       setIsProcessing(true);
 
@@ -148,20 +156,20 @@
         document.body.appendChild(script);
 
         script.onload = () => {
-        // @ts-ignore - Paystack is loaded dynamically
-        const paystack = window.PaystackPop.setup({
-          key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-          email: donorEmail,
-          amount: Math.round(parseFloat(donationAmount) * 100),
-          ref: data.reference,
-          currency: currency, // Use user-selected currency
-          metadata: {
-            donorName: donorName,
-            donationType: donationType,
-          },
+          // @ts-ignore - Paystack is loaded dynamically
+          const paystack = window.PaystackPop.setup({
+            key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+            email: donorEmail,
+            amount: Math.round(parseFloat(donationAmount) * 100),
+            ref: data.reference,
+            currency: currency, // Use user-selected currency
+            metadata: {
+              donorName: donorName,
+              donationType: donationType,
+            },
             onClose: () => {
               setIsProcessing(false);
-              alert("Payment cancelled. You can try again.");
+              triggerToast("Payment cancelled. You can try again.");
             },
             callback: (response: { reference: string }) => {
               // Verify payment on server
@@ -174,12 +182,12 @@
 
         script.onerror = () => {
           setIsProcessing(false);
-          alert("Failed to load payment gateway. Please try again.");
+          triggerToast("Failed to load payment gateway. Please try again.");
         };
       } catch (error) {
         setIsProcessing(false);
         console.error("Payment initialization error:", error);
-        alert(error instanceof Error ? error.message : "Failed to initialize payment. Please try again.");
+        triggerToast(error instanceof Error ? error.message : "Failed to initialize payment. Please try again.");
       }
     };
 
@@ -189,24 +197,26 @@
         const data = await response.json();
 
         if (response.ok && data.success && data.status === "success") {
-          alert("Thank you for your generous donation! Your payment has been processed successfully.");
-          handleClose();
+          triggerToast("Thank you for your generous donation! Your payment has been processed successfully.");
+          setTimeout(() => {
+            handleClose();
+          }, 2000);
         } else {
-          alert("Payment verification failed. Please contact us if you were charged.");
+          triggerToast("Payment verification failed. Please contact us if you were charged.");
           setIsProcessing(false);
         }
       } catch (error) {
         console.error("Payment verification error:", error);
-        alert("Payment verification failed. Please contact us if you were charged.");
+        triggerToast("Payment verification failed. Please contact us if you were charged.");
         setIsProcessing(false);
       }
     };
 
-  const handleSubmit = async () => {
-    if (!paymentMethod) {
-      alert("Please select a payment method");
-      return;
-    }
+    const handleSubmit = async () => {
+      if (!paymentMethod) {
+        triggerToast("Please select a payment method");
+        return;
+      }
 
     // Always trigger Paystack API to handle the transaction
     // The payment method selection is for user preference and instructions
@@ -612,9 +622,28 @@
     </div>
   );
 
+  // Toast Notification
+  {activeToast && (
+    <div className="fixed bottom-6 right-6 z-[200] bg-slate-900 text-white text-sm font-bold px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-300 max-w-md">
+      <span>💚</span>
+      <span>{activeToast}</span>
+    </div>
+  )}
+
   // Use portal to render modal at the root level to avoid z-index and overflow issues
   if (typeof document !== "undefined") {
-    return createPortal(modalContent, document.body);
+    return createPortal(
+      <>
+        {modalContent}
+        {activeToast && (
+          <div className="fixed bottom-6 right-6 z-[200] bg-slate-900 text-white text-sm font-bold px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-300 max-w-md">
+            <span>💚</span>
+            <span>{activeToast}</span>
+          </div>
+        )}
+      </>,
+      document.body
+    );
   }
 
   return null;

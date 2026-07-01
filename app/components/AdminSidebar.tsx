@@ -194,13 +194,7 @@ export default function AdminSidebar({
               Activity Logs
             </a>
 
-            <a
-              href="/admin/ministries"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <Users size={18} />
-              Ministies
-            </a>
+            
           </nav>
         </div>
 
