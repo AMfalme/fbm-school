@@ -21,7 +21,35 @@ import {
 } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+
+const navItems = [
+  { section: "Dashboard", items: [
+    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/media", label: "Media & Gallery", icon: ImageIcon },
+    { href: "/admin/managements", label: "Management Team", icon: Church },
+    { href: "/admin/users", label: "User Roles", icon: UserCog },
+  ]},
+  { section: "Donations", items: [
+    { href: "/admin/donations", label: "Donations", icon: HandCoins },
+    { href: "/admin/partners", label: "Partners", icon: HeartHandshake },
+  ]},
+  { section: "Messages", items: [
+    { href: "/admin/contacts", label: "Contact Messages", icon: Mail },
+    { href: "/admin/partners", label: "Partner Inquiries", icon: MessageSquare },
+  ]},
+  { section: "Notifications", items: [
+    { href: "/admin/notifications", label: "All Notifications", icon: Bell },
+  ]},
+  { section: "Administration", items: [
+    { href: "/admin/settings", label: "Site Settings", icon: Settings },
+    { href: "/admin/ministries", label: "Ministries", icon: Church },
+    { href: "/admin/logs", label: "Activity Logs", icon: ClipboardList },
+  ]},
+  { section: "Session & Navigation", items: [
+    { href: "/", label: "Go to Homepage", icon: Home },
+  ]},
+];
 
 export default function AdminSidebar({
   className,
@@ -29,6 +57,7 @@ export default function AdminSidebar({
   className?: string;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -44,6 +73,11 @@ export default function AdminSidebar({
     setIsMobileOpen(false);
   };
 
+  const isActive = (href: string) => {
+    if (href === "/admin") return pathname === "/admin";
+    return pathname.startsWith(href);
+  };
+
   const sidebarContent = (
     <>
       {/* Header */}
@@ -52,206 +86,61 @@ export default function AdminSidebar({
           <p className="text-xs uppercase tracking-[0.25em] text-blue-100">
             Freedom Baptist Mission
           </p>
-
-          <h2 className="mt-2 text-xl font-black">
-            Admin Portal
-          </h2>
+          <h2 className="mt-2 text-xl font-black">Admin Portal</h2>
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 px-4 py-6">
-        <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-          Dashboard
-        </p>
+      <div className="flex-1 px-4 py-6 overflow-y-auto">
+        {navItems.map((section) => (
+          <div key={section.section} className="mb-6">
+            <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              {section.section}
+            </p>
+            <nav className="flex flex-col gap-1">
+              {section.items.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMobileSidebar}
+                    className={`flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition ${
+                      active
+                        ? "bg-[#0055b8] text-white"
+                        : "text-slate-300 hover:bg-slate-900 hover:text-white"
+                    }`}
+                  >
+                    <item.icon size={18} />
+                    {item.label}
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
+        ))}
 
-        <nav className="flex flex-col gap-1">
-          <a
-            href="/admin"
-            onClick={closeMobileSidebar}
-            className="flex items-center gap-3 rounded-xl bg-[#0055b8] px-4 py-3 font-medium text-white transition hover:bg-[#0b67d0]"
+        {/* Logout */}
+        <div className="mt-6">
+          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Session
+          </p>
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-red-400 transition hover:bg-red-950/30 hover:text-red-300"
           >
-            <LayoutDashboard size={18} />
-            Dashboard
-          </a>
-
-          <a
-            href="/admin/media"
-            onClick={closeMobileSidebar}
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-          >
-            <ImageIcon size={18} />
-            Media & Gallery
-          </a>
-
-          <a
-            href="/admin/managements"
-            onClick={closeMobileSidebar}
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-          >
-            <Church size={18} />
-            Management Team
-          </a>
-
-          <a
-            href="/admin/users"
-            onClick={closeMobileSidebar}
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-          >
-            <UserCog size={18} />
-            User Roles
-          </a>
-        </nav>
-
-        {/* Donations */}
-        <div className="mt-8">
-          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Donations
-          </p>
-
-          <nav className="flex flex-col gap-1">
-            <a
-              href="/admin/donations"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <HandCoins size={18} />
-              Donations
-            </a>
-
-            <a
-              href="/admin/partners"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <HeartHandshake size={18} />
-              Partners
-            </a>
-          </nav>
-        </div>
-
-        {/* Messages */}
-        <div className="mt-8">
-          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Messages
-          </p>
-
-          <nav className="flex flex-col gap-1">
-            <a
-              href="/admin/contacts"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <Mail size={18} />
-              Contact Messages
-            </a>
-
-            <a
-              href="/admin/partners"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <MessageSquare size={18} />
-              Partner Inquiries
-            </a>
-          </nav>
-        </div>
-
-        {/* Notifications */}
-        <div className="mt-8">
-          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Notifications
-          </p>
-
-          <nav className="flex flex-col gap-1">
-            <a
-              href="/admin/notifications"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <Bell size={18} />
-              All Notifications
-            </a>
-          </nav>
-        </div>
-
-        {/* Administration */}
-        <div className="mt-8">
-          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Administration
-          </p>
-
-          <nav className="flex flex-col gap-1">
-            <a
-              href="/admin/settings"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <Settings size={18} />
-              Site Settings
-            </a>
-
-            <a
-              href="/admin/ministries"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <Church size={18} />
-              Ministries
-            </a>
-
-            <a
-              href="/admin/logs"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <ClipboardList size={18} />
-              Activity Logs
-            </a>
-          </nav>
-        </div>
-
-        {/* Session & Navigation */}
-        <div className="mt-8">
-          <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Session & Navigation
-          </p>
-
-          <nav className="flex flex-col gap-1">
-            <a
-              href="/"
-              onClick={closeMobileSidebar}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
-            >
-              <Home size={18} />
-              Go to Homepage
-            </a>
-
-            <button
-              onClick={handleLogout}
-              className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-red-400 transition hover:bg-red-950/30 hover:text-red-300"
-            >
-              <LogOut size={18} />
-              Log Out
-            </button>
-          </nav>
+            <LogOut size={18} />
+            Log Out
+          </button>
         </div>
       </div>
 
       {/* Footer */}
       <div className="border-t border-slate-800 p-5">
         <div className="rounded-2xl bg-slate-900 p-4">
-          <p className="text-xs uppercase tracking-wider text-slate-400">
-            Ministry Status
-          </p>
-
-          <p className="mt-2 text-sm font-semibold text-emerald-400">
-            System Online
-          </p>
-
-          <p className="mt-1 text-xs text-slate-500">
-            Admin management portal active.
-          </p>
+          <p className="text-xs uppercase tracking-wider text-slate-400">Ministry Status</p>
+          <p className="mt-2 text-sm font-semibold text-emerald-400">System Online</p>
+          <p className="mt-1 text-xs text-slate-500">Admin management portal active.</p>
         </div>
       </div>
     </>
@@ -292,9 +181,7 @@ export default function AdminSidebar({
         <div className="fixed inset-0 z-50 lg:hidden">
           <aside className="absolute left-0 top-0 h-screen w-72 overflow-y-auto bg-slate-950 text-white shadow-2xl animate-in slide-in-from-left duration-300">
             <div className="flex items-center justify-between border-b border-slate-800 p-4">
-              <span className="text-sm font-semibold uppercase tracking-[0.24em]">
-                Menu
-              </span>
+              <span className="text-sm font-semibold uppercase tracking-[0.24em]">Menu</span>
               <button
                 type="button"
                 onClick={closeMobileSidebar}

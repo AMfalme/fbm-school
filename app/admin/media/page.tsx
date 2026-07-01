@@ -287,7 +287,7 @@ export default function AdminMediaPage() {
     <div className="flex">
       <AdminSidebar />
 
-      <main className="ml-72 min-h-screen w-full bg-[#F8FAFC] p-8">
+      <main className="ml-0 lg:ml-72 min-h-screen w-full bg-[#F8FAFC] p-8 pt-20 lg:pt-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 flex items-center justify-between">
             <h1 className="text-3xl font-black text-slate-950">Media & Gallery Management</h1>
