@@ -153,6 +153,7 @@ export default function UserRolesPage() {
               No registered user profiles found in Firestore.
             </div>
           ) : (
+            <>
             <div className="block lg:hidden space-y-4">
               {usersList.map((item) => (
                 <div key={item.id} className="bg-white rounded-2xl border border-slate-100 p-4 shadow-sm">
@@ -261,6 +262,7 @@ export default function UserRolesPage() {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </section>
 
