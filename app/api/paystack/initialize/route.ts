@@ -3,12 +3,21 @@ import { db } from "@/app/lib/firebase";
 import { doc, setDoc, serverTimestamp, collection } from "firebase/firestore";
 
 export async function POST(request: Request) {
+  console.log("==========================================");
+  console.log("🚀 PAYSTACK INITIALIZE ENDPOINT CALLED");
+  console.log("===========================================");
+  console.log("Timestamp:", new Date().toISOString());
+  console.log("Request method:", request.method);
+  console.log("Request URL:", request.url);
+  
   try {
     const body = await request.json();
     const { email, amount, donorName, currency = "KES" } = body;
+    console.log("📦 Request body:", { email, amount, donorName, currency });
 
     // Validate required fields
     if (!email || !amount) {
+      console.log("❌ Missing required fields");
       return NextResponse.json(
         { error: "Missing required fields: email and amount are required" },
         { status: 400 }
@@ -72,6 +81,8 @@ export async function POST(request: Request) {
     });
 
     let data = await response.json();
+    console.log("📊 Paystack API response status:", response.status);
+    console.log("📊 Paystack API response data:", JSON.stringify(data, null, 2));
 
     // If currency not supported, retry with USD
     if (!response.ok || !data.status) {
@@ -119,10 +130,16 @@ export async function POST(request: Request) {
       }
     }
 
+    console.log("✅ Paystack API call successful, proceeding to save to Firestore");
     // Save transaction to Firestore AFTER successful Paystack API call
+    console.log("🔥 Starting Firestore save process...");
     try {
       console.log("Attempting to save transaction to Firestore...");
+      console.log("Firebase db object:", db);
+      
       const transactionRef = doc(collection(db, "donations"));
+      console.log("Document reference created:", transactionRef);
+      
       const docData = {
         reference: data.data.reference || reference,
         amount: parseFloat(amount),
@@ -143,10 +160,13 @@ export async function POST(request: Request) {
       
       await setDoc(transactionRef, docData);
       
-      console.log(`✅ Transaction saved to Firestore: ${data.data.reference || reference}`);
+      console.log(`✅ SUCCESS: Transaction saved to Firestore: ${data.data.reference || reference}`);
       console.log(`Document ID: ${transactionRef.id}`);
-    } catch (firebaseError) {
-      console.error("❌ Error saving transaction to Firestore:", firebaseError);
+    } catch (firebaseError: any) {
+      console.error("❌ FAILED: Error saving transaction to Firestore:", firebaseError);
+      console.error("Error type:", firebaseError.constructor.name);
+      console.error("Error code:", firebaseError.code);
+      console.error("Error message:", firebaseError.message);
       console.error("Error details:", JSON.stringify(firebaseError, null, 2));
       // Don't fail the request if Firestore save fails
     }

@@ -7,9 +7,13 @@ import crypto from "crypto";
 // Configure this URL in your Paystack dashboard: https://dashboard.paystack.com/#/settings/developer
 // Webhook URL: https://your-domain.com/api/paystack/webhook
 export async function POST(request: Request) {
+  console.log("🪝 PAYSTACK WEBHOOK ENDPOINT CALLED");
   try {
     const secretKey = process.env.PAYSTACK_SECRET_KEY;
     const webhookSecret = process.env.PAYSTACK_WEBHOOK_SECRET;
+    
+    console.log("🔑 Secret key configured:", !!secretKey);
+    console.log("🔑 Webhook secret configured:", !!webhookSecret);
     
     if (!secretKey) {
       console.error("PAYSTACK_SECRET_KEY is not configured");
@@ -21,6 +25,7 @@ export async function POST(request: Request) {
 
     // Get the raw body for signature verification
     const body = await request.text();
+    console.log("📦 Webhook body received (first 200 chars):", body.substring(0, 200));
     
     // Verify webhook signature if secret is configured
     if (webhookSecret) {
@@ -50,11 +55,14 @@ export async function POST(request: Request) {
     }
     
     const event = JSON.parse(body);
+    console.log("📊 Webhook event type:", event.event);
+    console.log("📊 Full webhook event:", JSON.stringify(event, null, 2));
     
     // Handle different event types
     if (event.event === "charge.success") {
       const transaction = event.data;
       
+      console.log("✅ Processing charge.success for reference:", transaction.reference);
       // Update transaction status to success
       await updateTransactionStatus(
         transaction.reference,

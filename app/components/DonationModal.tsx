@@ -200,7 +200,7 @@
           triggerToast("Thank you for your generous donation! Your payment has been processed successfully.");
           setTimeout(() => {
             handleClose();
-          }, 2000);
+          }, 5000);
         } else {
           triggerToast("Payment verification failed. Please contact us if you were charged.");
           setIsProcessing(false);
