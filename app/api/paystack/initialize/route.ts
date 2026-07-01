@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import { db } from "@/app/lib/firebase";
+import { doc, setDoc, serverTimestamp, collection } from "firebase/firestore";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, amount, donorName } = body;
+    const { email, amount, donorName, currency = "KES" } = body;
 
     // Validate required fields
     if (!email || !amount) {
@@ -38,8 +40,32 @@ export async function POST(request: Request) {
     // Generate unique reference
     const reference = `DON-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 
+    // Create transaction record in Firestore
+    try {
+      const transactionRef = doc(collection(db, "donations"));
+      await setDoc(transactionRef, {
+        reference: reference,
+        amount: parseFloat(amount),
+        currency: currency,
+        status: "pending",
+        statusMessage: "Payment initiated, awaiting completion",
+        donorName: donorName || "Anonymous",
+        donorEmail: email,
+        paymentMethod: "paystack",
+        paymentType: "one-time",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+      console.log(`Transaction record created for ${reference}`);
+    } catch (firebaseError) {
+      console.error("Error creating transaction record:", firebaseError);
+      // Don't fail the request if Firestore save fails
+    }
+
     // Initialize transaction with Paystack
-    const response = await fetch("https://api.paystack.co/transaction/initialize", {
+    // Try with user's selected currency first, fallback to USD if not supported
+    let paystackCurrency = currency;
+    let response = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${secretKey}`,
@@ -49,10 +75,11 @@ export async function POST(request: Request) {
         email,
         amount: amountInCents,
         reference,
-        currency: "USD", // Change to "KES" if using Kenyan Shillings
+        currency: paystackCurrency,
         metadata: {
           donorName: donorName || "Anonymous",
           donationType: "one-time",
+          originalCurrency: currency,
           custom_fields: [
             {
               display_name: "Donor Name",
@@ -65,14 +92,52 @@ export async function POST(request: Request) {
       }),
     });
 
-    const data = await response.json();
+    let data = await response.json();
 
+    // If currency not supported, retry with USD
     if (!response.ok || !data.status) {
-      console.error("Paystack initialization error:", data);
-      return NextResponse.json(
-        { error: data.message || "Failed to initialize payment" },
-        { status: 400 }
-      );
+      const errorMessage = data.message || "";
+      if (errorMessage.toLowerCase().includes("currency") || errorMessage.toLowerCase().includes("not supported")) {
+        console.log(`Currency ${paystackCurrency} not supported, falling back to USD`);
+        paystackCurrency = "USD";
+        
+        response = await fetch("https://api.paystack.co/transaction/initialize", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${secretKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            amount: amountInCents,
+            reference,
+            currency: paystackCurrency,
+            metadata: {
+              donorName: donorName || "Anonymous",
+              donationType: "one-time",
+              originalCurrency: currency,
+              custom_fields: [
+                {
+                  display_name: "Donor Name",
+                  variable_name: "donor_name",
+                  value: donorName || "Anonymous",
+                },
+              ],
+            },
+            callback_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/donations?status=success`,
+          }),
+        });
+
+        data = await response.json();
+      }
+      
+      if (!response.ok || !data.status) {
+        console.error("Paystack initialization error:", data);
+        return NextResponse.json(
+          { error: data.message || "Failed to initialize payment" },
+          { status: 400 }
+        );
+      }
     }
 
     // Return the authorization URL and reference

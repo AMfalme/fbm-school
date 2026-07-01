@@ -20,6 +20,9 @@ interface Settings {
   }>;
   mpesaPaybill?: string;
   mpesaAccount?: string;
+  mpesaAccountName?: string;
+  mpesaPaymentMessage?: string;
+  allowPaymentEdit?: boolean;
   siteName: string;
   siteDescription: string;
   contactPhone: string;
@@ -38,6 +41,9 @@ export default function AdminSettingsPage() {
     bankAccounts: [],
     mpesaPaybill: "522533",
     mpesaAccount: "8064880",
+    mpesaAccountName: "Freedom Baptist Mission",
+    mpesaPaymentMessage: "Please include your full name and donation purpose in the payment reference.",
+    allowPaymentEdit: true,
     siteName: "Freedom Baptist Mission",
     siteDescription: "Transforming Lives Across Kenya & Beyond Through Spreading The Gospel",
     contactPhone: "+254 701 940 540",
@@ -235,8 +241,113 @@ export default function AdminSettingsPage() {
             </button>
           </div>
 
-          {/* Bank Accounts Section */}
+          {/* Payment Edit Toggle */}
           <div className="rounded-3xl bg-white p-6 shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">Payment Information Edit Control</h2>
+                <p className="text-sm text-slate-600 mt-1">
+                  Control whether payment information can be edited from the public donation page. When disabled, payment details are read-only for public users.
+                </p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={settings.allowPaymentEdit || false}
+                  onChange={(e) => setSettings({ ...settings, allowPaymentEdit: e.target.checked })}
+                  className="sr-only peer"
+                />
+                <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#0055b8]"></div>
+                <span className="ml-3 text-sm font-medium text-slate-700">
+                  {settings.allowPaymentEdit ? "Enabled" : "Disabled"}
+                </span>
+              </label>
+            </div>
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+              <p className="text-sm text-gray-700">
+                <strong>ℹ️ How it works:</strong> When enabled, admins can edit payment information. When disabled, payment details are locked and cannot be modified from the public interface.
+              </p>
+            </div>
+          </div>
+
+          {/* M-Pesa Payment Settings Section */}
+          <div className={`rounded-3xl bg-white p-6 shadow-lg ${!settings.allowPaymentEdit ? 'opacity-75' : ''}`}>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">M-Pesa Payment Settings</h2>
+                <p className="text-sm text-slate-600 mt-1">
+                  Configure Lipa Na M-Pesa payment details. These will be displayed to users for donations via M-Pesa.
+                </p>
+              </div>
+              {!settings.allowPaymentEdit && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">
+                  🔒 Read-Only Mode
+                </span>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Paybill Number *</label>
+                  <input
+                    type="text"
+                    value={settings.mpesaPaybill || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
+                    placeholder="e.g. 522533"
+                    disabled={!settings.allowPaymentEdit}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">M-Pesa paybill business number</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Account Number *</label>
+                  <input
+                    type="text"
+                    value={settings.mpesaAccount || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaAccount: e.target.value })}
+                    placeholder="e.g. 8064880"
+                    disabled={!settings.allowPaymentEdit}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Account number for the donation</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Account Name</label>
+                  <input
+                    type="text"
+                    value={settings.mpesaAccountName || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaAccountName: e.target.value })}
+                    placeholder="e.g. Freedom Baptist Mission"
+                    disabled={!settings.allowPaymentEdit}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Name associated with the M-Pesa account</p>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Payment Instructions Message</label>
+                  <textarea
+                    value={settings.mpesaPaymentMessage || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaymentMessage: e.target.value })}
+                    placeholder="Enter any important instructions for donors (e.g., include reference details)"
+                    rows={3}
+                    disabled={!settings.allowPaymentEdit}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">This message will be displayed to users during the donation process</p>
+                </div>
+              </div>
+
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <p className="text-sm text-gray-700">
+                  <strong>ℹ️ M-Pesa Integration:</strong> These details will be displayed to users on the donation page. Users can donate via Lipa Na M-Pesa using the paybill and account number provided.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bank Accounts Section */}
+          <div className={`rounded-3xl bg-white p-6 shadow-lg ${!settings.allowPaymentEdit ? 'opacity-75' : ''}`}>
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-2xl font-bold text-slate-900">Bank Accounts</h2>
@@ -244,12 +355,19 @@ export default function AdminSettingsPage() {
                   Bank accounts for receiving donations. These will be displayed on the donation page.
                 </p>
               </div>
-              <button
-                onClick={handleAddBankAccount}
-                className="rounded-xl bg-[#0055b8] px-4 py-2 text-sm font-bold text-white hover:bg-[#003d7a]"
-              >
-                + Add Account
-              </button>
+              {settings.allowPaymentEdit && (
+                <button
+                  onClick={handleAddBankAccount}
+                  className="rounded-xl bg-[#0055b8] px-4 py-2 text-sm font-bold text-white hover:bg-[#003d7a]"
+                >
+                  + Add Account
+                </button>
+              )}
+              {!settings.allowPaymentEdit && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">
+                  🔒 Read-Only Mode
+                </span>
+              )}
             </div>
 
             {settings.bankAccounts.length === 0 ? (
@@ -268,7 +386,8 @@ export default function AdminSettingsPage() {
                           value={account.bankName}
                           onChange={(e) => handleUpdateBankAccount(index, "bankName", e.target.value)}
                           placeholder="e.g. Equity Bank"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
+                          disabled={!settings.allowPaymentEdit}
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
                         />
                       </div>
                       <div>
@@ -278,7 +397,8 @@ export default function AdminSettingsPage() {
                           value={account.accountName}
                           onChange={(e) => handleUpdateBankAccount(index, "accountName", e.target.value)}
                           placeholder="e.g. Freedom Baptist Mission"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
+                          disabled={!settings.allowPaymentEdit}
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
                         />
                       </div>
                       <div>
@@ -288,7 +408,8 @@ export default function AdminSettingsPage() {
                           value={account.accountNumber}
                           onChange={(e) => handleUpdateBankAccount(index, "accountNumber", e.target.value)}
                           placeholder="e.g. 0123456789"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
+                          disabled={!settings.allowPaymentEdit}
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
                         />
                       </div>
                       <div>
@@ -298,7 +419,8 @@ export default function AdminSettingsPage() {
                           value={account.branch}
                           onChange={(e) => handleUpdateBankAccount(index, "branch", e.target.value)}
                           placeholder="e.g. Kisii Branch"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
+                          disabled={!settings.allowPaymentEdit}
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
                         />
                       </div>
                       <div className="md:col-span-2">
@@ -308,61 +430,23 @@ export default function AdminSettingsPage() {
                           value={account.swiftCode}
                           onChange={(e) => handleUpdateBankAccount(index, "swiftCode", e.target.value)}
                           placeholder="e.g. EQBLKENA"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
+                          disabled={!settings.allowPaymentEdit}
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
                         />
                       </div>
                     </div>
-                    <button
-                      onClick={() => handleRemoveBankAccount(index)}
-                      className="text-xs font-bold text-red-600 hover:text-red-700"
-                    >
-                      Remove this account
-                    </button>
+                    {settings.allowPaymentEdit && (
+                      <button
+                        onClick={() => handleRemoveBankAccount(index)}
+                        className="text-xs font-bold text-red-600 hover:text-red-700"
+                      >
+                        Remove this account
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
             )}
-          </div>
-
-          {/* M-Pesa Payment Settings Section */}
-          <div className="rounded-3xl bg-white p-6 shadow-lg">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">M-Pesa Payment Settings</h2>
-            <p className="text-sm text-slate-600 mb-4">
-              Configure Lipa Na M-Pesa payment details. These will be displayed to users for donations via M-Pesa.
-            </p>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Paybill Number *</label>
-                  <input
-                    type="text"
-                    value={settings.mpesaPaybill || ""}
-                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
-                    placeholder="e.g. 522533"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 text-slate-900"
-                  />
-                  <p className="text-xs text-slate-500 mt-1">M-Pesa paybill business number</p>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Account Number *</label>
-                  <input
-                    type="text"
-                    value={settings.mpesaAccount || ""}
-                    onChange={(e) => setSettings({ ...settings, mpesaAccount: e.target.value })}
-                    placeholder="e.g. 8064880"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20  text-slate-900"
-                  />
-                  <p className="text-xs text-slate-500 mt-1">Account number for the donation</p>
-                </div>
-              </div>
-
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-                <p className="text-sm text-gray-700">
-                  <strong>ℹ️ M-Pesa Integration:</strong> These details will be displayed to users on the donation page. Users can donate via Lipa Na M-Pesa using the paybill and account number provided.
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* Site Information Section */}
