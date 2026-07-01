@@ -86,9 +86,12 @@ export default function AdminDonationsPage() {
       const q = query(donationsRef, orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       
+      console.log(`Fetched ${querySnapshot.docs.length} donations from Firestore`);
+      
       const donationsData: Donation[] = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
+        console.log(`Donation ${doc.id}:`, data.reference, data.status);
         donationsData.push({
           id: doc.id,
           reference: data.reference,
@@ -109,6 +112,7 @@ export default function AdminDonationsPage() {
       });
       
       setDonations(donationsData);
+      console.log("Donations loaded:", donationsData.length);
     } catch (error) {
       console.error("Error fetching donations:", error);
     }

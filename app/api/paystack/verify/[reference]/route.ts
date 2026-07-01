@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../../lib/firebase";
-import { doc, setDoc, serverTimestamp, collection } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
 
 export async function GET(
   request: Request,
@@ -51,33 +51,78 @@ export async function GET(
 
     const transaction = data.data;
 
-    // Save donation record to Firestore
+    // Save/update donation record in Firestore
     try {
-      const donationRef = doc(collection(db, "donations"));
-      await setDoc(donationRef, {
-        reference: transaction.reference,
-        amount: transaction.amount / 100, // Convert from cents to dollars
-        currency: transaction.currency,
-        status: transaction.status,
-        donorName: transaction.metadata?.donorName || "Anonymous",
-        donorEmail: transaction.customer?.email,
-        paymentMethod: "paystack",
-        paymentType: transaction.metadata?.donationType || "one-time",
-        paidAt: transaction.paid_at ? new Date(transaction.paid_at) : serverTimestamp(),
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
+      // Check if transaction already exists
+      const donationsRef = collection(db, "donations");
+      const q = query(donationsRef, where("reference", "==", transaction.reference));
+      const querySnapshot = await getDocs(q);
+      
+      const statusMessage = transaction.status === "success" 
+        ? "Payment completed successfully" 
+        : transaction.gateway_response || `Payment ${transaction.status}`;
 
-      // Create notification for admin
-      const notificationRef = doc(collection(db, "notifications"));
-      await setDoc(notificationRef, {
-        type: "new_donation",
-        title: "New Donation Received",
-        message: `${transaction.metadata?.donorName || "Anonymous"} donated ${transaction.currency} ${(transaction.amount / 100).toFixed(2)}`,
-        read: false,
-        link: "/admin/donations",
-        createdAt: serverTimestamp(),
-      });
+      console.log(`Saving transaction ${transaction.reference} with status: ${transaction.status}`);
+      console.log("Transaction data:", JSON.stringify(transaction, null, 2));
+
+      if (!querySnapshot.empty) {
+        // Update existing transaction
+        const docRef = querySnapshot.docs[0].ref;
+        await setDoc(docRef, {
+          status: transaction.status,
+          statusMessage: statusMessage,
+          amount: transaction.amount / 100,
+          currency: transaction.currency,
+          donorName: transaction.metadata?.donorName || "Anonymous",
+          donorEmail: transaction.customer?.email,
+          paymentMethod: "paystack",
+          paymentType: transaction.metadata?.donationType || "one-time",
+          paidAt: transaction.paid_at ? new Date(transaction.paid_at) : serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          gatewayResponse: transaction.gateway_response,
+          channel: transaction.channel,
+          ipAddress: transaction.ip_address,
+        }, { merge: true });
+        
+        console.log(`Transaction ${transaction.reference} updated successfully`);
+        console.log("Document ID:", docRef.id);
+      } else {
+        // Create new transaction record
+        const donationRef = doc(collection(db, "donations"));
+        await setDoc(donationRef, {
+          reference: transaction.reference,
+          amount: transaction.amount / 100, // Convert from cents to dollars
+          currency: transaction.currency,
+          status: transaction.status,
+          statusMessage: statusMessage,
+          donorName: transaction.metadata?.donorName || "Anonymous",
+          donorEmail: transaction.customer?.email,
+          paymentMethod: "paystack",
+          paymentType: transaction.metadata?.donationType || "one-time",
+          paidAt: transaction.paid_at ? new Date(transaction.paid_at) : serverTimestamp(),
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          gatewayResponse: transaction.gateway_response,
+          channel: transaction.channel,
+          ipAddress: transaction.ip_address,
+        });
+        
+        console.log(`Transaction ${transaction.reference} created successfully`);
+        console.log("Document ID:", donationRef.id);
+      }
+
+      // Create notification for admin if payment was successful
+      if (transaction.status === "success") {
+        const notificationRef = doc(collection(db, "notifications"));
+        await setDoc(notificationRef, {
+          type: "new_donation",
+          title: "New Donation Received",
+          message: `${transaction.metadata?.donorName || "Anonymous"} donated ${transaction.currency} ${(transaction.amount / 100).toFixed(2)}`,
+          read: false,
+          link: "/admin/donations",
+          createdAt: serverTimestamp(),
+        });
+      }
     } catch (firebaseError) {
       console.error("Error saving donation to Firestore:", firebaseError);
       // Don't fail the request if Firestore save fails

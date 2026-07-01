@@ -89,6 +89,7 @@ export async function POST(request: Request) {
           ],
         },
         callback_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/donations?status=success`,
+        // Webhook will handle the actual status update
       }),
     });
 

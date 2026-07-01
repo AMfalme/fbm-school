@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../../lib/firebase";
 import { doc, setDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
+import crypto from "crypto";
 
+// Production webhook endpoint
+// Configure this URL in your Paystack dashboard: https://dashboard.paystack.com/#/settings/developer
 // Webhook URL: https://your-domain.com/api/paystack/webhook
-// Configure this URL in your Paystack dashboard at: https://dashboard.paystack.com/#/settings/developer
 export async function POST(request: Request) {
   try {
-    // Verify Paystack webhook signature
-    const paystackSignature = request.headers.get("x-paystack-signature");
     const secretKey = process.env.PAYSTACK_SECRET_KEY;
+    const webhookSecret = process.env.PAYSTACK_WEBHOOK_SECRET;
     
     if (!secretKey) {
       console.error("PAYSTACK_SECRET_KEY is not configured");
@@ -21,11 +22,32 @@ export async function POST(request: Request) {
     // Get the raw body for signature verification
     const body = await request.text();
     
-    // Note: In production, you should verify the signature using crypto
-    // For now, we'll process the webhook without signature verification
-    // but this should be implemented for security
-    
-    // Webhook endpoint: POST /api/paystack/webhook
+    // Verify webhook signature if secret is configured
+    if (webhookSecret) {
+      const paystackSignature = request.headers.get("x-paystack-signature");
+      
+      if (!paystackSignature) {
+        console.error("Missing webhook signature");
+        return NextResponse.json(
+          { error: "Invalid webhook signature" },
+          { status: 401 }
+        );
+      }
+
+      // Verify the signature
+      const hash = crypto
+        .createHmac("sha512", webhookSecret)
+        .update(body)
+        .digest("hex");
+
+      if (hash !== paystackSignature) {
+        console.error("Invalid webhook signature");
+        return NextResponse.json(
+          { error: "Invalid webhook signature" },
+          { status: 401 }
+        );
+      }
+    }
     
     const event = JSON.parse(body);
     
@@ -78,13 +100,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Always return 200 to acknowledge receipt
     return NextResponse.json({ received: true }, { status: 200 });
     
   } catch (error) {
     console.error("Error processing Paystack webhook:", error);
+    // Still return 200 to prevent Paystack from retrying
     return NextResponse.json(
-      { error: "Failed to process webhook" },
-      { status: 500 }
+      { received: true, error: "Processed with errors" },
+      { status: 200 }
     );
   }
 }

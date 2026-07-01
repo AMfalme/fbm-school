@@ -118,6 +118,8 @@
 
       setIsProcessing(true);
 
+      console.log("Initiating payment with currency:", currency); // Debug log
+
       try {
         // Initialize Paystack transaction
         const response = await fetch("/api/paystack/initialize", {
@@ -129,7 +131,7 @@
             email: donorEmail,
             amount: donationAmount,
             donorName: donorName,
-            currency: "USD", // Always send USD to Paystack
+            currency: currency, // Send user-selected currency
           }),
         });
 
@@ -146,17 +148,17 @@
         document.body.appendChild(script);
 
         script.onload = () => {
-          // @ts-ignore - Paystack is loaded dynamically
-          const paystack = window.PaystackPop.setup({
-            key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-            email: donorEmail,
-            amount: Math.round(parseFloat(donationAmount) * 100),
-            ref: data.reference,
-            currency: "USD",
-            metadata: {
-              donorName: donorName,
-              donationType: donationType,
-            },
+        // @ts-ignore - Paystack is loaded dynamically
+        const paystack = window.PaystackPop.setup({
+          key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+          email: donorEmail,
+          amount: Math.round(parseFloat(donationAmount) * 100),
+          ref: data.reference,
+          currency: currency, // Use user-selected currency
+          metadata: {
+            donorName: donorName,
+            donationType: donationType,
+          },
             onClose: () => {
               setIsProcessing(false);
               alert("Payment cancelled. You can try again.");
@@ -200,20 +202,16 @@
       }
     };
 
-    const handleSubmit = () => {
-      if (!paymentMethod) {
-        alert("Please select a payment method");
-        return;
-      }
+  const handleSubmit = async () => {
+    if (!paymentMethod) {
+      alert("Please select a payment method");
+      return;
+    }
 
-      if (paymentMethod === "paystack") {
-        handlePaystackPayment();
-      } else {
-        // For M-Pesa and Bank Transfer, just show confirmation
-        alert("Thank you for your generous donation! Please follow the payment instructions above to complete your donation.");
-        handleClose();
-      }
-    };
+    // Always trigger Paystack API to handle the transaction
+    // The payment method selection is for user preference and instructions
+    await handlePaystackPayment();
+  };
 
     const modalContent = (
       <div className="fixed inset-0 z-150 flex items-center justify-center p-4">
@@ -480,25 +478,6 @@
                       </div>
                     </div>
                   </button>
-
-                  {settings.bankAccounts && settings.bankAccounts.length > 0 && (
-                    <button
-                      onClick={() => setPaymentMethod("bank")}
-                      className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                        paymentMethod === "bank"
-                          ? "border-emerald-600 bg-emerald-50"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="text-2xl">🏦</div>
-                        <div>
-                          <h5 className="font-bold text-gray-900">Bank Transfer</h5>
-                          <p className="text-xs text-gray-600 mt-1">Direct bank transfer</p>
-                        </div>
-                      </div>
-                    </button>
-                  )}
                 </div>
               </div>
 
@@ -551,31 +530,7 @@
                 </div>
               )}
 
-              {paymentMethod === "bank" && settings.bankAccounts && settings.bankAccounts.length > 0 && (
-                <div className="p-6 bg-blue-50 border-2 border-blue-200 rounded-xl">
-                  <h4 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <span className="text-2xl">🏦</span>
-                    Bank Transfer Option
-                  </h4>
-                  <div className="space-y-3">
-                    {settings.bankAccounts.map((account, index) => (
-                      <div key={index} className="bg-white rounded-lg p-4 border border-blue-100">
-                        <p className="text-sm font-bold text-gray-900 mb-2">{account.bankName}</p>
-                        <div className="space-y-1 text-sm">
-                          <p className="text-gray-700"><span className="font-semibold">Account Name:</span> {account.accountName}</p>
-                          <p className="text-gray-700"><span className="font-semibold">Account Number:</span> {account.accountNumber}</p>
-                          <p className="text-gray-700"><span className="font-semibold">Branch:</span> {account.branch}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                    <p className="text-xs text-gray-700">
-                      <strong>⚠️ Important:</strong> After completing the bank transfer, please send proof of payment to <strong>kenyafbmission@gmail.com</strong> with your full name and donation purpose.
-                    </p>
-                  </div>
-                </div>
-              )}
+              {/* Bank transfer section removed - using Paystack for all transactions */}
 
                   {paymentMethod === "paystack" && (
                     <div className="p-6 bg-purple-50 border-2 border-purple-200 rounded-xl">
