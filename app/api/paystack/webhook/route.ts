@@ -178,26 +178,45 @@ async function updateTransactionStatus(
 
 async function sendDonationConfirmationEmail(transaction: any) {
   try {
-    // This function can be implemented to send email notifications
-    // You can use nodemailer or any email service
-    // For now, we'll just log it
-    console.log(`Sending confirmation email to ${transaction.customer?.email} for donation ${transaction.reference}`);
-    
-    // Example implementation (you'll need to set up email service):
-    // await fetch("/api/send-email", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     to: transaction.customer.email,
-    //     subject: "Thank you for your donation!",
-    //     template: "donation-confirmation",
-    //     data: {
-    //       donorName: transaction.metadata?.donorName,
-    //       amount: transaction.amount / 100,
-    //       reference: transaction.reference,
-    //     },
-    //   }),
-    // });
+    const donorEmail = transaction.customer?.email;
+    const donorName = transaction.metadata?.donorName || "Anonymous";
+    const amount = (transaction.amount / 100).toFixed(2);
+    const reference = transaction.reference;
+    const currency = transaction.currency;
+
+    if (!donorEmail) {
+      console.log("No donor email provided, skipping email notification");
+      return;
+    }
+
+    console.log(`📧 Sending confirmation email to ${donorEmail} for donation ${reference}`);
+
+    // Call the email API endpoint
+    const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/send-email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: donorEmail,
+        subject: "Thank You for Your Donation - Freedom Baptist Mission",
+        template: "donation-confirmation",
+        data: {
+          donorName: donorName,
+          amount: amount,
+          reference: reference,
+          currency: currency,
+        },
+      }),
+    });
+
+    if (emailResponse.ok) {
+      const emailResult = await emailResponse.json();
+      console.log(`✅ Email sent successfully to ${donorEmail}:`, emailResult.messageId);
+    } else {
+      const errorData = await emailResponse.json();
+      console.error("❌ Failed to send email:", errorData);
+    }
   } catch (error) {
     console.error("Error sending confirmation email:", error);
   }
