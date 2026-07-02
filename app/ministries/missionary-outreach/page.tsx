@@ -14,10 +14,10 @@ export default function MissionOutreach() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-emerald-600 selection:text-white flex flex-col antialiased">
-      {/* Global Impact Notification Ticker */}
-      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm z-20">
-        🌍 Current Field Deployment: 2026 Active Community Health &amp; Church Mobilization Matrix
-      </div>
+        {/* Global Impact Notification Ticker */}
+        <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm z-20">
+          📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
+        </div>
 
       <Navbar />
 
@@ -79,8 +79,8 @@ export default function MissionOutreach() {
           {[
             { title: "Christian Faith Academy", desc: "Fully integrated CBC framework pathways across early years cohorts", color: "border-t-emerald-500 text-emerald-600" },
             { title: "Medical Mission Hospital", desc: "Intense, individualized attention per patient profile and critical wellness wing", color: "border-t-blue-500 text-blue-600" },
-            { title: "Faith Bible College", desc: "Every lesson mapped onto a scriptural framework for leadership development", color: "border-t-amber-500 text-amber-600" },
-            { title: "Church Planting Net", desc: "Freedom-based exploration within protective regional structures", color: "border-t-purple-500 text-purple-600" }
+            { title: "Bible College", desc: "Every lesson mapped onto a scriptural framework for leadership development", color: "border-t-amber-500 text-amber-600" },
+            { title: "Church Planting", desc: "Freedom-based exploration within protective regional structures", color: "border-t-purple-500 text-purple-600" }
           ].map((attr, idx) => (
             <div key={idx} className={`bg-white border-t-4 ${attr.color} border-x border-b border-slate-200/60 p-6 rounded-xl shadow-xs transition-transform hover:-translate-y-0.5`}>
               <h3 className="text-sm font-bold text-slate-900">{attr.title}</h3>
@@ -94,10 +94,10 @@ export default function MissionOutreach() {
           <div className="flex justify-center">
             <div className="flex flex-wrap justify-center p-1 bg-slate-200/80 rounded-xl gap-1">
               {[
-                { id: "education", label: "🏛️ School", component: "Faith Academy" },
-                { id: "medical", label: "🏥 Hospital", component: "Medical Wing" },
-                { id: "theology", label: "📜 College", component: "Bible College" },
-                { id: "planting", label: "🌱 Planting", component: "Church Planting" }
+                { id: "education", label: "🏛️ Christian Faith Academy", component: "Faith Academy" },
+                { id: "medical", label: "🏥 Mission Hospital", component: "Medical Wing" },
+                { id: "theology", label: "📜 Bible College", component: "Bible College" },
+                { id: "planting", label: "🌱 Church Planting", component: "Church Planting" }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -131,7 +131,7 @@ export default function MissionOutreach() {
                     </p>
                   </div>
                   <div className="pt-2">
-                    <a href="/branches/faith-academy" className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
+                    <a href="/christian-faith-academy" className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
                       Explore Academy Hub Page &rarr;
                     </a>
                   </div>
@@ -199,7 +199,7 @@ export default function MissionOutreach() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-200">
                 <div className="lg:col-span-5 space-y-4">
                   <span className="bg-amber-50 text-amber-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Leadership Endowment</span>
-                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Faith Bible College</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Bible College</h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
                     Equipping national pastors, church leaders, and lay ministers with rigorous biblical exposition, historical text mechanics, and foundational ministerial methodology.
                   </p>

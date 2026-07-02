@@ -121,8 +121,8 @@ export default function ChurchPlanting() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-emerald-600 selection:text-white flex flex-col antialiased">
       {/* Global Impact Notification Ticker */}
-      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm z-20">
-        🌍 Indigenous Expansion: Securing Local Church Autonomy Throughout East Africa
+      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-widest text-white shadow-sm z-20">
+        📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
       </div>
 
       <Navbar />

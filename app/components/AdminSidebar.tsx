@@ -18,6 +18,7 @@ import {
   Bell,
   Menu,
   X,
+  FileText,
 } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
@@ -45,6 +46,9 @@ const navItems = [
     { href: "/admin/settings", label: "Site Settings", icon: Settings },
     { href: "/admin/ministries", label: "Ministries", icon: Church },
     { href: "/admin/logs", label: "Activity Logs", icon: ClipboardList },
+  ]},
+  { section: "Academy", items: [
+    { href: "/admin/academy-applications", label: "Academy Applications", icon: FileText },
   ]},
   { section: "Session & Navigation", items: [
     { href: "/", label: "Go to Homepage", icon: Home },

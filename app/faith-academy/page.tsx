@@ -14,8 +14,8 @@ export default function FaithAcademy() {
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a] flex flex-col antialiased">
       {/* Dynamic Status Alert Ticker */}
-      <div className="bg-[#003d7a] text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white z-20 shadow-sm">
-        📣 Now Enrolling for the Current Term: PP1, PP2, &amp; Grade 1 (CBC Track)
+      <div className="bg-[#16a34a] text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-widest text-white z-20 shadow-sm">
+        📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
       </div>
 
       <Navbar />

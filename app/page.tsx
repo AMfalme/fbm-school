@@ -4,10 +4,10 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a]">
-      {/* Global Banner Announcement */}
-      <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
-        📢 Transforming Lives Across Kenya & Beyond Through Spreading The Gospel
-      </div>
+        {/* Global Banner Announcement */}
+        <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
+          📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
+        </div>
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 space-y-24 sm:space-y-32">
         <Navbar />
@@ -32,7 +32,7 @@ export default function Home() {
             </h1>
 
             <p className="max-w-xl text-lg text-slate-600 font-medium leading-relaxed">
-              Freedom Baptist Mission is a professional, independent global agency mobilizing local resources to establish self-sustaining, gospel-centered works across East Africa.
+              Freedom Baptist Mission is a mission organization called to spread the Gospel, plant churches, and teach the Gospel to people with no formal knowledge—building lasting faith communities across Kenya and beyond.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
@@ -114,7 +114,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <a href="/church" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
+              <a href="/ministries/missionary-outreach" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
                 Access Church Profile <span className="text-lg">→</span>
               </a>
             </div>
@@ -146,9 +146,9 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <a href="/academy" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
-                Go to School Portal <span className="text-lg">→</span>
-              </a>
+                <a href="/christian-faith-academy" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
+                  Go to School Portal <span className="text-lg">→</span>
+                </a>
             </div>
           </div>
         </section>

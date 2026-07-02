@@ -14,9 +14,9 @@ export default function MedicalMinistry() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a] flex flex-col">
-      {/* Dynamic Operational Alert Ticker */}
-      <div className="bg-[#003d7a] text-center px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white z-50">
-        🚑 EMERGENCY ALERT: 24/7 Outpatient, Diagnostics &amp; Maternity Services Are Fully Operational
+      {/* Global Banner Announcement */}
+      <div className="bg-[#16a34a] text-center px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white z-50">
+        � Spreading the Gospel • Planting Churches • Teaching the Gospel to All
       </div>
 
       <Navbar />

@@ -1,3 +1,5 @@
+"use client";
+
 export default function Footer() {
   return (
     <footer className="bg-slate-950 text-white">
@@ -34,14 +36,13 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-[#FFD966]">Quick Links</h3>
-            <nav className="flex flex-col space-y-2">
-              <a href="/" className="text-sm text-slate-300 hover:text-white transition">Home</a>
-              <a href="/about" className="text-sm text-slate-300 hover:text-white transition">The Mission</a>
-              <a href="/bible-college" className="text-sm text-slate-300 hover:text-white transition">Bible College</a>
-              <a href="/church-planting" className="text-sm text-slate-300 hover:text-white transition">Church Planting</a>
-              <a href="/school" className="text-sm text-slate-300 hover:text-white transition">The School</a>
-              <a href="/contact" className="text-sm text-slate-300 hover:text-white transition">Contact</a>
-            </nav>
+              <nav className="flex flex-col space-y-2">
+                <a href="/ministries/missionary-outreach" className="text-sm text-slate-300 hover:text-white transition">Mission outreach</a>
+                <a href="/church-planting" className="text-sm text-slate-300 hover:text-white transition">Church Planting</a>
+                <a href="/bible-college" className="text-sm text-slate-300 hover:text-white transition">FBM - Bible College</a>
+                <a href="/christian-faith-academy" className="text-sm text-slate-300 hover:text-white transition">FBM - Christian Faith Academy</a>
+                <a href="/hospital-project" className="text-sm text-slate-300 hover:text-white transition">FBM - Mission Hospital</a>
+              </nav>
           </div>
 
           {/* Contact Info */}

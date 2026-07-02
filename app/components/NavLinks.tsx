@@ -7,21 +7,19 @@ import { auth, db } from "../lib/firebase";
 import { useRouter } from "next/navigation";
 
 export default function NavLinks() {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-
-  
-    const router = useRouter();
   const handleLogout = async () => {
-      try {
-        await signOut(auth);
-        router.push("/login");
-      } catch (error) {
-        console.error("Error logging out from admin panel:", error);
-      }
-    };
+    try {
+      await signOut(auth);
+      router.push("/login");
+    } catch (error) {
+      console.error("Error logging out from admin panel:", error);
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
@@ -90,16 +88,16 @@ export default function NavLinks() {
             Church Planting
           </a>
 
-          <a href="/faith-academy" className="block rounded px-4 py-2 hover:bg-slate-100">
-            FBM- Christian Faith Academy
+          <a href="/christian-faith-academy" className="block rounded px-4 py-2 hover:bg-slate-100">
+            FBM - Christian Faith Academy
           </a>
 
           <a href="/bible-college" className="block rounded px-4 py-2 hover:bg-slate-100">
-            Bible College
+            FBM - Bible College
           </a>
 
           <a href="/hospital-project" className="block rounded px-4 py-2 hover:bg-slate-100">
-            Medical Ministry (Hospital Project)
+            FBM - Mission Hospital
           </a>
         </div>
       </div>
@@ -109,12 +107,9 @@ export default function NavLinks() {
         Media
       </a>
 
-      <a href="/give" className="transition hover:text-[#0055b8]">
-        Donate
-      </a>
 
       <a href="/contact" className="transition hover:text-[#0055b8]">
-        Contact
+        Contact Us
       </a>
 
       {user ? (
