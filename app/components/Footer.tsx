@@ -85,8 +85,16 @@ export default function Footer() {
               © 2026 Freedom Baptist Mission. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-xs text-slate-400">
+              <div>
               <span>Built with Freedom and excellence</span>
               <span className="text-[#16a34a]">🕊️</span>
+              </div>
+
+              <br/>
+              <div>
+
+                by Griffin Mfalme
+              </div>
             </div>
           </div>
         </div>

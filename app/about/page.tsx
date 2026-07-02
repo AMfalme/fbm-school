@@ -50,7 +50,7 @@ export default function About() {
               We believe that long-term community transformation is entirely dependent on spiritual alignment. Our administrative methodology focuses tightly on building permanent, structurally sound spiritual structures rather than transient, dependency-heavy relief. 
             </p>
             <p className="text-slate-600 leading-relaxed">
-              Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expansion matrix: evangelizing unreached rural communities, offering high-level academic pathways for local pastors, and training children via robust christian foundational schooling. You can review the frontlines team executing this strategy on our <a href="/missionaries" className="text-[#0055b8] font-bold underline">Missionaries tracker</a>.
+Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expansion matrix: evangelizing unreached rural communities, offering high-level academic pathways for local pastors, and training children via robust christian foundational schooling. You can review the frontlines team executing this strategy on our <a href="/ministries/missionary-outreach" className="text-[#0055b8] font-bold underline">Missionary Outreach page</a>.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
               <div className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm">
@@ -132,7 +132,7 @@ export default function About() {
                 <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-3 py-1 rounded-md">
                   🎓 Foundational Community Schooling
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">The School (Christian Faith Academy)</h3>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">The Academy (Christian Faith Academy)</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
                   Our official institutional childhood educational asset, actively training students from Kindergarten up to Primary 3. We recognize that early childhood conditioning dictates subsequent generational culture, which is why we approach education seriously.
                 </p>

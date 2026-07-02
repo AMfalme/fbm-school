@@ -73,12 +73,12 @@ export default function Home() {
           <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="pt-6 md:pt-0">
               <span className="text-4xl sm:text-5xl font-black block text-[#FFD966]">01</span>
-              <h3 className="text-lg font-bold mt-2">Evangelism & Planting</h3>
+              <h3 className="text-lg font-bold mt-2">Evangelism & Church Planting</h3>
               <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Establishing independent Baptist churches deep in unreached locations.</p>
             </div>
             <div className="pt-6 md:pt-0">
               <span className="text-4xl sm:text-5xl font-black block text-[#FFD966]">02</span>
-              <h3 className="text-lg font-bold mt-2">Theological Academy</h3>
+              <h3 className="text-lg font-bold mt-2">Theology - Bible College</h3>
               <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Rigorous modules preparing native church planters for structural success.</p>
             </div>
             <div className="pt-6 md:pt-0">
