@@ -273,8 +273,8 @@ export default function MissionOutreach() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[
-              { src: "/school/playground.jpeg", title: "Active Community Engagement", desc: "Structured play, baseline physical execution, and targeted community field health programs are prioritized weekly." },
-              { src: "/school/playground 1.jpeg", title: "Insulated, Safe Environments", desc: "A wholesome atmosphere where emerging leadership cohorts develop securely, free from competing ideological parameters." }
+              { src: "/church/mgt.png", title: "Active Community Engagement", desc: "Structured play, baseline physical execution, and targeted community field health programs are prioritized weekly." },
+              { src: "/church/visitation.jpg", title: "Insulated, Safe Environments", desc: "A wholesome atmosphere where emerging leadership cohorts develop securely, free from competing ideological parameters." }
             ].map((img, idx) => (
               <div key={idx} className="group bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
                 <div className="overflow-hidden bg-slate-100">

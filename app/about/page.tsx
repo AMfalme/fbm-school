@@ -30,9 +30,9 @@ export default function About() {
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 relative">
             <div className="absolute inset-0 bg-gradient-to-br from-[#16a34a]/10 to-transparent rounded-[40px] blur-3xl -z-10" />
-            <div className="aspect-[4/5] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.12)] border-4 border-white">
+            <div className="aspect-[5/5] overflow-hidden rounded-[36px] bg-slate-100 shadow-[0_32px_64px_-12px_rgba(0,61,122,0.12)] border-4 border-white">
               <img 
-                src="/church/church choir.png" 
+                src="/school/about-hero.png" 
                 alt="Missionary team fellowship and collaboration" 
                 className="h-full w-full object-cover"
               />

@@ -88,7 +88,7 @@ export default function NavLinks() {
             FBM - Church Planting
           </a>
 
-          <a href="/christian-faith-academy" className="block rounded px-4 py-2 hover:bg-slate-100">
+          <a href="/ministries/christian-faith-academy" className="block rounded px-4 py-2 hover:bg-slate-100">
             FBM - Christian Faith Academy
           </a>
 
