@@ -29,7 +29,7 @@ export default function FaithAcademy() {
             </span>
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto font-medium">
-            Christian Faith Academy delivers an enriched Competency Based Curriculum (CBC) designed to foster deep personal discovery, rigorous foundational literacy, and an unwavering love for Christ.
+            Christian Faith Academy delivers a rich Competency Based Curriculum (CBC) that encourages each child's growth in reading, learning, and love for Christ.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <button 
@@ -146,7 +146,7 @@ export default function FaithAcademy() {
               <div className="lg:col-span-6 space-y-4">
                 <h3 className="text-xl font-bold text-slate-950 tracking-tight">Christian Freedom-Based Learning</h3>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  True education avoids rigid, production-line factory schooling. We combine fixed biblical standards with structural individual agency, fostering internal self-governance.
+                  We believe every child is unique. Our approach nurtures personal growth, creative thinking, and strong character guided by biblical values.
                 </p>
                 <blockquote className="text-xs text-slate-700 italic border-l-2 border-[#003d7a] pl-3 py-1 font-medium bg-slate-50">
                   "Where the Spirit of the Lord is, there is liberty. We apply this principle to learning by guiding children to explore creation without fear of failure."
@@ -182,9 +182,9 @@ export default function FaithAcademy() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
-                  { step: "Step 01", title: "Document Submission", desc: "Submit the official birth registration certificate copy, medical clinic immunization history, and filled application papers to our office." },
-                  { step: "Step 02", title: "Parent Interview", desc: "Both parents meet our board to confirm intentional structural alignment regarding educational expectations and moral philosophies." },
-                  { step: "Step 03", title: "Placement Consultation", desc: "A pressure-free evaluation helps verify reading readiness and motor coordination levels to determine proper PP1 or PP2 grouping." }
+                  { step: "Step 01", title: "Submit Application", desc: "Complete our enrollment form and provide your child's birth certificate, immunization records, and previous school reports." },
+                  { step: "Step 02", title: "Family Meeting", desc: "Meet with our team to discuss your educational goals and ensure our school's values align with your family's beliefs." },
+                  { step: "Step 03", title: "Placement Assessment", desc: "A gentle, supportive assessment to understand your child's readiness and place them in the appropriate grade level." }
                 ].map((phase, idx) => (
                   <div key={idx} className="bg-slate-50/50 p-5 rounded-xl border border-slate-200/60">
                     <span className="text-xs font-bold text-[#003d7a] block">{phase.step}</span>

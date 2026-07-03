@@ -59,7 +59,7 @@ export default function DashboardPage() {
     {
       id: "pr-2",
       title: "Student Preacher Module Exam Weeks",
-      location: "Bible Mission College Campus",
+      location: "Bible College",
       need: "Pray for clarity, memory, and spiritual stamina for our 14 native candidates finishing homiletics.",
       prayersCount: 58
     },

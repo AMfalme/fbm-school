@@ -12,7 +12,7 @@ export default function Home() {
           <div className="lg:col-span-7 space-y-6 text-left">
             <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-700">
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              The Great Commission in Action
+              Called. Equipped. Sent.
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
@@ -27,7 +27,7 @@ export default function Home() {
             </h1>
 
             <p className="max-w-xl text-lg text-slate-600 font-medium leading-relaxed">
-              Freedom Baptist Mission is a mission organization called to spread the Gospel, plant churches, and teach the Gospel to people with no formal knowledge—building lasting faith communities across Kenya and beyond.
+              Freedom Baptist Mission spreads the Gospel, plants churches, and provides education support to needy students—ensuring no child travels long distances for quality, Christ-centered learning.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
@@ -74,12 +74,12 @@ export default function Home() {
             <div className="pt-6 md:pt-0">
               <span className="text-4xl sm:text-5xl font-black block text-[#FFD966]">02</span>
               <h3 className="text-lg font-bold mt-2">Theology - Bible College</h3>
-              <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Rigorous modules preparing native church planters for structural success.</p>
+              <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Comprehensive training preparing local leaders for effective ministry and church planting.</p>
             </div>
             <div className="pt-6 md:pt-0">
               <span className="text-4xl sm:text-5xl font-black block text-[#FFD966]">03</span>
               <h3 className="text-lg font-bold mt-2">Early Child Care</h3>
-              <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Providing academic foundations securely built upon strict biblical truth.</p>
+              <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Quality education close to home with support for families in need.</p>
             </div>
           </div>
         </section>
@@ -130,14 +130,14 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Pillar 3: Bible Mission College */}
+            {/* Pillar 3: Bible College */}
             <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
               <div className="space-y-6">
                 <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">📚</div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Bible Mission College</h3>
+                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Bible College</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    Training native pastors and church leaders with rigorous biblical exposition, theology, and practical field deployment models.
+                    Training local pastors and church leaders with solid biblical teaching, theology, and hands-on ministry experience.
                   </p>
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function Home() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Local Church</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    The focal center of our structural growth with intense expository preaching, systematic discipleship, and gospel outposts.
+                    The heart of our ministry, focused on clear Bible teaching, discipleship, and sharing the Gospel in local communities.
                   </p>
                 </div>
               </div>

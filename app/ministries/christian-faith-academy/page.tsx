@@ -107,7 +107,7 @@ export default function ChristianFaithAcademy() {
                 Excellence • Character • Faith
               </p>
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-medium">
-                Christian Faith Academy delivers an enriched Competency Based Curriculum (CBC) designed to foster deep personal discovery, rigorous foundational literacy, and an unwavering love for Christ.
+                Christian Faith Academy delivers a rich Competency Based Curriculum (CBC) that encourages each child's growth in reading, learning, and love for Christ. We provide support for needy students who would otherwise travel long distances to access quality education.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
                 <button
@@ -445,7 +445,7 @@ export default function ChristianFaithAcademy() {
               <span className="text-xs font-bold uppercase tracking-widest text-[#0055b8]">Our Philosophy</span>
               <h2 className="text-4xl font-black text-slate-950 tracking-tight">Christian Freedom-Based Learning</h2>
               <p className="leading-8 text-slate-600">
-                True education avoids rigid, production-line factory schooling. We combine fixed biblical standards with structural individual agency, fostering internal self-governance and genuine character formation.
+                We believe every child is unique. Our approach nurtures personal growth, creative thinking, and strong character guided by biblical values.
               </p>
               <blockquote className="border-l-4 border-[#0055b8] bg-slate-50 p-6 rounded-r-xl text-slate-700 italic">
                 "Where the Spirit of the Lord is, there is liberty. We apply this principle to learning by guiding children to explore creation without fear of failure."
@@ -502,7 +502,7 @@ export default function ChristianFaithAcademy() {
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-[#0055b8] block mb-2">Join Our Community</span>
             <h2 className="text-4xl font-black text-slate-950 tracking-tight">Admissions & Enrollment</h2>
-            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Begin your child's journey with us. Submit an application and our admissions team will contact you within 48 hours.</p>
+            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Begin your child's journey with us. We offer education support for families in need, ensuring no child is denied quality education due to distance or financial constraints.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">

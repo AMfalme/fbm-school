@@ -26,7 +26,7 @@ interface GalleryRecord {
 export default function BibleCollege() {
   // Update page title
   useEffect(() => {
-    document.title = "FBM - Freedom Baptist Bible Mission College";
+    document.title = "FBM - Freedom Baptist Mission - Bible College";
   }, []);
 
   // 1. Central active record archive dataset with extended modal metrics
@@ -122,7 +122,7 @@ export default function BibleCollege() {
         {/* ================= HERO SECTION ================= */}
         <section className="relative text-center max-w-4xl mx-auto space-y-6 pt-6">
           <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 border border-amber-200 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-800">
-            📜 Freedom Baptist Bible Mission College • Academic Division
+            📜 Freedom Baptist Mission - Bible College • Academic Division
           </div>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
             Training Native Pastors <br />
@@ -398,7 +398,7 @@ export default function BibleCollege() {
           <div className="text-center max-w-2xl mx-auto space-y-4">
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#16a34a]">Institutional Maturity</span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">Showcase of Historical Milestones</h2>
-            <p className="text-slate-600 font-medium text-sm">A deep timeline layout highlighting key systemic operations executed by the Bible Mission College desk.</p>
+            <p className="text-slate-600 font-medium text-sm">A deep timeline layout highlighting key systemic operations executed by the Bible College desk.</p>
           </div>
 
           <div className="relative border-l-2 border-slate-200 max-w-3xl mx-auto ml-4 sm:mx-auto pl-6 sm:pl-8 space-y-12">

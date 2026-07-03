@@ -13,9 +13,12 @@ export default function About() {
             🌍 Independent • Biblical • Indigenous
           </div>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
-            Our Identity, Mandate, <br />
+           Our Identity, Calling,
+           
+         <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0055b8] to-[#16a34a]">
-              & Theological Pillars
+               & Core Beliefs 
+              
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto">
@@ -42,10 +45,10 @@ export default function About() {
               Moving Beyond Temporary Relief Work
             </h2>
             <p className="text-slate-600 leading-relaxed font-medium">
-              We believe that long-term community transformation is entirely dependent on spiritual alignment. Our administrative methodology focuses tightly on building permanent, structurally sound spiritual structures rather than transient, dependency-heavy relief. 
+              We believe lasting change in communities comes through spiritual growth. Our approach focuses on building strong, self-supporting local churches that can serve their communities for generations.
             </p>
             <p className="text-slate-600 leading-relaxed">
-Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expansion matrix: evangelizing unreached rural communities, offering high-level academic pathways for local pastors, and training children via robust christian foundational schooling. You can review the frontlines team executing this strategy on our <a href="/ministries/missionary-outreach" className="text-[#0055b8] font-bold underline">Missionary Outreach page</a>.
+Based in Kisii, Kenya, Freedom Baptist Mission partners with local communities to: share the Gospel in rural areas, train pastors at our Bible College, and provide Christ-centered education for children. Learn more about our work on our <a href="/ministries/missionary-outreach" className="text-[#0055b8] font-bold underline">Missionary Outreach page</a>.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
               <div className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm">
@@ -77,7 +80,7 @@ Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expa
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">Church Planting</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
-                  The church is God's designated vehicle for the age. Our plant assemblies serve as model communities centered heavily on rigorous expository preaching, strict church discipline, comprehensive weekly family prayer fellowships, and strategic regional outposts.
+                  The church is God's plan for reaching the world. We help establish healthy local churches focused on sound biblical teaching, caring community, and regular gatherings for prayer and worship.
                 </p>
                 <p className="text-slate-600 text-sm leading-relaxed">
                   Instead of establishing non-denominational groups, we systematically plant independent, fundamental Baptist churches that preserve absolute local body autonomy while maintaining warm, fraternal partnerships with sister assemblies.
@@ -113,7 +116,7 @@ Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expa
                   A high-caliber, localized academic training institution structured purely to qualify and equip native pastors, church planters, and gospel workers. The curriculum bypasses Western cultural imports, targeting deep biblical text immersion.
                 </p>
                 <p className="text-slate-600 text-sm leading-relaxed">
-                  Students undergo strict modular instruction covering Systematic Theology, Biblical Hermeneutics, Pastoral Epistles, and Homiletics. Every academic module requires concurrent hands-on evangelism deployment in local harvest fields.
+                  Students study core biblical subjects including Systematic Theology, Bible interpretation, Pastoral Epistles, and preaching. Each course includes practical field experience sharing the Gospel in local communities.
                 </p>
                 <a href="/bible-college" className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 hover:underline mt-2">
                   Explore Academic Programs →
@@ -132,7 +135,7 @@ Based firmly out of Kisii, Kenya, Freedom Baptist Mission works on a strict expa
                   Our official institutional childhood educational asset, actively training students from Kindergarten up to Primary 3. We recognize that early childhood conditioning dictates subsequent generational culture, which is why we approach education seriously.
                 </p>
                 <p className="text-slate-600 text-sm leading-relaxed">
-                  While strictly adhering to and exceeding standard national academic guidelines, our curriculum seamlessly implements a thorough biblical worldview into all modules—ensuring literacy, logic, and numbering readiness are grounded beautifully in uncompromised truth.
+                  While strictly adhering to and exceeding standard national academic guidelines, our curericulum seamlessly implements a thorough biblical worldview into all modules—ensuring literacy, logic, and numbering readiness are grounded beautifully in uncompromised truth.
                 </p>
                 <a href="/school" className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:underline mt-2">
                   Visit the School Portal →

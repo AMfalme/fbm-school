@@ -148,8 +148,8 @@ export default function MedicalMinistry() {
                   </div>
                   <h4 className="font-bold text-slate-950 text-base">Outpatient &amp; Triage</h4>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    Immediate professional intervention for acute trauma, critical infection controls, and standard multi-specialty clinical consultations.
-                  </p>
+                  We bring healthcare directly to rural communities through regular mobile medical camps, providing essential treatments and care to those who cannot easily reach our hospital.
+                </p>
                   <div className="pt-2 border-t border-slate-100 text-[11px] font-medium text-slate-600">
                     💉 Focus: Rapid stabilizations &amp; disease tracking
                   </div>
