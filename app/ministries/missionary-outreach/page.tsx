@@ -23,16 +23,16 @@ export default function MissionOutreach() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/10">
-              🎯 Holistic Gospel Transformation • Institutional Foundations
+              🙏 Spreading God's Love • Serving Others
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-none">
-              Preaching Christ, <br className="hidden sm:inline" />
+              Sharing the Gospel, <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Healing Communities
+                Transforming Communities
               </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-              Our central framework operates across four core institutional branches—mapping spiritual development, physical healing, and deep theological training onto an integrated gospel infrastructure.
+              Through education, healthcare, and local church partnerships, we bring hope and change to communities across Kenya.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
               <button 
@@ -76,7 +76,7 @@ export default function MissionOutreach() {
             { title: "Christian Faith Academy", desc: "Fully integrated CBC framework pathways across early years cohorts", color: "border-t-emerald-500 text-emerald-600" },
             { title: "Medical Mission Hospital", desc: "Intense, individualized attention per patient profile and critical wellness wing", color: "border-t-blue-500 text-blue-600" },
             { title: "Bible College", desc: "Every lesson mapped onto a scriptural framework for leadership development", color: "border-t-amber-500 text-amber-600" },
-            { title: "Church Planting", desc: "Freedom-based exploration within protective regional structures", color: "border-t-purple-500 text-purple-600" }
+              { title: "Church Planting", desc: "Partnering with local leaders to grow healthy churches", color: "border-t-purple-500 text-purple-600" }
           ].map((attr, idx) => (
             <div key={idx} className={`bg-white border-t-4 ${attr.color} border-x border-b border-slate-200/60 p-6 rounded-xl shadow-xs transition-transform hover:-translate-y-0.5`}>
               <h3 className="text-sm font-bold text-slate-900">{attr.title}</h3>
@@ -238,7 +238,7 @@ export default function MissionOutreach() {
                   {[
                     { phase: "Phase 01", title: "Document & Scout Mapping", desc: "Evaluating specific local socio-economic characteristics and language boundaries via our central office to locate optimal target sectors." },
                     { phase: "Phase 02", title: "Parental & Elder Mobilization", desc: "Cultivating mutual cross-structural alignment regarding institutional confessional standards through deliberate local community interface cycles." },
-                    { phase: "Phase 03", title: "Baseline Fellowship Placement", desc: "Establishing pressure-free devotional evaluations and small-group prayer hubs before scaling into full structural execution tracks." }
+                    { phase: "Phase 03", title: "Growing Together in Faith", desc: "Supporting new believers as they gather for Bible study, prayer, and fellowship, building strong foundations for a thriving church community." }
                   ].map((proc, idx) => (
                     <div key={idx} className="bg-slate-50 border border-slate-200 p-5 rounded-xl flex flex-col justify-between">
                       <div>
@@ -252,8 +252,8 @@ export default function MissionOutreach() {
 
                 <div className="bg-slate-950 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-white">
                   <div className="text-center sm:text-left space-y-0.5">
-                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Want to join our regional network coordinates?</span>
-                    <p className="text-xs text-slate-300">Download our complete field deployment blueprint catalog and mission support documents instantly.</p>
+                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Join Our Community of Faith</span>
+                    <p className="text-xs text-slate-300">Download our mission brochure and learn how you can partner with us in reaching more communities with the Gospel.</p>
                   </div>
                   <a href="/admissions-pack.pdf" className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 transition-all shrink-0 shadow-sm">
                     📥 Download Mission Briefing
@@ -297,12 +297,12 @@ export default function MissionOutreach() {
         <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 max-w-4xl mx-auto text-center shadow-xl space-y-6">
           <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400 ring-1 ring-inset ring-amber-500/20">
-              📅 Current Deployments are capped based on strict structural density limitations
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400 ring-1 ring-inset ring-amber-500/20">
+              🙏 Help Us Reach More Communities
             </span>
-            <h3 className="text-2xl sm:text-4xl font-bold tracking-tight">Support Our Core Institutional Infrastructures</h3>
+            <h3 className="text-2xl sm:text-4xl font-bold tracking-tight">Support Our Ministry Projects</h3>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Don't compromise during this critical global developmental window. Partner with an intentional community of Christian strategists driving true structural excellence across the fields.
+              Partner with us as we work alongside local communities to build lasting change through Christ's love.
             </p>
           </div>
           <div className="relative z-10 flex flex-wrap gap-3 justify-center pt-2">

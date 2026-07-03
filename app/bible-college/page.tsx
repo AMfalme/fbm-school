@@ -131,7 +131,7 @@ export default function BibleCollege() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto">
-            Providing institutional structural stability, advanced text-critical hermeneutics, and rigorous hands-on field deployment models for East Africa's upcoming generation of leaders.
+          Providing strong biblical training, deep scriptural understanding, and practical ministry preparation for East Africa's next generation of faithful leaders.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#historical-gallery" className="inline-flex h-12 items-center justify-center rounded-xl bg-[#0055b8] px-6 text-xs font-bold text-white hover:bg-[#003d7a] transition-all shadow-sm">
@@ -433,7 +433,7 @@ export default function BibleCollege() {
                 <span className="inline-block bg-amber-50 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-md">Evangelism Operations</span>
                 <h3 className="text-xl font-bold text-slate-950 tracking-tight">The Western Kenya Village Crusades</h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  A massive, field-coordinated effort where our senior college module student base deployed to remote, unreached rural markets. Operating purely in regional vernacular languages, the teams conducted intensive open-air operations, door-to-door counseling, and established the foundation structures for 3 new local mission outposts.
+                A dedicated outreach where our Bible College students and graduates traveled to remote communities across Kenya. Sharing the Gospel in local languages through open-air meetings, personal visits, and community gatherings, they helped establish 3 new local churches.
                 </p>
               </div>
             </div>
