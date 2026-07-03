@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import WhatsAppButton from "./components/WhatsAppButton";
+import GlobalBanner from "./components/GlobalBanner";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <GlobalBanner />
         {children}
         <WhatsAppButton />
       </body>

@@ -8,7 +8,7 @@ import { auth, db } from "../../lib/firebase";
 import { Upload, X } from "lucide-react";
 
 type MediaCategory = "construction" | "classroom" | "church-community" | "conference" | "bible-college" | "hospital" | "mission-projects";
-type MediaStatus = "completed" | "in-progress" | "upcoming" | "planning" | "design-phase" | "future-phase";
+type MediaStatus = "completed" | "in-progress" | "upcoming" | "planning" | "design-phase" | "future-phase" | null;
 
 interface MediaItem {
   id: string;
@@ -18,6 +18,8 @@ interface MediaItem {
   category: MediaCategory;
   status: MediaStatus;
   iconUrl?: string;
+  videoUrl?: string;
+  mediaType: "image" | "video";
   createdAt: string;
 }
 
@@ -32,6 +34,7 @@ const CATEGORIES: { value: MediaCategory; label: string }[] = [
 ];
 
 const STATUSES: { value: MediaStatus; label: string }[] = [
+  { value: null, label: "No Status" },
   { value: "completed", label: "Completed" },
   { value: "in-progress", label: "In Progress" },
   { value: "upcoming", label: "Upcoming" },
@@ -48,6 +51,8 @@ const STATIC_MEDIA: MediaItem[] = [
     description: "Expansion of our central campus facilities including classrooms, dormitories, and administrative buildings to accommodate growing student enrollment and academic programs.",
     category: "construction",
     status: "in-progress",
+    iconUrl: "",
+    mediaType: "image",
     createdAt: new Date().toISOString(),
   },
   {
@@ -57,6 +62,8 @@ const STATIC_MEDIA: MediaItem[] = [
     description: "State-of-the-art learning environment at CFA designed to foster critical thinking, character development, and academic excellence for our students from grades 1-12.",
     category: "classroom",
     status: "completed",
+    iconUrl: "",
+    mediaType: "image",
     createdAt: new Date().toISOString(),
   },
   {
@@ -66,6 +73,8 @@ const STATIC_MEDIA: MediaItem[] = [
     description: "FBM's commitment to touching lives through community development programs, medical outreach clinics, and spiritual discipleship initiatives across underserved regions.",
     category: "church-community",
     status: "completed",
+    iconUrl: "",
+    mediaType: "image",
     createdAt: new Date().toISOString(),
   },
 ];
@@ -83,9 +92,11 @@ export default function AdminMediaPage() {
     title: "",
     description: "",
     category: "construction" as MediaCategory,
-    status: "planning" as MediaStatus,
+    status: null as MediaStatus,
     photoUrl: "",
     iconUrl: "",
+    videoUrl: "",
+    mediaType: "image" as "image" | "video",
   });
   const [previewPhoto, setPreviewPhoto] = useState<string>("");
   const [previewIcon, setPreviewIcon] = useState<string>("");
@@ -156,8 +167,8 @@ export default function AdminMediaPage() {
         setPreviewPhoto(result.secure_url);
       }
     } catch (error) {
-      console.error("Photo upload failed:", error);
-      alert("Photo upload failed");
+      console.error("Upload failed:", error);
+      alert("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -195,7 +206,7 @@ export default function AdminMediaPage() {
     e.preventDefault();
 
     if (!formData.title || !formData.description || !formData.photoUrl) {
-      alert("Please fill all required fields and upload a photo");
+      alert("Please fill all required fields and upload media");
       return;
     }
 
@@ -205,6 +216,7 @@ export default function AdminMediaPage() {
 
       const payload = {
         ...formData,
+        mediaType: formData.mediaType,
         createdAt,
       };
 
@@ -220,9 +232,11 @@ export default function AdminMediaPage() {
         title: "",
         description: "",
         category: "construction",
-        status: "planning",
+        status: null,
         photoUrl: "",
         iconUrl: "",
+        videoUrl: "",
+        mediaType: "image",
       });
       setPreviewPhoto("");
       setPreviewIcon("");
@@ -243,6 +257,8 @@ export default function AdminMediaPage() {
       status: item.status as MediaStatus,
       photoUrl: item.photoUrl,
       iconUrl: item.iconUrl || "",
+      videoUrl: item.videoUrl || "",
+      mediaType: item.mediaType,
     });
     setPreviewPhoto(item.photoUrl);
     setPreviewIcon(item.iconUrl || "");
@@ -319,7 +335,7 @@ export default function AdminMediaPage() {
                         setFormData((prev) => ({ ...prev, title: e.target.value }))
                       }
                       placeholder="e.g., Main Campus Construction"
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
                     />
                   </div>
 
@@ -336,7 +352,7 @@ export default function AdminMediaPage() {
                           category: e.target.value as MediaCategory,
                         }))
                       }
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
                     >
                       {CATEGORIES.map((cat) => (
                         <option key={cat.value} value={cat.value}>
@@ -358,44 +374,64 @@ export default function AdminMediaPage() {
                       }
                       placeholder="Brief description of the media"
                       rows={3}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
                     />
                   </div>
 
                   {/* Status */}
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-2">
-                      Status <span className="text-red-500">*</span>
+                      Status (Optional)
                     </label>
                     <select
-                      value={formData.status}
+                      value={formData.status || ""}
                       onChange={(e) =>
                         setFormData((prev) => ({
                           ...prev,
-                          status: e.target.value as MediaStatus,
+                          status: e.target.value === "" ? null : (e.target.value as MediaStatus),
                         }))
                       }
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
                     >
                       {STATUSES.map((status) => (
-                        <option key={status.value} value={status.value}>
+                        <option key={status.value || "null"} value={status.value || ""}>
                           {status.label}
                         </option>
                       ))}
                     </select>
                   </div>
 
-                  {/* Photo Upload */}
+                  {/* Media Type Selection */}
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-2">
-                      Photo Upload <span className="text-red-500">*</span>
+                      Media Type <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={formData.mediaType}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          mediaType: e.target.value as "image" | "video",
+                        }))
+                      }
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                    >
+                      <option value="image">Image</option>
+                      <option value="video">Video</option>
+                    </select>
+                  </div>
+
+                  {/* Photo/Video Upload */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">
+                      {formData.mediaType === "image" ? "Photo Upload" : "Video Upload"} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="file"
-                      accept="image/*"
+                      accept={formData.mediaType === "image" ? "image/*" : "video/*"}
                       onChange={handlePhotoChange}
                       disabled={uploading}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
                     />
                   </div>
 
@@ -410,7 +446,7 @@ export default function AdminMediaPage() {
                         accept="image/svg+xml,image/*"
                         onChange={handleIconChange}
                         disabled={uploading}
-                        className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                        className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
                       />
                     </div>
                   )}
@@ -418,12 +454,22 @@ export default function AdminMediaPage() {
 
                 {/* Preview */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {previewPhoto && (
+                  {previewPhoto && formData.mediaType === "image" && (
                     <div>
                       <p className="mb-2 text-sm font-bold text-slate-700">Photo Preview:</p>
                       <img
                         src={previewPhoto}
                         alt="Preview"
+                        className="h-48 w-full rounded-lg object-cover"
+                      />
+                    </div>
+                  )}
+                  {previewPhoto && formData.mediaType === "video" && (
+                    <div>
+                      <p className="mb-2 text-sm font-bold text-slate-700">Video Preview:</p>
+                      <video
+                        src={previewPhoto}
+                        controls
                         className="h-48 w-full rounded-lg object-cover"
                       />
                     </div>
@@ -456,11 +502,19 @@ export default function AdminMediaPage() {
             {media.map((item) => (
               <div key={item.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
                 <div className="relative h-48 overflow-hidden bg-slate-100">
-                  <img
-                    src={item.photoUrl}
-                    alt={item.title}
-                    className="h-full w-full object-cover"
-                  />
+                  {item.mediaType === "video" ? (
+                    <video
+                      src={item.photoUrl}
+                      className="h-full w-full object-cover"
+                      controls
+                    />
+                  ) : (
+                    <img
+                      src={item.photoUrl}
+                      alt={item.title}
+                      className="h-full w-full object-cover"
+                    />
+                  )}
                   {item.iconUrl && (
                     <div className="absolute right-2 top-2 h-12 w-12 rounded-full bg-white p-1 shadow-md">
                       <img src={item.iconUrl} alt="Icon" className="h-full w-full" />
@@ -482,10 +536,12 @@ export default function AdminMediaPage() {
                           ? "bg-green-100 text-green-700"
                           : item.status === "in-progress"
                           ? "bg-blue-100 text-blue-700"
-                          : "bg-amber-100 text-amber-700"
+                          : item.status
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-slate-100 text-slate-600"
                       }`}
                     >
-                      {STATUSES.find((s) => s.value === item.status)?.label || item.status}
+                      {item.status ? STATUSES.find((s) => s.value === item.status)?.label || "Unknown" : "No Status"}
                     </span>
                   </div>
 

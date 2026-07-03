@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import MinistryGallery from "../../components/MinistryGallery";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
@@ -69,11 +70,6 @@ export default function ChristianFaithAcademy() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a] flex flex-col antialiased">
-      {/* Global Banner Announcement */}
-      <div className="bg-[#16a34a] text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-widest text-white z-20 shadow-sm">
-        📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
-      </div>
-
       <Navbar />
 
       {/* Hero Section */}
@@ -679,6 +675,13 @@ export default function ChristianFaithAcademy() {
           </div>
         </div>
       </section>
+
+      {/* Gallery Section */}
+      <MinistryGallery
+        categories={["classroom"]}
+        title="Christian Faith Academy Gallery"
+        subtitle="See our students excellence in academics, character development, and biblical upbringing."
+      />
 
       <Footer />
     </div>

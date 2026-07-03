@@ -4,11 +4,6 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a]">
-        {/* Global Banner Announcement */}
-        <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
-          📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
-        </div>
-
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 space-y-24 sm:space-y-32">
         <Navbar />
 
@@ -103,30 +98,46 @@ export default function Home() {
 
           {/* Professional Bento Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Pillar 1: The Local Church */}
+            {/* Pillar 1: Mission Outreach */}
             <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
               <div className="space-y-6">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">⛪</div>
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">🌍</div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Local Church Ministry</h3>
+                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Mission Outreach</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    The focal center of our structural growth. Our community church supports intense expository preaching, systematic discipleship tracks, and local gospel outposts.
+                    Holistic gospel transformation through evangelism, discipleship, and community development across Kenya and beyond.
                   </p>
                 </div>
               </div>
               <a href="/ministries/missionary-outreach" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
-                Access Church Profile <span className="text-lg">→</span>
+                Explore Outreach <span className="text-lg">→</span>
               </a>
             </div>
 
-            {/* Pillar 2: Bible Mission College */}
+            {/* Pillar 2: Church Planting */}
+            <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
+              <div className="space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">⛪</div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Church Planting</h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    Seeding autonomous local Baptist churches that are self-governing, self-supporting, and self-propagating across unreached communities.
+                  </p>
+                </div>
+              </div>
+              <a href="/church-planting" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
+                View Church Plants <span className="text-lg">→</span>
+              </a>
+            </div>
+
+            {/* Pillar 3: Bible Mission College */}
             <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
               <div className="space-y-6">
                 <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">📚</div>
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Bible Mission College</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    A dedicated academic arm shaping subsequent movements of ministers, church leaders, and evangelists via robust text exposition, theology courses, and practical missions.
+                    Training native pastors and church leaders with rigorous biblical exposition, theology, and practical field deployment models.
                   </p>
                 </div>
               </div>
@@ -135,20 +146,52 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Pillar 3: Christian Faith Academy */}
+            {/* Pillar 4: Christian Faith Academy */}
             <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
               <div className="space-y-6">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">🎓</div>
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Christian Faith Academy</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    An educational asset caring for children from Kindergarten up to Primary 3. We introduce foundational secular excellence wrapped beautifully around an uncompromised biblical worldview.
+                    Foundational education from Pre-Primary to Junior School, integrating academic excellence with uncompromised biblical truth.
                   </p>
                 </div>
               </div>
-                <a href="/christian-faith-academy" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
-                  Go to School Portal <span className="text-lg">→</span>
-                </a>
+              <a href="/christian-faith-academy" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
+                Go to School Portal <span className="text-lg">→</span>
+              </a>
+            </div>
+
+            {/* Pillar 5: Mission Hospital */}
+            <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
+              <div className="space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">🏥</div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Mission Hospital</h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    Christ-centered healthcare ministry providing quality medical services, mobile clinics, and compassionate care to communities.
+                  </p>
+                </div>
+              </div>
+              <a href="/hospital-project" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
+                Explore Medical Ministry <span className="text-lg">→</span>
+              </a>
+            </div>
+
+            {/* Pillar 6: Mission Outreach (Local Church) */}
+            <div className="lg:col-span-1 bg-white border border-slate-100 p-8 rounded-[36px] shadow-sm flex flex-col justify-between hover:shadow-xl transition-all group">
+              <div className="space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">⛪</div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Local Church</h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    The focal center of our structural growth with intense expository preaching, systematic discipleship, and gospel outposts.
+                  </p>
+                </div>
+              </div>
+              <a href="/ministries/missionary-outreach" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0055b8] hover:gap-3 transition-all">
+                Access Church Profile <span className="text-lg">→</span>
+              </a>
             </div>
           </div>
         </section>

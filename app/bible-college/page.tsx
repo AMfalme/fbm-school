@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import MinistryGallery from "../components/MinistryGallery";
 
 // Define strict typing for our archive records
 interface GalleryRecord {
@@ -115,11 +116,6 @@ export default function BibleCollege() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a]">
-      {/* Shared Global Banner Announcement */}
-      <div className="bg-[#16a34a] text-center px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
-        📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
-      </div>
-
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 space-y-24 sm:space-y-32">
         <Navbar />
 
@@ -499,6 +495,13 @@ export default function BibleCollege() {
           </div>
         </section>
       </main>
+
+      {/* Gallery Section */}
+      <MinistryGallery
+        categories={["bible-college"]}
+        title="Bible College Gallery"
+        subtitle="Witness the transformative journey of our students and graduates across East Africa."
+      />
 
       <Footer />
     </div>

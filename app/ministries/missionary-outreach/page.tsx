@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import MinistryGallery from "../../components/MinistryGallery";
 
 export default function MissionOutreach() {
   // Update page title
@@ -14,11 +15,6 @@ export default function MissionOutreach() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-emerald-600 selection:text-white flex flex-col antialiased">
-        {/* Global Impact Notification Ticker */}
-        <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm z-20">
-          📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
-        </div>
-
       <Navbar />
 
       {/* Hero Core Matrix Section */}
@@ -322,6 +318,13 @@ export default function MissionOutreach() {
           </div>
         </section>
       </main>
+
+      {/* Gallery Section */}
+      <MinistryGallery
+        categories={["church-community", "mission-projects"]}
+        title="Mission Outreach Gallery"
+        subtitle="Witness the impact of our evangelism and community development initiatives across Kenya and beyond."
+      />
 
       <Footer />
     </div>

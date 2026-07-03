@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import MinistryGallery from "../components/MinistryGallery";
 
 interface ChurchPlant {
   id: string;
@@ -31,14 +32,14 @@ export default function ChurchPlanting() {
   const [churchPlants] = useState<ChurchPlant[]>([
     {
       id: "plant-1",
-      name: "Sovereign Grace Baptist Fellowship",
+      name: "Freedom Baptist Mission - Bible College",
       region: "Western Frontier (Kakamega)",
       status: "Established",
-      pastor: "Pastor Emmanuel Omondi (Class of 2023)",
+      pastor: "Bishop Reverend Benard Curry (Class of 2023)",
       foundedYear: "2024",
       featuredImage: "/bible-college/mission bible college.png",
       vernacularLanguage: "Luhya / Swahili",
-      historicalContext: "Seeded directly after the Western Kenya Village Crusades. The core work started in an open-air market stall with seven local convert families. Following intense house-to-house visitation, the work established institutional permanence by securing land titles independently.",
+      historicalContext: "Systematically training indigenous leaders and ministry graduates in sound expository preaching to plant self-governing local churches.",
       strategicLogistics: "Currently serves as our primary logistical supply base for sending circuit-rider preachers deeper into rural sub-counties.",
       metrics: [
         { label: "Charter Members", value: "65 Souls" },
@@ -54,7 +55,7 @@ export default function ChurchPlanting() {
     },
     {
       id: "plant-2",
-      name: "Freedom Baptist Mission Outpost",
+      name: "Freedom Baptist Mission Outreach",
       region: "Rift Valley Ridge (Narok Line)",
       status: "Staging",
       pastor: "Evangelist Isaac Kiprop (Class of 2024)",
@@ -77,7 +78,7 @@ export default function ChurchPlanting() {
     },
     {
       id: "plant-3",
-      name: "Grace Covenant Reformed Baptist",
+      name: "Freedom Baptist Mission Training Outreach",
       region: "Coastal Strip (Kilifi)",
       status: "Core Group Formed",
       pastor: "Pastor Titus Mwangi (Alumni Network)",
@@ -120,11 +121,6 @@ export default function ChurchPlanting() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-emerald-600 selection:text-white flex flex-col antialiased">
-      {/* Global Impact Notification Ticker */}
-      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-center px-4 py-2.5 text-[11px] font-bold uppercase tracking-widest text-white shadow-sm z-20">
-        📢 Spreading the Gospel • Planting Churches • Teaching the Gospel to All
-      </div>
-
       <Navbar />
 
       {/* Hero Section */}
@@ -367,6 +363,13 @@ export default function ChurchPlanting() {
           </div>
         </section>
       </main>
+
+      {/* Gallery Section */}
+      <MinistryGallery
+        categories={["church-community"]}
+        title="Church Planting Gallery"
+        subtitle="See our indigenous church plants across Kenya - self-governing, self-supporting, and self-propagating."
+      />
 
       <Footer />
     </div>

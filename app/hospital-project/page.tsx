@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import MinistryGallery from "../components/MinistryGallery";
 
 export default function MedicalMinistry() {
   // Update page title
@@ -14,11 +15,6 @@ export default function MedicalMinistry() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-[#FFD966] selection:text-[#003d7a] flex flex-col">
-      {/* Global Banner Announcement */}
-      <div className="bg-[#16a34a] text-center px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white z-50">
-        � Spreading the Gospel • Planting Churches • Teaching the Gospel to All
-      </div>
-
       <Navbar />
 
       <main className="flex-grow mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-20 sm:space-y-28 w-full">
@@ -283,7 +279,7 @@ export default function MedicalMinistry() {
             <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-xs bg-white p-3">
               <img 
                 src="/church/medical.png" 
-                alt="Modern, clean clinical laboratory setup with analysis tools" 
+                 alt="Modern, clean clinical laboratory setup with analysis tools" 
                 className="w-full h-56 object-cover rounded-xl"
               />
               <div className="p-3">
@@ -328,6 +324,13 @@ export default function MedicalMinistry() {
           </div>
         </section>
       </main>
+
+      {/* Gallery Section */}
+      <MinistryGallery
+        categories={["hospital"]}
+        title="Medical Ministry Gallery"
+        subtitle="Explore our healthcare facilities, medical outreach programs, and compassionate care initiatives."
+      />
 
       <Footer />
     </div>
