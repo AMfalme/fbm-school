@@ -33,7 +33,7 @@ export default function ChurchPlanting() {
     {
       id: "plant-1",
       name: "Freedom Baptist Mission - Bible College",
-      region: "Western Frontier (Kakamega)",
+      region: "Western Region (Kakamega)",
       status: "Established",
       pastor: "Bishop Reverend Benard Curry (Class of 2023)",
       foundedYear: "2024",
@@ -56,7 +56,7 @@ export default function ChurchPlanting() {
     {
       id: "plant-2",
       name: "Freedom Baptist Mission Outreach",
-      region: "Rift Valley Ridge (Narok Line)",
+      region: "Rift Valley Region (Narok Line)",
       status: "Staging",
       pastor: "Evangelist Isaac Kiprop (Class of 2024)",
       foundedYear: "2025",
@@ -131,13 +131,13 @@ export default function ChurchPlanting() {
             🌱 Freedom Baptist Bible Mission • Church Planting Desk
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-none max-w-4xl mx-auto">
-            Seeding Autonomous <br />
+            Planting Independent <br />
             <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Local Baptist Churches
             </span>
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            We do not establish dependent tracking stations. We train, deploy, and support native men to plant fully self-governing, self-supporting, and self-propagating local networks.
+            We train, deploy, and support local pastors to plant fully self-governing, self-supporting, and self-replicating churches across Kenya.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <a href="#active-deployments" className="rounded-xl bg-slate-900 px-5 py-3 text-xs font-semibold text-white shadow-md hover:bg-slate-800 transition-all">
@@ -154,9 +154,9 @@ export default function ChurchPlanting() {
         {/* Live Field Metrics Operational Summary */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { value: "24+", title: "Established Plants", desc: "Holding clear land titles or permanent leases", color: "border-t-emerald-500 text-emerald-600" },
-            { value: "3", title: "Active Staging Cells", desc: "Currently receiving target circuit preaching modules", color: "border-t-blue-500 text-blue-600" },
-            { value: "1,800+", title: "Total Baptized Members", desc: "Logged across all combined historical outposts", color: "border-t-amber-500 text-amber-600" },
+            { value: "14+", title: "Established Churches", desc: "with permanent land or leases", color: "border-t-emerald-500 text-emerald-600" },
+            { value: "3", title: "3 New Church Plants", desc: "currently receiving regular preaching", color: "border-t-blue-500 text-blue-600" },
+            { value: "300+", title: "Baptized Members", desc: "Logged across all combined historical outposts", color: "border-t-amber-500 text-amber-600" },
             { value: "100%", title: "Native Oversight", desc: "Zero reliance on foreign permanent pastoral residence", color: "border-t-purple-500 text-purple-600" }
           ].map((attr, idx) => (
             <div key={idx} className={`bg-white border-t-4 ${attr.color} border-x border-b border-slate-200/60 p-6 rounded-xl shadow-xs transition-transform hover:-translate-y-0.5`}>
@@ -350,7 +350,7 @@ export default function ChurchPlanting() {
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 block">Expand Deeper into Unreached Fields</span>
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight">Sponsor a New Church Plant Outpost</h3>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              While we protect local works from dependency, initial staging phases require resources for building provisions, localized scripture prints, or heavy-terrain transport assets.
+              While our churches strive for financial independence, initial phases require funding for building materials, Bibles, and ministry transportation.
             </p>
           </div>
           <div className="relative z-10 flex flex-wrap gap-3 justify-center pt-2">
@@ -369,6 +369,7 @@ export default function ChurchPlanting() {
         categories={["church-community"]}
         title="Church Planting Gallery"
         subtitle="See our indigenous church plants across Kenya - self-governing, self-supporting, and self-propagating."
+        ministrySlug="church-planting"
       />
 
       <Footer />

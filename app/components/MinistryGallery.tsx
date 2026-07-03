@@ -8,8 +8,9 @@ interface MediaItem {
   id: string;
   photoUrl: string;
   title: string;
+  subtitle?: string;
   description: string;
-  category: string;
+  category?: string;
   mediaType: "image" | "video";
 }
 
@@ -17,32 +18,58 @@ interface MinistryGalleryProps {
   categories: string[];
   title: string;
   subtitle?: string;
+  ministrySlug?: string;
 }
 
-export default function MinistryGallery({ categories, title, subtitle }: MinistryGalleryProps) {
+export default function MinistryGallery({ categories, title, subtitle, ministrySlug }: MinistryGalleryProps) {
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGalleryMedia = async () => {
       try {
-        const q = query(
-          collection(db, "media"),
-          where("category", "in", categories.length === 1 ? [categories[0]] : categories)
-        );
-        const querySnapshot = await getDocs(q);
-        const items: MediaItem[] = [];
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          items.push({
-            id: doc.id,
-            photoUrl: data.photoUrl,
-            title: data.title,
-            description: data.description,
-            category: data.category,
-            mediaType: data.mediaType || "image",
+        let items: MediaItem[] = [];
+
+        // If ministrySlug is provided, fetch from ministry-media collection
+        if (ministrySlug) {
+          const q = query(
+            collection(db, "ministry-media"),
+            where("ministrySlug", "==", ministrySlug),
+            where("deleted", "!=", true)
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            items.push({
+              id: doc.id,
+              photoUrl: data.photoUrl,
+              title: data.title,
+              subtitle: data.subtitle || "",
+              description: data.description,
+              mediaType: data.mediaType || "image",
+            });
           });
-        });
+        } else {
+          // Fallback to legacy media collection
+          const q = query(
+            collection(db, "media"),
+            where("category", "in", categories.length === 1 ? [categories[0]] : categories)
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            items.push({
+              id: doc.id,
+              photoUrl: data.photoUrl,
+              title: data.title,
+              subtitle: "",
+              description: data.description,
+              category: data.category,
+              mediaType: data.mediaType || "image",
+            });
+          });
+        }
+
         setMedia(items);
       } catch (error) {
         console.error("Error fetching gallery media:", error);
@@ -52,7 +79,7 @@ export default function MinistryGallery({ categories, title, subtitle }: Ministr
     };
 
     fetchGalleryMedia();
-  }, [categories]);
+  }, [categories, ministrySlug]);
 
   if (loading) {
     return (
@@ -99,6 +126,9 @@ export default function MinistryGallery({ categories, title, subtitle }: Ministr
               </div>
               <div className="p-4">
                 <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
+                {item.subtitle && (
+                  <p className="text-xs text-slate-600 mb-1 italic">{item.subtitle}</p>
+                )}
                 <p className="text-sm text-slate-600 line-clamp-2">{item.description}</p>
               </div>
             </div>

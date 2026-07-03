@@ -330,6 +330,7 @@ export default function MedicalMinistry() {
         categories={["hospital"]}
         title="Medical Ministry Gallery"
         subtitle="Explore our healthcare facilities, medical outreach programs, and compassionate care initiatives."
+        ministrySlug="hospital-project"
       />
 
       <Footer />

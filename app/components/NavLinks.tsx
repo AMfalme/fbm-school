@@ -81,11 +81,11 @@ export default function NavLinks() {
 
         <div className="absolute left-0 top-full hidden min-w-[280px] rounded-lg bg-white p-2 shadow-xl group-hover:block">
           <a href="/ministries/missionary-outreach" className="block rounded px-4 py-2 hover:bg-slate-100">
-            Mission outreach
+            FBM - Mission outreach
           </a>
 
           <a href="/church-planting" className="block rounded px-4 py-2 hover:bg-slate-100">
-            Church Planting
+            FBM - Church Planting
           </a>
 
           <a href="/christian-faith-academy" className="block rounded px-4 py-2 hover:bg-slate-100">

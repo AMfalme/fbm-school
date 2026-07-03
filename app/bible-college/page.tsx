@@ -501,6 +501,7 @@ export default function BibleCollege() {
         categories={["bible-college"]}
         title="Bible College Gallery"
         subtitle="Witness the transformative journey of our students and graduates across East Africa."
+        ministrySlug="bible-college"
       />
 
       <Footer />

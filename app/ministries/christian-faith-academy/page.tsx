@@ -681,6 +681,7 @@ export default function ChristianFaithAcademy() {
         categories={["classroom"]}
         title="Christian Faith Academy Gallery"
         subtitle="See our students excellence in academics, character development, and biblical upbringing."
+        ministrySlug="christian-faith-academy"
       />
 
       <Footer />

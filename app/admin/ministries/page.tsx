@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
+import MinistryMediaManager from "./library-management";
 import { db } from "../../lib/firebase";
 import { 
   collection, 
@@ -41,6 +42,8 @@ export default function AdminMinistriesPage() {
   const [showModal, setShowModal] = useState(false);
   const [editingMinistry, setEditingMinistry] = useState<Ministry | null>(null);
   const [saving, setSaving] = useState(false);
+  const [showMediaManager, setShowMediaManager] = useState(false);
+  const [selectedMinistry, setSelectedMinistry] = useState<Ministry | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -186,6 +189,16 @@ export default function AdminMinistriesPage() {
     }
   };
 
+  const handleOpenMediaManager = (ministry: Ministry) => {
+    setSelectedMinistry(ministry);
+    setShowMediaManager(true);
+  };
+
+  const handleCloseMediaManager = () => {
+    setShowMediaManager(false);
+    setSelectedMinistry(null);
+  };
+
   const handleDeleteMinistry = async (ministryId: string, ministryName: string) => {
     if (!confirm(`Are you sure you want to delete "${ministryName}"? This action cannot be undone.`)) return;
 
@@ -305,6 +318,12 @@ export default function AdminMinistriesPage() {
                     Edit
                   </button>
                   <button
+                    onClick={() => handleOpenMediaManager(ministry)}
+                    className="rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition-colors"
+                  >
+                    Media
+                  </button>
+                  <button
                     onClick={() => handleDeleteMinistry(ministry.id, ministry.name)}
                     className="rounded-xl bg-red-600 px-3 py-2 text-xs font-bold text-white hover:bg-red-700 transition-colors"
                   >
@@ -315,6 +334,16 @@ export default function AdminMinistriesPage() {
             ))
           )}
         </div>
+
+        {/* Media Library Manager */}
+        {showMediaManager && selectedMinistry && (
+          <MinistryMediaManager
+            ministrySlug={selectedMinistry.slug}
+            ministryName={selectedMinistry.name}
+            isOpen={showMediaManager}
+            onClose={handleCloseMediaManager}
+          />
+        )}
 
         {/* Add/Edit Ministry Modal */}
         {showModal && (

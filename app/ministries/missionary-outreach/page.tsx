@@ -324,6 +324,7 @@ export default function MissionOutreach() {
         categories={["church-community", "mission-projects"]}
         title="Mission Outreach Gallery"
         subtitle="Witness the impact of our evangelism and community development initiatives across Kenya and beyond."
+        ministrySlug="missionary-outreach"
       />
 
       <Footer />

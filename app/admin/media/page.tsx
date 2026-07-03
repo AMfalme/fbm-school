@@ -216,7 +216,7 @@ export default function AdminMediaPage() {
 
       const payload = {
         ...formData,
-        mediaType: formData.mediaType,
+        mediaType: formData.mediaType || "image",
         createdAt,
       };
 
