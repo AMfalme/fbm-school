@@ -225,45 +225,45 @@ export default function MinistryMediaManager({ ministrySlug, ministryName, isOpe
             <form onSubmit={handleAddMedia} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g. Classroom Learning"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
-                />
+                  <input
+                    type="text"
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="e.g. Classroom Learning"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 font-medium focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                  />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Subtitle</label>
-                <input
-                  type="text"
-                  value={subtitle}
-                  onChange={(e) => setSubtitle(e.target.value)}
-                  placeholder="e.g. Interactive lessons for young learners"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
-                />
+                  <input
+                    type="text"
+                    value={subtitle}
+                    onChange={(e) => setSubtitle(e.target.value)}
+                    placeholder="e.g. Interactive lessons for young learners"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 font-medium focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                  />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={3}
-                  placeholder="Describe this media..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 resize-none"
-                />
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                    placeholder="Describe this media..."
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 font-medium focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 resize-none"
+                  />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Media Type</label>
-                <select
-                  value={mediaType}
-                  onChange={(e) => setMediaType(e.target.value as "image" | "video")}
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
-                >
+                  <select
+                    value={mediaType}
+                    onChange={(e) => setMediaType(e.target.value as "image" | "video")}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 font-medium focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                  >
                   <option value="image">Image</option>
                   <option value="video">Video</option>
                 </select>
@@ -271,13 +271,13 @@ export default function MinistryMediaManager({ ministrySlug, ministryName, isOpe
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Upload File *</label>
-                <input
-                  type="file"
-                  accept={mediaType === "image" ? "image/*" : "video/*"}
-                  onChange={(e) => setSelectedFile(e.target.files ? e.target.files[0] : null)}
-                  required
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
-                />
+                  <input
+                    type="file"
+                    accept={mediaType === "image" ? "image/*" : "video/*"}
+                    onChange={(e) => setSelectedFile(e.target.files ? e.target.files[0] : null)}
+                    required
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 font-medium focus:border-[#0055b8] focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                  />
                 {selectedFile && (
                   <p className="text-xs text-slate-500 mt-1">Selected: {selectedFile.name}</p>
                 )}
