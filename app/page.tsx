@@ -78,8 +78,8 @@ export default function Home() {
             </div>
             <div className="pt-6 md:pt-0">
               <span className="text-4xl sm:text-5xl font-black block text-[#FFD966]">03</span>
-              <h3 className="text-lg font-bold mt-2">Early Child Care</h3>
-              <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Quality education close to home with support for families in need.</p>
+              <h3 className="text-lg font-bold mt-2">Child Education & Support</h3>
+               <p className="text-xs text-blue-100/80 mt-1 max-w-xs mx-auto">Free education support for needy students, ensuring quality Christ-centered learning close to home.</p>
             </div>
           </div>
         </section>

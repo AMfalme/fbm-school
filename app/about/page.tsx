@@ -127,34 +127,34 @@ export default function About() {
             if (items.length === 0) {
               const fallbackImages: Record<string, MediaItem[]> = {
                 "mission-outreach": [
-                  { id: "fallback-1", photoUrl: "/church/mission.jpg", title: "Mission Outreach", description: "Evangelism and community development" },
-                  { id: "fallback-2", photoUrl: "/church/mgt.png", title: "Community Impact", description: "Sharing Christ's love locally" },
-                  { id: "fallback-3", photoUrl: "/church/visit.jpg", title: "Medical Outreach", description: "Healthcare as ministry" },
-                  { id: "fallback-4", photoUrl: "/bible-college/bible college.jpg", title: "Training", description: "Equipping local leaders" }
+                  { id: "fallback-1", photoUrl: "/church/mission.jpg", title: "Mission Outreach", description: "Evangelism and community development", mediaType: "image" },
+                  { id: "fallback-2", photoUrl: "/church/mgt.png", title: "Community Impact", description: "Sharing Christ's love locally", mediaType: "image" },
+                  { id: "fallback-3", photoUrl: "/church/visit.jpg", title: "Medical Outreach", description: "Healthcare as ministry", mediaType: "image" },
+                  { id: "fallback-4", photoUrl: "/bible-college/bible college.jpg", title: "Training", description: "Equipping local leaders", mediaType: "image" }
                 ],
                 "church-planting": [
-                  { id: "fallback-1", photoUrl: "/church/construct.jpg", title: "Church Building", description: "Constructing places of worship" },
-                  { id: "fallback-2", photoUrl: "/bible-college/class.jpeg", title: "Bible College", description: "Training pastors" },
-                  { id: "fallback-3", photoUrl: "/church/prayer.jpg", title: "Prayer Meeting", description: "Community prayer" },
-                  { id: "fallback-4", photoUrl: "/bible-college/graduation.jpg", title: "Graduates", description: "Sent out to serve" }
+                  { id: "fallback-1", photoUrl: "/church/construct.jpg", title: "Church Building", description: "Constructing places of worship", mediaType: "image" },
+                  { id: "fallback-2", photoUrl: "/bible-college/class.jpeg", title: "Bible College", description: "Training pastors", mediaType: "image" },
+                  { id: "fallback-3", photoUrl: "/church/prayer.jpg", title: "Prayer Meeting", description: "Community prayer", mediaType: "image" },
+                  { id: "fallback-4", photoUrl: "/bible-college/graduation.jpg", title: "Graduates", description: "Sent out to serve", mediaType: "image" }
                 ],
                 "bible-college": [
-                  { id: "fallback-1", photoUrl: "/bible-college/bible college.jpg", title: "Classroom", description: "Theological education" },
-                  { id: "fallback-2", photoUrl: "/bible-college/class.jpeg", title: "Study", description: "Deep biblical learning" },
-                  { id: "fallback-3", photoUrl: "/bible-college/graduation.jpg", title: "Graduation", description: "Commissioning leaders" },
-                  { id: "fallback-4", photoUrl: "/bible-college/bible college 2.jpg", title: "Fellowship", description: "Community learning" }
+                  { id: "fallback-1", photoUrl: "/bible-college/bible college.jpg", title: "Classroom", description: "Theological education", mediaType: "image" },
+                  { id: "fallback-2", photoUrl: "/bible-college/class.jpeg", title: "Study", description: "Deep biblical learning", mediaType: "image" },
+                  { id: "fallback-3", photoUrl: "/bible-college/graduation.jpg", title: "Graduation", description: "Commissioning leaders", mediaType: "image" },
+                  { id: "fallback-4", photoUrl: "/bible-college/bible college 2.jpg", title: "Fellowship", description: "Community learning", mediaType: "image" }
                 ],
                 "christian-faith-academy": [
-                  { id: "fallback-1", photoUrl: "/school/classroom.png", title: "Classroom", description: "Active learning" },
-                  { id: "fallback-2", photoUrl: "/school/highlight.png", title: "Students", description: "Growing in knowledge" },
-                  { id: "fallback-3", photoUrl: "/school/hi.png", title: "Playtime", description: "Balanced development" },
-                  { id: "fallback-4", photoUrl: "/school/bestcare.jpeg", title: "Learning", description: "Biblical foundation" }
+                  { id: "fallback-1", photoUrl: "/school/classroom.png", title: "Classroom", description: "Active learning", mediaType: "image" },
+                  { id: "fallback-2", photoUrl: "/school/highlight.png", title: "Students", description: "Growing in knowledge", mediaType: "image" },
+                  { id: "fallback-3", photoUrl: "/school/hi.png", title: "Playtime", description: "Balanced development", mediaType: "image" },
+                  { id: "fallback-4", photoUrl: "/school/bestcare.jpeg", title: "Learning", description: "Biblical foundation", mediaType: "image" }
                 ],
                 "mission-hospital": [
-                  { id: "fallback-1", photoUrl: "/church/visit.jpg", title: "Medical Visit", description: "Compassionate care" },
-                  { id: "fallback-2", photoUrl: "/church/medical.png", title: "Facility", description: "Modern healthcare" },
-                  { id: "fallback-3", photoUrl: "/church/management.png", title: "Management", description: "Organized ministry" },
-                  { id: "fallback-4", photoUrl: "/church/outreach.jpg", title: "Outreach", description: "Mobile clinics" }
+                  { id: "fallback-1", photoUrl: "/church/visit.jpg", title: "Medical Visit", description: "Compassionate care", mediaType: "image" },
+                  { id: "fallback-2", photoUrl: "/church/medical.png", title: "Facility", description: "Modern healthcare", mediaType: "image" },
+                  { id: "fallback-3", photoUrl: "/church/management.png", title: "Management", description: "Organized ministry", mediaType: "image" },
+                  { id: "fallback-4", photoUrl: "/church/outreach.jpg", title: "Outreach", description: "Mobile clinics", mediaType: "image" }
                 ]
               };
               data[ministry.id] = fallbackImages[ministry.id] || [];
