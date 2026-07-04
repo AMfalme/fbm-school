@@ -9,7 +9,7 @@ interface ChurchPlant {
   id: string;
   name: string;
   region: string;
-  status: "Established" | "Growing" | "Community Forming";
+  status: "Completed" | "Under Construction" | "Planning Phase";
   pastor: string;
   foundedYear: string;
   featuredImage: string;
@@ -34,7 +34,7 @@ export default function ChurchPlanting() {
       id: "plant-1",
       name: "Freedom Baptist Mission - Bible College",
       region: "Western Region (Kakamega)",
-      status: "Established",
+      status: "Completed",
       pastor: "Bishop Reverend Benard Curry (Class of 2023)",
       foundedYear: "2024",
       featuredImage: "/bible-college/mission bible college.png",
@@ -57,7 +57,7 @@ export default function ChurchPlanting() {
       id: "plant-2",
       name: "Freedom Baptist Mission Outreach",
       region: "Rift Valley Region (Narok Line)",
-      status: "Growing",
+      status: "Under Construction",
       pastor: "Evangelist Isaac Kiprop (Class of 2024)",
       foundedYear: "2025",
       featuredImage: "/church/management.png",
@@ -80,7 +80,7 @@ export default function ChurchPlanting() {
       id: "plant-3",
       name: "Freedom Baptist Mission Training Outreach",
       region: "Coastal Strip (Kilifi)",
-      status: "Community Forming",
+      status: "Planning Phase",
       pastor: "Pastor Titus Mwangi (Alumni Network)",
       foundedYear: "2026",
       featuredImage: "church/outreach.jpg",
@@ -128,7 +128,7 @@ export default function ChurchPlanting() {
         <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 relative z-10 text-center space-y-6">
           <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/10">
-            🌱 Freedom Baptist Bible Mission • Church Planting
+            🌱 Freedom Baptist Mission • Church Planting
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-none max-w-4xl mx-auto">
             Planting Independent <br />
@@ -167,22 +167,22 @@ export default function ChurchPlanting() {
           ))}
         </section>
 
-        {/* Active Church Plants */}
+        {/* Church Planting Projects */}
         <section id="active-deployments" className="space-y-8 scroll-mt-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
             <div className="space-y-1">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-                Our Church Planting Network
+                Church Planting Projects
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Active Churches & Communities</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Church Planting Projects</h2>
             </div>
             <div className="flex flex-wrap p-1 bg-slate-200/80 rounded-xl gap-1">
               {[
-                { id: "ALL", label: "🎯 All Churches" },
-                { id: "Established", label: "🏛️ Established" },
-                { id: "Growing", label: "🌱 Growing" },
-                { id: "Community Forming", label: "👥 New Beginnings" }
+                { id: "ALL", label: "🎯 All Projects" },
+                { id: "Completed", label: "✅ Completed" },
+                { id: "Under Construction", label: "🔨 Under Construction" },
+                { id: "Planning Phase", label: "📋 Planning Phase" }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -229,7 +229,7 @@ export default function ChurchPlanting() {
                       className="w-full h-full object-cover transition duration-300 group-hover:scale-102"
                     />
                     <span className={`absolute bottom-3 left-3 text-white text-[9px] font-bold uppercase px-2 py-0.5 rounded-md tracking-wider shadow-sm ${
-                      plant.status === "Established" ? "bg-emerald-600" : plant.status === "Growing" ? "bg-amber-600" : "bg-blue-600"
+                      plant.status === "Completed" ? "bg-emerald-600" : plant.status === "Under Construction" ? "bg-amber-600" : "bg-blue-600"
                     }`}>
                       {plant.status}
                     </span>
@@ -244,7 +244,7 @@ export default function ChurchPlanting() {
                         {plant.name}
                       </h4>
                       <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider shrink-0 bg-emerald-50 px-2 py-0.5 rounded-md">
-                        Learn More &rarr;
+                        Learn More →
                       </span>
                     </div>
                     <p className="text-[11px] text-slate-500">📍 {plant.region}</p>
@@ -265,7 +265,7 @@ export default function ChurchPlanting() {
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div>
                   <span className={`text-[10px] font-bold uppercase tracking-wider text-white px-2 py-0.5 rounded-md ${
-                    selectedPlant.status === "Established" ? "bg-emerald-600" : selectedPlant.status === "Growing" ? "bg-amber-600" : "bg-blue-600"
+                    selectedPlant.status === "Completed" ? "bg-emerald-600" : selectedPlant.status === "Under Construction" ? "bg-amber-600" : "bg-blue-600"
                   }`}>
                     {selectedPlant.status}
                   </span>

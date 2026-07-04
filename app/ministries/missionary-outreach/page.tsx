@@ -273,16 +273,24 @@ export default function MissionOutreach() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[
-              { src: "/church/mgt.png", title: "Active Community Engagement", desc: "Structured play, baseline physical execution, and targeted community field health programs are prioritized weekly." },
-              { src: "/church/visitation.jpg", title: "Insulated, Safe Environments", desc: "A wholesome atmosphere where emerging leadership cohorts develop securely, free from competing ideological parameters." }
-            ].map((img, idx) => (
+             
+  {
+    src: "/church/mgt.png",
+    title: "Mission Outreach & Community Impact",
+    desc: "Sharing the love of Christ through evangelism, discipleship, prayer, and compassionate ministry within local communities."
+  },
+  {
+    src: "/church/mission.jpg",
+    title: "Bible College Graduation",
+    desc: "Celebrating graduates equipped with biblical knowledge, ministry training, and a passion to serve Christ faithfully."
+  }
+].map((img, idx) => (
               <div key={idx} className="group bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
                 <div className="overflow-hidden bg-slate-100">
-                  <img 
-                    src={img.src} 
-                    alt={img.title} 
-                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <img
+                    src={img.src}
+                    alt={img.title}
+className="w-full h-64 object-cover object-[50%_30%]"                  />
                 </div>
                 <div className="p-5 border-t border-slate-100">
                   <h4 className="font-bold text-sm text-slate-900">{img.title}</h4>

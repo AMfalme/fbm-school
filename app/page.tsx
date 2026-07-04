@@ -92,7 +92,7 @@ export default function Home() {
               Our Established Work & Pillars
             </h2>
             <p className="text-slate-600 font-medium">
-              We move away from brief aid structures toward building long-term local spiritual networks across multiple fields of engagement.
+              We look not at things seen but things unseen, planting eternal churches rather than seeking fleeting relief.
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export default function Home() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Mission Outreach</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    Holistic gospel transformation through evangelism, discipleship, and community development across Kenya and beyond.
+                    Obeying the Great Commission, we go into Kenya and beyond to make disciples, baptizing them and teaching them to observe all that Christ commanded through evangelism and community development.
                   </p>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function Home() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Church Planting</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    Seeding autonomous local Baptist churches that are self-governing, self-supporting, and self-propagating across unreached communities.
+                    We train pastors/church planter to have a desired knowledge of the word of God to plant local Baptist churches that are self-governing, self-supporting, and self-propagating across unreached communities.
                   </p>
                 </div>
               </div>
@@ -137,7 +137,7 @@ export default function Home() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Bible College</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    Training local pastors and church leaders with solid biblical teaching, theology, and hands-on ministry experience.
+                    Fulfilling the Great Commission by thoroughly equipping local pastors and church planters with solid biblical theology, enabling them to handle the Word of Truth rightly as they plant churches and reach their communities for Christ.
                   </p>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function Home() {
               <div className="space-y-6">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300">🎓</div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Christian Faith Academy</h3>
+                  <h3 className="text-2xl font-bold text-slate-950 tracking-tight">The FBM - Christian Faith Academy</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
                     Foundational education from Pre-Primary to Junior School, integrating academic excellence with uncompromised biblical truth.
                   </p>
@@ -169,7 +169,7 @@ export default function Home() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold text-slate-950 tracking-tight">Mission Hospital</h3>
                   <p className="text-sm leading-relaxed text-slate-600">
-                    Christ-centered healthcare ministry providing quality medical services, mobile clinics, and compassionate care to communities.
+                    We utilize our healthcare ministry as a divine appointment to evangelize, witness, and share the life-changing Gospel with every patient who walks through our doors.
                   </p>
                 </div>
               </div>
@@ -199,12 +199,12 @@ export default function Home() {
         {/* ================= THE METHODOLOGY SECTION ================= */}
         <section className="bg-[#FFFDF9] border-2 border-slate-100 rounded-[40px] p-8 sm:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#16a34a]">Professional Administration</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#16a34a]">The Great Commission</span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              A Responsible Approach to Global Evangelism
+              A Responsible Approach to Global Missions
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              We stand apart from temporary aid configurations. Our goal is to train native leadership teams, ensuring each newly planted church becomes entirely self-governing, self-supporting, and self-propagating within its local ecosystem.
+              We are called to serve and reach Kenya and beyond through the Great Commission, discipleship, and church planting.
             </p>
             <div className="space-y-4">
               <div className="flex gap-4 items-start">
