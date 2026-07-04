@@ -25,13 +25,13 @@ export default function MedicalMinistry() {
               🩺 Healing Hands • Christ-Centered Compassion
             </div>
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
-              Restoring Wholeness <br />
+              Healing & Evangelism <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0055b8] to-[#16a34a]">
-                Through Medical Excellence
+                Through Medical Ministry
               </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-xl">
-              Our Medical Ministry blends professional, clinical care with compassionate Christian discipleship, offering accessible healthcare channels and high-quality medical services to the community.
+              We utilize our healthcare services, deeds, and actions as a divine appointment to evangelize, witness, and share the life-changing Gospel with every patient who walks through our doors.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <button 

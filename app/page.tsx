@@ -239,10 +239,10 @@ export default function Home() {
               <span className="text-xl">🤝</span> Global Mission Network
             </div>
             <h3 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              Stand With Us in the Harvest Fields
+              Partner with Us
             </h3>
             <p className="text-slate-600 leading-relaxed max-w-xl">
-              Whether you are an independent Baptist congregation evaluating your monthly missionary allocation, a donor interested in financing structural assets, or an applicant for theological training modules—your collaboration is vital.
+              Whether you are an independent Baptist church looking to support a missionary, a donor wanting to fund new church buildings, or a student ready for ministry training—your partnership makes a difference.
             </p>
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700">
               <p>📍 HQ: Kisii, Kenya | Box 4183-40200</p>
@@ -252,17 +252,17 @@ export default function Home() {
 
           <div className="lg:col-span-5 bg-gradient-to-br from-[#003d7a] to-[#0055b8] p-8 rounded-[32px] text-white shadow-2xl flex flex-col justify-between">
             <div className="space-y-2">
-              <h4 className="text-xl font-bold tracking-tight">Mission Operations Desk</h4>
+              <h4 className="text-xl font-bold tracking-tight">Get Involved</h4>
               <p className="text-xs text-blue-100/80 leading-relaxed">
-                Connect with our administration to receive our quarterly operational print, audited expenditure portfolios, or targeted project profiles.
+                Contact our team to receive our updates, financial reports, or current church planting project needs.
               </p>
             </div>
             <div className="mt-8 space-y-3">
               <a href="/partner" className="inline-flex w-full h-12 items-center justify-center rounded-xl bg-[#FFD966] text-sm font-bold text-[#003d7a] hover:bg-[#FFC933] transition-all shadow-lg shadow-yellow-500/10">
-                Initiate Strategic Partnership
+                Partner With Us
               </a>
               <a href="/contact" className="inline-flex w-full h-12 items-center justify-center rounded-xl border border-white/20 bg-transparent text-sm font-bold text-white hover:bg-white/5 transition-all">
-                Contact Mission Headquarters
+                Contact Us
               </a>
             </div>
           </div>

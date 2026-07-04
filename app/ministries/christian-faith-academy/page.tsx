@@ -95,7 +95,7 @@ export default function ChristianFaithAcademy() {
             {/* Right: Text Content */}
             <div className="lg:col-span-7 text-center lg:text-left space-y-6">
               <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/10 uppercase tracking-wider">
-                📖 Nurturing Mind & Spirit • Early Years Foundation
+                📖 Academic Excellence • Biblical Truth
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-none">
                 Christian <br />
@@ -104,10 +104,10 @@ export default function ChristianFaithAcademy() {
                 </span>
               </h1>
               <p className="text-xl font-semibold text-slate-700 mt-4">
-                Excellence • Character • Faith
+                Pre-Primary through Junior School
               </p>
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-medium">
-                Christian Faith Academy delivers a rich Competency Based Curriculum (CBC) that encourages each child's growth in reading, learning, and love for Christ. We provide support for needy students who would otherwise travel long distances to access quality education.
+                Foundational education from Pre-Primary to Junior School, integrating academic excellence with uncompromised biblical truth. We provide support for needy students who would otherwise travel long distances to access quality education.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
                 <button
@@ -131,9 +131,10 @@ export default function ChristianFaithAcademy() {
       {/* Academy Highlights */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="text-center mb-10">
+              <div className="text-center mb-10">
             <span className="text-xs font-bold uppercase tracking-widest text-[#0055b8] block mb-2">Academy Overview</span>
             <h2 className="text-3xl font-black text-slate-950 tracking-tight">Why Choose Christian Faith Academy</h2>
+            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Where academic excellence meets uncompromised biblical truth, nurturing well-rounded individuals prepared for lifelong learning and service.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -238,7 +239,7 @@ export default function ChristianFaithAcademy() {
           <div className="text-center mb-16">
             <span className="text-xs font-bold uppercase tracking-widest text-[#0055b8] block mb-2">Our Difference</span>
             <h2 className="text-4xl font-black text-slate-950 tracking-tight">Why Choose Christian Faith Academy</h2>
-            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">We combine academic excellence with biblical truth to nurture well-rounded individuals prepared for lifelong learning and service.</p>
+            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Integrating academic excellence with uncompromised biblical truth to prepare students for lifelong learning, leadership, and service.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -291,7 +292,7 @@ export default function ChristianFaithAcademy() {
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-[#0055b8] block mb-2">Academic Programs</span>
             <h2 className="text-4xl font-black text-slate-950 tracking-tight">Our Curriculum Structure</h2>
-            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">A comprehensive 2-6-3-3 education system from Pre-Primary through Junior Secondary, aligned with Kenya's Competency Based Curriculum.</p>
+          <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Foundational education from Pre-Primary to Junior School, integrating academic excellence with uncompromised biblical truth.</p>
           </div>
 
           {/* Level Tabs */}
@@ -502,7 +503,7 @@ export default function ChristianFaithAcademy() {
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-[#0055b8] block mb-2">Join Our Community</span>
             <h2 className="text-4xl font-black text-slate-950 tracking-tight">Admissions & Enrollment</h2>
-            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Begin your child's journey with us. We offer education support for families in need, ensuring no child is denied quality education due to distance or financial constraints.</p>
+            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Begin your child's journey with us. We provide support for needy students, ensuring no child travels long distances for quality, Christ-centered learning.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">

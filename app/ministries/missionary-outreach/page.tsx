@@ -23,23 +23,23 @@ export default function MissionOutreach() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/10">
-              🙏 Spreading God's Love • Serving Others
+              ⚜️ The Great Commission • Matthew 28:19-20
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-none">
-              Sharing the Gospel, <br className="hidden sm:inline" />
+              Go. Make Disciples. <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Transforming Communities
+                Plant Self-Sustaining Churches
               </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-              Through education, healthcare, and local church partnerships, we bring hope and change to communities across Kenya.
+              We leave behind temporary aid to train local men and women to plant independent, self-governing, self-supporting, and self-propagating churches that multiply within their own cultures.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
-              <button 
+               <button 
                 onClick={() => setActiveTab("medical")}
                 className="rounded-xl bg-slate-900 px-5 py-3 text-xs font-semibold text-white shadow-md hover:bg-slate-800 transition-all"
               >
-                Explore Medical Wing
+                Explore Medical Ministry
               </button>
               <button 
                 onClick={() => setActiveTab("planting")}
@@ -61,7 +61,7 @@ export default function MissionOutreach() {
                 />
                 <div className="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Current Focus Matrix</span>
-                  <p className="text-xs text-slate-700 font-semibold mt-0.5">Early Literacy, Reading Readiness &amp; Confessional Discipleship</p>
+                  <p className="text-xs text-slate-700 font-semibold mt-0.5">Early Literacy, Reading Readiness & Confessional Discipleship</p>
                 </div>
               </div>
             </div>
@@ -73,10 +73,10 @@ export default function MissionOutreach() {
         {/* Four Branches Minimal Stat Grid */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { title: "Christian Faith Academy", desc: "Fully integrated CBC framework pathways across early years cohorts", color: "border-t-emerald-500 text-emerald-600" },
-            { title: "Medical Mission Hospital", desc: "Intense, individualized attention per patient profile and critical wellness wing", color: "border-t-blue-500 text-blue-600" },
-            { title: "Bible College", desc: "Every lesson mapped onto a scriptural framework for leadership development", color: "border-t-amber-500 text-amber-600" },
-              { title: "Church Planting", desc: "Partnering with local leaders to grow healthy churches", color: "border-t-purple-500 text-purple-600" }
+            { title: "Christian Faith Academy", desc: "From Pre-Primary to Junior School with academic excellence rooted in biblical truth", color: "border-t-emerald-500 text-emerald-600" },
+            { title: "Medical Mission Hospital", desc: "Healthcare as a divine appointment to share the Gospel with every patient", color: "border-t-blue-500 text-blue-600" },
+            { title: "Bible College", desc: "Equipping local pastors with solid biblical teaching and sound theology", color: "border-t-amber-500 text-amber-600" },
+              { title: "Church Planting", desc: "Training indigenous leaders to plant self-sustaining churches in their own cultures", color: "border-t-purple-500 text-purple-600" }
           ].map((attr, idx) => (
             <div key={idx} className={`bg-white border-t-4 ${attr.color} border-x border-b border-slate-200/60 p-6 rounded-xl shadow-xs transition-transform hover:-translate-y-0.5`}>
               <h3 className="text-sm font-bold text-slate-900">{attr.title}</h3>
@@ -115,10 +115,10 @@ export default function MissionOutreach() {
             {activeTab === "education" && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-200">
                 <div className="lg:col-span-5 space-y-4">
-                  <span className="bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Primary &amp; Junior Track</span>
+                  <span className="bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Pre-Primary Through Junior School</span>
                   <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Christian Faith Academy</h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    Delivering a complete 2-6-3-3 Competency Based Curriculum framework from Pre-Primary through Junior School levels. We combine core academic rigors with intense early textual literacy structures.
+                    Foundational education from Pre-Primary to Junior School, integrating academic excellence with uncompromised biblical truth.
                   </p>
                   <div className="p-4 bg-emerald-50/50 border border-emerald-100 rounded-xl">
                     <h4 className="text-xs font-bold text-emerald-800 uppercase tracking-wider">💡 Strategic Literacy Core Focus</h4>
@@ -135,7 +135,7 @@ export default function MissionOutreach() {
 
                 <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-slate-50/50 border border-slate-200 p-5 rounded-xl space-y-2">
-                    <h4 className="font-bold text-slate-900 text-sm">PP1 &amp; PP2 Frameworks</h4>
+                    <h4 className="font-bold text-slate-900 text-sm">PP1 & PP2 Frameworks</h4>
                     <p className="text-xs text-slate-500 leading-relaxed">Focus on play, socialization, and foundational motor skills for cohorts aged 4-6 years.</p>
                   </div>
                   <div className="bg-slate-50/50 border border-slate-200 p-5 rounded-xl space-y-2">
@@ -158,16 +158,13 @@ export default function MissionOutreach() {
             {activeTab === "medical" && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-200">
                 <div className="lg:col-span-5 space-y-4">
-                  <span className="bg-blue-50 text-blue-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Compassionate Healthcare</span>
-                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Medical Mission Hospital Wing</h3>
+                  <span className="bg-blue-50 text-blue-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Healing & Evangelism</span>
+                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Mission Hospital</h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    Providing essential clinical interventions, specialized clinical treatment matrices, and maternal-child health infrastructure to underserved regional communities.
+                    We utilize our healthcare services, deeds, and actions as a divine appointment to evangelize, witness, and share the life-changing Gospel with every patient who walks through our doors.
                   </p>
-                  <blockquote className="text-xs text-slate-600 italic border-l-4 border-blue-500 pl-4 py-2 bg-slate-50 rounded-r-lg font-medium">
-                    "Healing the physical body while extending the ultimate hope of the Gospel to every patient passing through our outpatient clusters."
-                  </blockquote>
                   <div className="pt-2">
-                    <a href="/branches/hospital" className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                    <a href="/hospital-project" className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">
                       Explore Hospital Registry Page &rarr;
                     </a>
                   </div>
@@ -179,7 +176,7 @@ export default function MissionOutreach() {
                     <p className="text-xs text-slate-500 leading-relaxed">24/7 triaging networks handling acute medical diagnostics and primary stabilization workflows.</p>
                   </div>
                   <div className="bg-slate-50/50 border border-slate-200 p-5 rounded-xl space-y-1">
-                    <h4 className="font-bold text-slate-900 text-sm">Maternal &amp; Child Health</h4>
+                    <h4 className="font-bold text-slate-900 text-sm">Maternal & Child Health</h4>
                     <p className="text-xs text-slate-500 leading-relaxed">Comprehensive antenatal monitoring, safe deliveries, and strict newborn immunization tracking.</p>
                   </div>
                   <div className="bg-slate-50/50 border border-slate-200 p-5 rounded-xl sm:col-span-2 space-y-1">
@@ -194,10 +191,10 @@ export default function MissionOutreach() {
             {activeTab === "theology" && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-200">
                 <div className="lg:col-span-5 space-y-4">
-                  <span className="bg-amber-50 text-amber-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Leadership Endowment</span>
+                  <span className="bg-amber-50 text-amber-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Equipping Leaders</span>
                   <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Bible College</h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    Equipping national pastors, church leaders, and lay ministers with rigorous biblical exposition, historical text mechanics, and foundational ministerial methodology.
+                    Empowering and training local pastors and church leaders with solid biblical teaching, sound theology, and a deep knowledge of the Word of God so they can successfully reach their communities for Christ.
                   </p>
                   <div className="p-4 bg-amber-50/50 border border-amber-100 rounded-xl">
                     <h4 className="text-xs font-bold text-amber-900 uppercase tracking-wider">📚 Confessional Discipleship Core</h4>
@@ -206,7 +203,7 @@ export default function MissionOutreach() {
                     </p>
                   </div>
                   <div className="pt-2">
-                    <a href="/branches/bible-college" className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 hover:text-amber-700 transition-colors">
+                    <a href="/bible-college" className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 hover:text-amber-700 transition-colors">
                       Explore Theological Programs &rarr;
                     </a>
                   </div>
@@ -231,14 +228,14 @@ export default function MissionOutreach() {
                 <div className="border-b border-slate-100 pb-4">
                   <span className="bg-purple-50 text-purple-700 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">Gospel Expansion</span>
                   <h3 className="text-2xl font-bold text-slate-900 tracking-tight mt-2">The Church Planting Network</h3>
-                  <p className="text-xs text-slate-500 mt-1">Deploying baseline integration lifecycles to cultivate healthy, self-sustaining regional congregations.</p>
+                  <p className="text-xs text-slate-500 mt-1">Training local men and women to plant self-governing, self-supporting, and self-propagating independent churches that multiply within their own cultures.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
-                    { phase: "Phase 01", title: "Document & Scout Mapping", desc: "Evaluating specific local socio-economic characteristics and language boundaries via our central office to locate optimal target sectors." },
-                    { phase: "Phase 02", title: "Parental & Elder Mobilization", desc: "Cultivating mutual cross-structural alignment regarding institutional confessional standards through deliberate local community interface cycles." },
-                    { phase: "Phase 03", title: "Growing Together in Faith", desc: "Supporting new believers as they gather for Bible study, prayer, and fellowship, building strong foundations for a thriving church community." }
+                    { phase: "Phase 01", title: "Train Indigenous Leaders", desc: "Equipping local men and women with biblical knowledge and ministry skills at our Bible College to lead their own people." },
+                    { phase: "Phase 02", title: "Plant Local Churches", desc: "Supporting trained leaders as they establish independent Baptist churches in their own communities and languages." },
+                    { phase: "Phase 03", title: "Multiply & Replicate", desc: "Each new church becomes self-governing, self-supporting, and self-propagating, sending out its own missionaries." }
                   ].map((proc, idx) => (
                     <div key={idx} className="bg-slate-50 border border-slate-200 p-5 rounded-xl flex flex-col justify-between">
                       <div>
@@ -267,22 +264,22 @@ export default function MissionOutreach() {
         {/* Clean Static Gallery Layout */}
         <section className="space-y-8">
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900">Field Operations &amp; Campus Environments</h2>
-            <p className="text-xs text-slate-500">Take an inside look at our structural outreach environments, active clinic networks, and educational communities.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">Our Ministry in Action</h2>
+            <p className="text-xs text-slate-500">Witness the impact of our evangelism, discipleship, and community transformation across Kenya and beyond.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[
              
   {
-    src: "/church/mgt.png",
-    title: "Mission Outreach & Community Impact",
-    desc: "Sharing the love of Christ through evangelism, discipleship, prayer, and compassionate ministry within local communities."
-  },
-  {
     src: "/church/mission.jpg",
     title: "Bible College Graduation",
     desc: "Celebrating graduates equipped with biblical knowledge, ministry training, and a passion to serve Christ faithfully."
+  },
+  {
+    src: "/church/mgt.png",
+    title: "Mission Outreach & Community Impact",
+    desc: "Sharing the love of Christ through evangelism, discipleship, prayer, and compassionate ministry within local communities."
   }
 ].map((img, idx) => (
               <div key={idx} className="group bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
@@ -305,12 +302,12 @@ className="w-full h-64 object-cover object-[50%_30%]"                  />
         <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 max-w-4xl mx-auto text-center shadow-xl space-y-6">
           <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400 ring-1 ring-inset ring-amber-500/20">
-              🙏 Help Us Reach More Communities
+                     <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400 ring-1 ring-inset ring-amber-500/20">
+              ⚜️ Help Us Reach More Communities
             </span>
-            <h3 className="text-2xl sm:text-4xl font-bold tracking-tight">Support Our Ministry Projects</h3>
+            <h3 className="text-2xl sm:text-4xl font-bold tracking-tight">Support Our Mission Projects</h3>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Partner with us as we work alongside local communities to build lasting change through Christ's love.
+              Partner with us as we obey the Great Commission, train indigenous leaders, and plant self-sustaining churches across Kenya and beyond.
             </p>
           </div>
           <div className="relative z-10 flex flex-wrap gap-3 justify-center pt-2">
@@ -339,4 +336,3 @@ className="w-full h-64 object-cover object-[50%_30%]"                  />
     </div>
   );
 }
-

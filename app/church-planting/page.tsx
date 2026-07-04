@@ -130,14 +130,14 @@ export default function ChurchPlanting() {
           <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/10">
             🌱 Freedom Baptist Mission • Church Planting
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-none max-w-4xl mx-auto">
-            Planting Independent <br />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-none max-w-4xl mx-auto">
+            Plant Self-Sustaining <br />
             <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              Local Baptist Churches
+              Independent Churches
             </span>
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            We train, mentor, and support local pastors to establish strong, self-governing churches across Kenya that will serve their communities for generations.
+            Training local men and women to plant self-governing, self-supporting, and self-propagating churches that multiply within their own cultures.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <a href="#active-deployments" className="rounded-xl bg-slate-900 px-5 py-3 text-xs font-semibold text-white shadow-md hover:bg-slate-800 transition-all">
@@ -170,13 +170,13 @@ export default function ChurchPlanting() {
         {/* Church Planting Projects */}
         <section id="active-deployments" className="space-y-8 scroll-mt-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
-            <div className="space-y-1">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-                Church Planting Projects
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Church Planting Projects</h2>
-            </div>
+          <div className="space-y-1">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+              Obeying the Great Commission
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Church Planting Projects</h2>
+          </div>
             <div className="flex flex-wrap p-1 bg-slate-200/80 rounded-xl gap-1">
               {[
                 { id: "ALL", label: "🎯 All Projects" },
@@ -322,14 +322,14 @@ export default function ChurchPlanting() {
           <div className="text-center max-w-xl mx-auto space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">How We Work Together</span>
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">Partnering with Local Leaders</h2>
-            <p className="text-xs text-slate-500">We come alongside indigenous leaders as friends and mentors, helping establish strong, self-supporting local churches that will serve their communities for generations.</p>
+              <p className="text-xs text-slate-500">We train local men and women at our Bible College, then support them as they plant independent Baptist churches in their own communities and languages.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { step: "01", label: "PRAYERFUL PREPARATION", title: "Training Local Leaders", desc: "FBM equips dedicated students at our Bible College with solid biblical knowledge and ministry skills. Graduates return to their home regions passionate about sharing Christ with their own people in their own language." },
-              { step: "02", label: "GROWING TOGETHER", title: "Building Community Faith", desc: "New believers gather for Bible study, prayer, and worship in their villages. FBM provides ongoing encouragement, teaching resources, and pastoral mentorship as the community grows in Christ together." },
-              { step: "03", label: "FULL INDEPENDENCE", title: "Self-Supporting Churches", desc: "With continued guidance from experienced mentors, each new church develops its own leadership team and financial support system, becoming fully independent while remaining connected to the wider body of Christ." }
+              { step: "01", label: "PRAYERFUL PREPARATION", title: "Train Indigenous Leaders", desc: "We equip dedicated students at our Bible College with solid biblical knowledge and ministry skills. Graduates return to their home regions passionate about sharing Christ with their own people in their own language." },
+              { step: "02", label: "GROWING TOGETHER", title: "Plant Local Churches", desc: "Trained leaders establish independent Baptist churches in their own communities. We provide ongoing teaching resources and pastoral mentorship as each congregation grows." },
+              { step: "03", label: "FULL INDEPENDENCE", title: "Multiply & Replicate", desc: "Each new church becomes self-governing, self-supporting, and self-propagating, sending out its own missionaries to reach more communities with the Gospel." }
             ].map((proc, idx) => (
               <div key={idx} className="bg-white border border-slate-200 p-6 rounded-xl relative flex flex-col justify-between shadow-xs">
                 <span className="absolute top-4 right-6 text-4xl font-extrabold text-slate-100 pointer-events-none select-none">{proc.step}</span>

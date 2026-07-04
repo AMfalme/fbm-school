@@ -131,7 +131,7 @@ export default function BibleCollege() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto">
-          Providing strong biblical training, deep scriptural understanding, and practical ministry preparation for East Africa's next generation of faithful leaders.
+            Empowering and training local pastors and church leaders with solid biblical teaching, sound theology, and a deep knowledge of the Word of God so they can successfully reach their communities for Christ.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#historical-gallery" className="inline-flex h-12 items-center justify-center rounded-xl bg-[#0055b8] px-6 text-xs font-bold text-white hover:bg-[#003d7a] transition-all shadow-sm">
@@ -181,9 +181,9 @@ export default function BibleCollege() {
                 Verified Institutional Heritage Portal
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">Graduation & Field Deployment Gallery</h2>
-              <p className="text-slate-500 text-xs font-medium">
-                A formal registry displaying previous personnel cohorts, ordination settings, and structural milestones achieved across greater East Africa. Click any card to view deep archives.
-              </p>
+          <p className="text-slate-500 text-xs font-medium">
+            Celebrating graduates equipped with biblical knowledge, ministry training, and a passion to serve Christ faithfully across Kenya and beyond.
+          </p>
             </div>
             <div className="md:col-span-4 md:text-right">
               <span className="inline-block bg-slate-50 border border-slate-200/60 rounded-xl px-4 py-2 text-xs font-bold text-slate-700">
@@ -482,7 +482,7 @@ export default function BibleCollege() {
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#0055b8]">Invest in the Generational Harvest</span>
             <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">Support a Future Indigenous Church Planter</h3>
             <p className="text-slate-600 text-sm leading-relaxed max-w-xl">
-              Our academic operations run strictly independent of state or ecumenical funding models. By aligning with our student sponsorship plans via our secure <a href="/support-us" className="text-[#0055b8] font-bold underline">Support Us panel</a>, you fund tuition, physical module textbooks, and field deployment transport assets for a qualified native man.
+              Our academic operations run independently to maintain doctrinal purity. Through our <a href="/support-us" className="text-[#0055b8] font-bold underline">Support Us panel</a>, you can sponsor a student, providing tuition, textbooks, and field deployment resources for a called man or woman of God.
             </p>
           </div>
           <div className="lg:col-span-4 flex flex-col gap-3 w-full">
