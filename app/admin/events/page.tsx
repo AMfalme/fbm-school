@@ -7,7 +7,7 @@ import { collection, getDocs, orderBy, query, Timestamp, doc, addDoc, updateDoc,
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { useRouter } from "next/navigation";
-import { Plus, Edit2, Trash2, X, CalendarIcon, Clock, MapPin, Image as ImageIcon } from "lucide-react";
+import { Plus, Edit2, Trash2, X, CalendarIcon, Clock, MapPin, Image as ImageIcon, Upload } from "lucide-react";
 
 interface Event {
   id: string;
@@ -144,6 +144,36 @@ export default function AdminEventsPage() {
       image: "",
       featured: false
     });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setSaving(true);
+    const uploadFormData = new FormData();
+    uploadFormData.append("file", file);
+    uploadFormData.append("folder", "fbm-events");
+
+    try {
+      const response = await fetch("/api/cloudinary-upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setFormData({ ...formData, image: data.secure_url });
+      } else {
+        alert(data.error || "Failed to upload image");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -414,17 +444,44 @@ export default function AdminEventsPage() {
 
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">
-                  Image URL
+                  Event Image
                 </label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 focus:border-[#0055b8] focus:outline-none"
-                  placeholder="https://example.com/image.jpg"
-                />
+                
+                {/* File Upload */}
+                <div className="mb-4">
+                  <label className="flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 px-4 py-6 cursor-pointer hover:border-[#0055b8] hover:bg-slate-50 transition">
+                    <Upload className="h-5 w-5 text-slate-400" />
+                    <span className="text-sm font-medium text-slate-600">
+                      Click to upload image from computer
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      disabled={saving}
+                    />
+                  </label>
+                </div>
+
+                {/* URL Input */}
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    Or enter image URL:
+                  </p>
+                  <input
+                    type="url"
+                    value={formData.image}
+                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 focus:border-[#0055b8] focus:outline-none"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+
+                {/* Image Preview */}
                 {formData.image && (
-                  <div className="mt-2">
+                  <div className="mt-4">
+                    <p className="text-xs font-medium text-slate-500 mb-2">Preview:</p>
                     <img
                       src={formData.image}
                       alt="Preview"
