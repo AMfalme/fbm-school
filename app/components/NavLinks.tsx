@@ -107,6 +107,9 @@ export default function NavLinks() {
         Media
       </a>
 
+      <a href="/events" className="transition hover:text-[#0055b8]">
+        Events
+      </a>
 
       <a href="/contact" className="transition hover:text-[#0055b8]">
         Contact Us

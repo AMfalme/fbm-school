@@ -20,6 +20,7 @@ import {
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Ministry {
   id: string;
@@ -160,40 +161,36 @@ export default function AdminMinistriesPage() {
     }
   };
 
-  // Fetch all media and group by slug
-  const fetchAllMediaBySlug = async () => {
+  // Fetch media only for a specific slug
+  const fetchMediaForSlug = async (slug: string) => {
     setLoadingLibraries(true);
     try {
-      const snapshot = await getDocs(collection(db, "ministry-media"));
-      const grouped = new Map<string, MediaItem[]>();
-
+      const q = query(
+        collection(db, "ministry-media"),
+        where("ministrySlug", "==", slug),
+        orderBy("displayOrder", "asc")
+      );
+      const snapshot = await getDocs(q);
+      const items: MediaItem[] = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
         if (data.deleted) return;
-        const slug = data.ministrySlug;
-        if (!slug) return;
-        if (!grouped.has(slug)) grouped.set(slug, []);
-        grouped.get(slug)!.push({ id: doc.id, ...data } as MediaItem);
+        items.push({ id: doc.id, ...data } as MediaItem);
       });
 
-      // Sort each group by displayOrder and sort keys
-      const sortedKeys = Array.from(grouped.keys()).sort();
       const newLibs = new Map<string, MediaLibrary>();
-      for (const slug of sortedKeys) {
-        const items = grouped.get(slug)!.sort((a, b) => a.displayOrder - b.displayOrder);
-        newLibs.set(slug, {
-          slug,
-          items,
-          newFiles: [],
-          newPreviews: [],
-          newTitles: [],
-          newTypes: [],
-          deletingIds: new Set(),
-        });
-      }
+      newLibs.set(slug, {
+        slug,
+        items,
+        newFiles: [],
+        newPreviews: [],
+        newTitles: [],
+        newTypes: [],
+        deletingIds: new Set(),
+      });
       setLibraries(newLibs);
     } catch (error) {
-      console.error("Error fetching media libraries:", error);
+      console.error("Error fetching media:", error);
       setLibraries(new Map());
     } finally {
       setLoadingLibraries(false);
@@ -218,7 +215,8 @@ export default function AdminMinistriesPage() {
       if (ministry.profileImage) {
         setProfilePreview(ministry.profileImage);
       }
-      fetchAllMediaBySlug();
+      // Only fetch media for this ministry's slug
+      fetchMediaForSlug(ministry.slug);
     } else {
       setEditingMinistry(null);
       setFormData({
@@ -301,7 +299,6 @@ export default function AdminMinistriesPage() {
       return next;
     });
 
-    // Clear input
     const input = fileInputRefs.current.get(slug);
     if (input) input.value = "";
   };
@@ -677,9 +674,15 @@ export default function AdminMinistriesPage() {
                 </div>
 
                 <div className="flex gap-2">
+                  <Link
+                    href={`/admin/ministries/${ministry.slug}`}
+                    className="flex-1 rounded-xl bg-purple-600 px-3 py-2 text-xs font-bold text-white hover:bg-purple-700 transition-colors text-center"
+                  >
+                    Manage Page
+                  </Link>
                   <button
                     onClick={() => handleOpenModal(ministry)}
-                    className="flex-1 rounded-xl bg-[#0055b8] px-3 py-2 text-xs font-bold text-white hover:bg-[#003d7a] transition-colors"
+                    className="rounded-xl bg-[#0055b8] px-3 py-2 text-xs font-bold text-white hover:bg-[#003d7a] transition-colors"
                   >
                     Edit
                   </button>
@@ -919,31 +922,28 @@ export default function AdminMinistriesPage() {
                 <div className="border-t border-slate-200 pt-5">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h3 className="text-sm font-bold text-slate-900">Media Libraries</h3>
+                      <h3 className="text-sm font-bold text-slate-900">Media Library</h3>
                       <p className="text-xs text-slate-500">
                         {editingMinistry
-                          ? "Manage all media libraries across different slugs"
-                          : "Add media libraries to this ministry (saved after creation)"}
+                          ? `Images associated with /${formData.slug}`
+                          : "Add images to this ministry (saved after creation)"}
                       </p>
                     </div>
                     <span className="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
-                      {totalLibraryCount} librar{totalLibraryCount === 1 ? "y" : "ies"} · {totalFileCount} file{totalFileCount !== 1 ? "s" : ""}
+                      {totalFileCount} file{totalFileCount !== 1 ? "s" : ""}
                     </span>
                   </div>
 
-                  {/* Loading */}
                   {loadingLibraries && (
-                    <div className="text-center py-4 text-slate-500 text-sm">Loading media libraries...</div>
+                    <div className="text-center py-4 text-slate-500 text-sm">Loading media...</div>
                   )}
 
-                  {/* Existing Libraries */}
                   {!loadingLibraries && libraries.size > 0 && (
                     <div className="space-y-6 mb-6">
                       {Array.from(libraries.entries()).map(([slug, lib]) => {
                         const totalInLib = lib.items.length + lib.newFiles.length;
                         return (
                           <div key={slug} className="border border-slate-200 rounded-2xl p-4 bg-white">
-                            {/* Library Header */}
                             <div className="flex items-center justify-between mb-3 pb-3 border-b border-slate-100">
                               <div className="flex items-center gap-2 min-w-0">
                                 <span className="text-lg">📁</span>
@@ -957,7 +957,6 @@ export default function AdminMinistriesPage() {
                               </span>
                             </div>
 
-                            {/* Existing Images */}
                             {lib.items.length > 0 && (
                               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-3">
                                 {lib.items.map((item) => (
@@ -969,9 +968,7 @@ export default function AdminMinistriesPage() {
                                         <img src={item.photoUrl} alt={item.title} className="w-full h-full object-cover" />
                                       )}
                                     </div>
-                                    <span className="absolute top-1 left-1 bg-black/60 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">
-                                      {item.mediaType}
-                                    </span>
+                                    <span className="absolute top-1 left-1 bg-black/60 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">{item.mediaType}</span>
                                     <button
                                       type="button"
                                       onClick={() => handleDeleteLibraryItem(slug, item.id)}
@@ -988,12 +985,10 @@ export default function AdminMinistriesPage() {
                               </div>
                             )}
 
-                            {/* Empty state */}
                             {lib.items.length === 0 && lib.newFiles.length === 0 && (
                               <p className="text-xs text-slate-400 text-center py-3">No files in this library yet</p>
                             )}
 
-                            {/* New file previews for this library */}
                             {lib.newFiles.length > 0 && (
                               <div className="border-t border-slate-100 pt-3 mb-3">
                                 <p className="text-[11px] font-bold text-emerald-700 mb-2">New files to upload ({lib.newFiles.length})</p>
@@ -1026,7 +1021,6 @@ export default function AdminMinistriesPage() {
                               </div>
                             )}
 
-                            {/* Add files to this library */}
                             <div className="border-t border-slate-100 pt-3">
                               <button
                                 type="button"
@@ -1056,11 +1050,10 @@ export default function AdminMinistriesPage() {
                     </div>
                   )}
 
-                  {/* Empty state - no libraries */}
                   {!loadingLibraries && libraries.size === 0 && editingMinistry && (
                     <div className="text-center py-6 text-slate-500 border-2 border-dashed border-slate-200 rounded-xl mb-6">
-                      <p className="text-sm">No media libraries found for this ministry</p>
-                      <p className="text-xs mt-1">Create a new library below</p>
+                      <p className="text-sm">No media found for this ministry</p>
+                      <p className="text-xs mt-1">Upload images below</p>
                     </div>
                   )}
 

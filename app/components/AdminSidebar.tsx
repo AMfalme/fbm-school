@@ -19,6 +19,7 @@ import {
   Menu,
   X,
   FileText,
+  CalendarDays,
 } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
@@ -49,6 +50,9 @@ const navItems = [
   ]},
   { section: "Academy", items: [
     { href: "/admin/academy-applications", label: "Academy Applications", icon: FileText },
+  ]},
+  { section: "Events", items: [
+    { href: "/admin/events", label: "Events Management", icon: CalendarDays },
   ]},
   { section: "Session & Navigation", items: [
     { href: "/", label: "Go to Homepage", icon: Home },

@@ -191,6 +191,14 @@ export default function MobileMenu() {
             </a>
 
             <a
+              href="/events"
+              onClick={closeMenu}
+              className="rounded-xl px-4 py-3 transition hover:bg-slate-800"
+            >
+              Events
+            </a>
+
+            <a
               href="/partner"
               onClick={closeMenu}
               className="rounded-xl px-4 py-3 transition hover:bg-slate-800"

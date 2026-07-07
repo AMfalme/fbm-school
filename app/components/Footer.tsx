@@ -37,6 +37,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-[#FFD966]">Quick Links</h3>
               <nav className="flex flex-col space-y-2">
+                <a href="/events" className="text-sm text-slate-300 hover:text-white transition">Events</a>
                 <a href="/ministries/missionary-outreach" className="text-sm text-slate-300 hover:text-white transition">Mission outreach</a>
                 <a href="/church-planting" className="text-sm text-slate-300 hover:text-white transition">Church Planting</a>
                 <a href="/bible-college" className="text-sm text-slate-300 hover:text-white transition">FBM - Bible College</a>
