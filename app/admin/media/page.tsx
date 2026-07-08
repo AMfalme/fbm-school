@@ -21,6 +21,11 @@ interface MediaItem {
   videoUrl?: string;
   mediaType: "image" | "video";
   createdAt: string;
+  gallery?: Array<{
+    url: string;
+    mediaType: "image" | "video";
+    description?: string;
+  }>;
 }
 
 const CATEGORIES: { value: MediaCategory; label: string }[] = [
@@ -100,6 +105,11 @@ export default function AdminMediaPage() {
   });
   const [previewPhoto, setPreviewPhoto] = useState<string>("");
   const [previewIcon, setPreviewIcon] = useState<string>("");
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
+  const [galleryTypes, setGalleryTypes] = useState<("image" | "video")[]>([]);
+  const [galleryModalOpen, setGalleryModalOpen] = useState(false);
+  const [selectedGallery, setSelectedGallery] = useState<MediaItem["gallery"]>([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
@@ -202,6 +212,31 @@ export default function AdminMediaPage() {
     }
   };
 
+  const uploadGalleryFiles = async (): Promise<MediaItem["gallery"]> => {
+    const uploaded: MediaItem["gallery"] = [];
+    for (const file of galleryFiles) {
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("folder", "fbm-media/gallery");
+        const response = await fetch("/api/cloudinary-upload", {
+          method: "POST",
+          body: fd,
+        });
+        const result = await response.json();
+        if (result.secure_url) {
+          uploaded.push({
+            url: result.secure_url,
+            mediaType: file.type.startsWith("video/") ? "video" : "image",
+          });
+        }
+      } catch (error) {
+        console.error("Error uploading gallery file:", error);
+      }
+    }
+    return uploaded;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -214,10 +249,14 @@ export default function AdminMediaPage() {
       const idToUse = editingId ?? Date.now().toString();
       const createdAt = editingId ? (media.find((m) => m.id === editingId)?.createdAt ?? new Date().toISOString()) : new Date().toISOString();
 
+      setUploading(true);
+      const gallery = await uploadGalleryFiles();
+
       const payload = {
         ...formData,
         mediaType: formData.mediaType || "image",
         createdAt,
+        gallery: gallery.length > 0 ? gallery : undefined,
       };
 
       await setDoc(doc(db, "media", idToUse), payload);
@@ -240,6 +279,9 @@ export default function AdminMediaPage() {
       });
       setPreviewPhoto("");
       setPreviewIcon("");
+      setGalleryFiles([]);
+      setGalleryPreviews([]);
+      setGalleryTypes([]);
       setShowForm(false);
       setEditingId(null);
       alert("Media saved successfully!");
@@ -262,6 +304,13 @@ export default function AdminMediaPage() {
     });
     setPreviewPhoto(item.photoUrl);
     setPreviewIcon(item.iconUrl || "");
+
+    // Load existing gallery items into the form
+    const existing = item.gallery ?? [];
+    setGalleryFiles([]);
+    setGalleryPreviews(existing.map(g => g.url));
+    setGalleryTypes(existing.map(g => g.mediaType || "image"));
+
     setShowForm(true);
     setEditingId(item.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -374,7 +423,7 @@ export default function AdminMediaPage() {
                       }
                       placeholder="Brief description of the media"
                       rows={3}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20 resize-none"
                     />
                   </div>
 
@@ -450,6 +499,75 @@ export default function AdminMediaPage() {
                       />
                     </div>
                   )}
+
+                  {/* Gallery Upload */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2">
+                      Related Media / Gallery
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*,video/*"
+                      multiple
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        setGalleryFiles(files);
+                        const previews = files.map((f) => URL.createObjectURL(f));
+                        const types = files.map((f) => (f.type.startsWith("video/") ? "video" : "image"));
+                        setGalleryPreviews(previews);
+                        setGalleryTypes(types);
+                      }}
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0055b8]/20"
+                    />
+                    {galleryPreviews.length > 0 && (
+                      <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {galleryPreviews.map((src, idx) => (
+                          <div key={idx} className="relative aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
+                            {galleryTypes[idx] === "video" ? (
+                              <video src={src} className="h-full w-full object-cover" muted />
+                            ) : (
+                              <img src={src} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                URL.revokeObjectURL(galleryPreviews[idx]);
+                                setGalleryFiles((prev) => prev.filter((_, i) => i !== idx));
+                                setGalleryPreviews((prev) => prev.filter((_, i) => i !== idx));
+                                setGalleryTypes((prev) => prev.filter((_, i) => i !== idx));
+                              }}
+                              className="absolute right-1 top-1 rounded-full bg-red-600 p-1 text-white"
+                            >
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Existing gallery preview when editing */}
+                    {editingId && (item => item.id === editingId ? item.gallery : undefined) && (() => {
+                      const current = media.find((m) => m.id === editingId);
+                      const existing = current?.gallery ?? [];
+                      if (existing.length === 0) return null;
+                      return (
+                        <div className="mt-4">
+                          <p className="text-xs font-bold text-slate-700 mb-2">Existing Gallery</p>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            {existing.map((media, idx) => (
+                              <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
+                                {media.mediaType === "video" ? (
+                                  <video src={media.url} className="h-full w-full object-cover" controls />
+                                ) : (
+                                  <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
                 </div>
 
                 {/* Preview */}
@@ -562,10 +680,56 @@ export default function AdminMediaPage() {
                       </button>
                     </div>
                   )}
+
+                  {(item.gallery ?? []).length > 1 && (
+                    <button
+                      onClick={() => {
+                        setSelectedGallery(item.gallery ?? []);
+                        setGalleryModalOpen(true);
+                      }}
+                      className="mt-3 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+                    >
+                      See More ({item.gallery!.length})
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Gallery Modal */}
+          {galleryModalOpen && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+              onClick={() => setGalleryModalOpen(false)}
+            >
+              <div
+                className="max-h-[90vh] max-w-6xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-slate-900">Gallery</h3>
+                  <button
+                    onClick={() => setGalleryModalOpen(false)}
+                    className="rounded-full bg-slate-100 p-2 hover:bg-slate-200"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {selectedGallery.map((media, idx) => (
+                    <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
+                      {media.mediaType === "video" ? (
+                        <video src={media.url} className="h-full w-full object-cover" controls />
+                      ) : (
+                        <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

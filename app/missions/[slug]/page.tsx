@@ -300,7 +300,7 @@ export default function MissionPage() {
       <MinistryGallery 
         categories={[slug]} 
         title={`${config.title} Gallery`} 
-        ministrySlug={slug} 
+        ministryData={ministryData}
       />
       <Footer />
     </div>

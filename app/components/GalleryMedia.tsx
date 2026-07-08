@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import { X } from "lucide-react";
 
 interface MediaItem {
   id: string;
@@ -13,11 +14,19 @@ interface MediaItem {
   status: string;
   iconUrl?: string;
   createdAt?: string;
+  mediaType?: "image" | "video";
+  gallery?: Array<{
+    url: string;
+    mediaType?: "image" | "video";
+    description?: string;
+  }>;
 }
 
 export default function GalleryMedia() {
   const [items, setItems] = useState<MediaItem[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [galleryModalOpen, setGalleryModalOpen] = useState(false);
+  const [selectedGallery, setSelectedGallery] = useState<MediaItem["gallery"]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -107,7 +116,11 @@ export default function GalleryMedia() {
               {list.map((item) => (
                 <div key={item.id} className="rounded-[28px] border-2 border-[#E0E7FF] bg-white overflow-hidden shadow-[0_4px_20px_rgba(0,61,122,0.08)] hover:shadow-[0_12px_35px_rgba(0,61,122,0.15)] transition">
                   <div className="aspect-video overflow-hidden">
-                    <img src={item.photoUrl} alt={item.title} className="h-full w-full object-cover" />
+                    {item.mediaType === "video" ? (
+                      <video src={item.photoUrl} className="h-full w-full object-cover" controls />
+                    ) : (
+                      <img src={item.photoUrl} alt={item.title} className="h-full w-full object-cover" />
+                    )}
                   </div>
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
@@ -120,6 +133,17 @@ export default function GalleryMedia() {
                       </span>
                     </div>
                     <p className="text-sm leading-6 text-slate-600">{item.description}</p>
+                    {(item.gallery ?? []).length > 1 && (
+                      <button
+                        onClick={() => {
+                          setSelectedGallery(item.gallery ?? []);
+                          setGalleryModalOpen(true);
+                        }}
+                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+                      >
+                        See More ({item.gallery!.length})
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -127,6 +151,40 @@ export default function GalleryMedia() {
           </div>
         );
       })}
+
+      {/* Gallery Modal */}
+      {galleryModalOpen && selectedGallery && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setGalleryModalOpen(false)}
+        >
+          <div
+            className="max-h-[90vh] max-w-6xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-slate-900">Gallery</h3>
+              <button
+                onClick={() => setGalleryModalOpen(false)}
+                className="rounded-full bg-slate-100 p-2 hover:bg-slate-200"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {selectedGallery.map((media, idx) => (
+                <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
+                  {media.mediaType === "video" ? (
+                    <video src={media.url} className="h-full w-full object-cover" controls />
+                  ) : (
+                    <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

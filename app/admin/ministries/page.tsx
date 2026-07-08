@@ -53,6 +53,7 @@ interface MinistryImage {
   url: string;
   caption: string;
   uploadedAt: string;
+  mediaType?: "image" | "video";
 }
 
 interface MediaItem {
@@ -195,20 +196,23 @@ export default function AdminMinistriesPage() {
         items.push({ id: doc.id, ...data } as MediaItem);
       });
 
-      const newLibs = new Map<string, MediaLibrary>();
-      newLibs.set(slug, {
-        slug,
-        items,
-        newFiles: [],
-        newPreviews: [],
-        newTitles: [],
-        newTypes: [],
-        deletingIds: new Set(),
+      setLibraries(prev => {
+        const next = new Map(prev);
+        if (items.length > 0) {
+          next.set(slug, {
+            slug,
+            items,
+            newFiles: [],
+            newPreviews: [],
+            newTitles: [],
+            newTypes: [],
+            deletingIds: new Set(),
+          });
+        }
+        return next;
       });
-      setLibraries(newLibs);
     } catch (error) {
       console.error("Error fetching media:", error);
-      setLibraries(new Map());
     } finally {
       setLoadingLibraries(false);
     }
@@ -232,7 +236,34 @@ export default function AdminMinistriesPage() {
       if (ministry.profileImage) {
         setProfilePreview(ministry.profileImage);
       }
-      // Only fetch media for this ministry's slug
+
+      // Load media from ministry subcategories so images are visible when editing
+      const libs = new Map<string, MediaLibrary>();
+      ministry.subcategories?.forEach((sc) => {
+        const items: MediaItem[] = (sc.images || []).map((img) => ({
+          id: img.id,
+          ministrySlug: ministry.slug,
+          photoUrl: img.url,
+          title: img.caption || img.url.split("/").pop() || "",
+          description: "",
+          mediaType: img.mediaType || "image",
+          displayOrder: 0,
+          createdAt: null,
+          updatedAt: null,
+        }));
+        libs.set(sc.id, {
+          slug: sc.id,
+          items,
+          newFiles: [],
+          newPreviews: [],
+          newTitles: [],
+          newTypes: [],
+          deletingIds: new Set(),
+        });
+      });
+      setLibraries(libs);
+
+      // Also fetch any standalone ministry-media entries so they appear in the edit form
       fetchMediaForSlug(ministry.slug);
     } else {
       setEditingMinistry(null);
@@ -490,7 +521,8 @@ export default function AdminMinistriesPage() {
               id: `img-${Date.now()}-${i}`,
               url: photoUrl,
               caption: lib.newTitles[i] || file.name,
-              uploadedAt: new Date().toISOString()
+              uploadedAt: new Date().toISOString(),
+              mediaType: file.type.startsWith("video/") ? "video" : "image"
             });
           } else {
             allUploadSuccess = false;
@@ -545,7 +577,8 @@ export default function AdminMinistriesPage() {
               id: `img-${Date.now()}-${i}`,
               url: photoUrl,
               caption: newLibraryTitles[i] || file.name,
-              uploadedAt: new Date().toISOString()
+              uploadedAt: new Date().toISOString(),
+              mediaType: file.type.startsWith("video/") ? "video" : "image"
             });
           } else {
             allUploadSuccess = false;
@@ -1047,9 +1080,14 @@ export default function AdminMinistriesPage() {
                                   {lib.newFiles.map((file, idx) => (
                                     <div key={idx} className="relative group border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
                                       <div className="aspect-[4/3] overflow-hidden bg-slate-100">
-                                        <img src={lib.newPreviews[idx]} alt={lib.newTitles[idx]} className="w-full h-full object-cover" />
+                                        {lib.newTypes[idx] === "video" ? (
+                                          <video src={lib.newPreviews[idx]} className="w-full h-full object-cover" muted />
+                                        ) : (
+                                          <img src={lib.newPreviews[idx]} alt={lib.newTitles[idx]} className="w-full h-full object-cover" />
+                                        )}
                                       </div>
                                       <span className="absolute top-1 left-1 bg-emerald-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">New</span>
+                                      <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">{lib.newTypes[idx]}</span>
                                       <button
                                         type="button"
                                         onClick={() => removeLibraryNewFile(slug, idx)}
@@ -1127,7 +1165,7 @@ export default function AdminMinistriesPage() {
                       </div>
                       <div>
                         <div className="flex items-center gap-3">
-                          <button
+ e                         <button
                             type="button"
                             onClick={() => newLibraryFileInputRef.current?.click()}
                             className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 px-4 py-2 text-sm font-bold text-slate-800 transition-colors"
@@ -1157,8 +1195,15 @@ export default function AdminMinistriesPage() {
                           {newLibraryFiles.map((file, idx) => (
                             <div key={idx} className="relative group border border-slate-200 rounded-lg overflow-hidden bg-white">
                               <div className="aspect-[4/3] overflow-hidden bg-slate-100">
-                                <img src={newLibraryPreviews[idx]} alt={newLibraryTitles[idx]} className="w-full h-full object-cover" />
+                                {file.type.startsWith("video/") ? (
+                                  <video src={newLibraryPreviews[idx]} className="w-full h-full object-cover" muted />
+                                ) : (
+                                  <img src={newLibraryPreviews[idx]} alt={newLibraryTitles[idx]} className="w-full h-full object-cover" />
+                                )}
                               </div>
+                              <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">
+                                {file.type.startsWith("video/") ? "video" : "image"}
+                              </span>
                               <button
                                 type="button"
                                 onClick={() => removeNewLibraryFile(idx)}

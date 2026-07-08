@@ -122,7 +122,7 @@ export default function BibleCollege() {
         {/* ================= HERO SECTION ================= */}
         <section className="relative text-center max-w-4xl mx-auto space-y-6 pt-6">
           <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 border border-amber-200 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-800">
-            📜 Freedom Baptist Mission - Bible College • Academic Division
+            📜 Freedom Baptist Mission • Bible College 
           </div>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-[1.1]">
             Training Native Pastors <br />
