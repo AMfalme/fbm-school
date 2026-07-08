@@ -256,7 +256,7 @@ export default function AdminMediaPage() {
         ...formData,
         mediaType: formData.mediaType || "image",
         createdAt,
-        gallery: gallery.length > 0 ? gallery : undefined,
+        gallery: gallery && gallery.length > 0 ? gallery : undefined,
       };
 
       await setDoc(doc(db, "media", idToUse), payload);
