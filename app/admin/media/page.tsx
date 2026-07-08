@@ -545,20 +545,20 @@ export default function AdminMediaPage() {
                     )}
 
                     {/* Existing gallery preview when editing */}
-                    {editingId && (item => item.id === editingId ? item.gallery : undefined) && (() => {
-                      const current = media.find((m) => m.id === editingId);
+                    {editingId && (() => {
+                      const current = media.find((m: MediaItem) => m.id === editingId);
                       const existing = current?.gallery ?? [];
                       if (existing.length === 0) return null;
                       return (
                         <div className="mt-4">
                           <p className="text-xs font-bold text-slate-700 mb-2">Existing Gallery</p>
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            {existing.map((media, idx) => (
+                            {existing.map((g, idx) => (
                               <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
-                                {media.mediaType === "video" ? (
-                                  <video src={media.url} className="h-full w-full object-cover" controls />
+                                {g.mediaType === "video" ? (
+                                  <video src={g.url} className="h-full w-full object-cover" controls />
                                 ) : (
-                                  <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                                  <img src={g.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
                                 )}
                               </div>
                             ))}
