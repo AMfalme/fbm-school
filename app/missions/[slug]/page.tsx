@@ -97,6 +97,7 @@ export default function MissionPage() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>(null);
   const [mediaLibrary, setMediaLibrary] = useState<MediaItem[]>([]);
+  const [ministryData, setMinistryData] = useState<any>(null);
 
   useEffect(() => {
     if (!slug || !config) return;
@@ -120,8 +121,22 @@ export default function MissionPage() {
       setMediaLibrary(media);
     };
 
+    const loadMinistryData = async () => {
+      try {
+        const ministriesRef = collection(db, "ministries");
+        const q = query(ministriesRef, where("slug", "==", slug));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          setMinistryData(querySnapshot.docs[0].data());
+        }
+      } catch (error) {
+        console.error("Error loading ministry data:", error);
+      }
+    };
+
     loadData();
     loadMedia();
+    loadMinistryData();
   }, [slug, config]);
 
   if (!config) {

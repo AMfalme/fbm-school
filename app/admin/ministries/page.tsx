@@ -7,6 +7,7 @@ import { db } from "../../lib/firebase";
 import { 
   collection, 
   getDocs, 
+  getDoc,
   orderBy, 
   query, 
   where,
@@ -34,8 +35,24 @@ interface Ministry {
   profileImage?: string;
   status: "active" | "inactive" | "archived";
   order: number;
+  subcategories?: SubCategory[];
   createdAt: Timestamp | null;
   updatedAt: Timestamp | null;
+}
+
+interface SubCategory {
+  id: string;
+  title: string;
+  description: string;
+  coverImage?: string;
+  images: MinistryImage[];
+}
+
+interface MinistryImage {
+  id: string;
+  url: string;
+  caption: string;
+  uploadedAt: string;
 }
 
 interface MediaItem {
@@ -435,6 +452,7 @@ export default function AdminMinistriesPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    let allUploadSuccess = true;
 
     try {
       const { setDoc, serverTimestamp } = await import("firebase/firestore");
@@ -444,6 +462,48 @@ export default function AdminMinistriesPage() {
       if (profileFile) {
         const uploaded = await uploadFileToCloudinary(profileFile, `ministries/${formData.slug}/profile`);
         if (uploaded) profileImageUrl = uploaded;
+      }
+
+      // Build subcategories from libraries
+      const subcategories: SubCategory[] = [];
+      for (const [slug, lib] of libraries) {
+        const existingSubcategory = editingMinistry?.subcategories?.find(sc => sc.id === slug);
+        const images: MinistryImage[] = [];
+        
+        // Add existing images
+        lib.items.forEach(item => {
+          const existingImage = existingSubcategory?.images.find(img => img.id === item.id);
+          images.push({
+            id: item.id,
+            url: item.photoUrl,
+            caption: existingImage?.caption || item.title,
+            uploadedAt: existingImage?.uploadedAt || new Date().toISOString()
+          });
+        });
+        
+        // Add newly uploaded images
+        for (let i = 0; i < lib.newFiles.length; i++) {
+          const file = lib.newFiles[i];
+          const photoUrl = await uploadFileToCloudinary(file, `ministries/${slug}/gallery`);
+          if (photoUrl) {
+            images.push({
+              id: `img-${Date.now()}-${i}`,
+              url: photoUrl,
+              caption: lib.newTitles[i] || file.name,
+              uploadedAt: new Date().toISOString()
+            });
+          } else {
+            allUploadSuccess = false;
+          }
+        }
+        
+        subcategories.push({
+          id: slug,
+          title: existingSubcategory?.title || slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+          description: existingSubcategory?.description || "",
+          coverImage: existingSubcategory?.coverImage || (images[0]?.url || ""),
+          images
+        });
       }
 
       const ministryData = {
@@ -457,6 +517,7 @@ export default function AdminMinistriesPage() {
         profileImage: profileImageUrl,
         status: formData.status,
         order: formData.order,
+        subcategories: subcategories.length > 0 ? subcategories : (editingMinistry?.subcategories || []),
         updatedAt: serverTimestamp()
       };
 
@@ -468,57 +529,47 @@ export default function AdminMinistriesPage() {
         await setDoc(ministryRef, { ...ministryData, createdAt: serverTimestamp() });
       }
 
-      // Upload new files for each library
+      // Upload new standalone library if any
       setUploadingMedia(true);
-      let allUploadSuccess = true;
-
-      for (const [, lib] of libraries) {
-        if (lib.newFiles.length === 0) continue;
-        for (let i = 0; i < lib.newFiles.length; i++) {
-          const file = lib.newFiles[i];
-          const title = lib.newTitles[i] || file.name;
-          const mediaType = lib.newTypes[i];
-          const photoUrl = await uploadFileToCloudinary(file, `ministries/${lib.slug}/gallery`);
+      
+      if (newLibraryFiles.length > 0 && newLibrarySlug.trim()) {
+        // When editing a ministry, use the ministry's slug instead of creating a new one
+        const slug = editingMinistry ? editingMinistry.slug : generateSlug(newLibrarySlug);
+        const newImages: MinistryImage[] = [];
+        
+        for (let i = 0; i < newLibraryFiles.length; i++) {
+          const file = newLibraryFiles[i];
+          const photoUrl = await uploadFileToCloudinary(file, `ministries/${slug}/gallery`);
           if (photoUrl) {
-            await addDoc(collection(db, "ministry-media"), {
-              ministrySlug: lib.slug,
-              photoUrl,
-              title,
-              subtitle: "",
-              description: title,
-              mediaType,
-              displayOrder: lib.items.length + i,
-              createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp(),
+            newImages.push({
+              id: `img-${Date.now()}-${i}`,
+              url: photoUrl,
+              caption: newLibraryTitles[i] || file.name,
+              uploadedAt: new Date().toISOString()
             });
           } else {
             allUploadSuccess = false;
           }
         }
-      }
-
-      // Upload new standalone library if any
-      if (newLibraryFiles.length > 0 && newLibrarySlug.trim()) {
-        const slug = generateSlug(newLibrarySlug);
-        for (let i = 0; i < newLibraryFiles.length; i++) {
-          const file = newLibraryFiles[i];
-          const title = newLibraryTitles[i] || file.name;
-          const mediaType = file.type.startsWith("video/") ? "video" : "image";
-          const photoUrl = await uploadFileToCloudinary(file, `ministries/${slug}/gallery`);
-          if (photoUrl) {
-            await addDoc(collection(db, "ministry-media"), {
-              ministrySlug: slug,
-              photoUrl,
-              title,
-              subtitle: "",
-              description: title,
-              mediaType,
-              displayOrder: i,
-              createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp(),
-            });
-          } else {
-            allUploadSuccess = false;
+        
+        if (newImages.length > 0) {
+          // Fetch current ministry data and add new subcategory
+          const ministryRef = doc(db, "ministries", editingMinistry?.id || "");
+          const ministrySnap = editingMinistry ? await getDoc(ministryRef) : null;
+          const existingSubcats = ministrySnap?.data()?.subcategories || [];
+          const newSubcategory: SubCategory = {
+            id: slug,
+            title: slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+            description: "",
+            coverImage: newImages[0].url,
+            images: newImages
+          };
+          
+          if (editingMinistry) {
+            await setDoc(ministryRef, {
+              subcategories: [...existingSubcats, newSubcategory],
+              updatedAt: serverTimestamp()
+            }, { merge: true });
           }
         }
       }

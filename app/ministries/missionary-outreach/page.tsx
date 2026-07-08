@@ -32,7 +32,7 @@ export default function MissionOutreach() {
               </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-              We leave behind temporary aid to train local men and women to plant independent, self-governing, self-supporting, and self-propagating churches that multiply within their own cultures.
+              We equip and train local pastors and church planters to establish healthy, independent, self-governing, self-supporting, and self-propagating churches that faithfully multiply within their own communities and cultures.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
                <button 

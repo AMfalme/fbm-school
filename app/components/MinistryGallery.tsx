@@ -19,9 +19,11 @@ interface MinistryGalleryProps {
   title: string;
   subtitle?: string;
   ministrySlug?: string;
+  subcategoryId?: string;
+  ministryData?: any; // Optional: pass ministry data directly to avoid Firestore query
 }
 
-export default function MinistryGallery({ categories, title, subtitle, ministrySlug }: MinistryGalleryProps) {
+export default function MinistryGallery({ categories, title, subtitle, ministrySlug, subcategoryId, ministryData }: MinistryGalleryProps) {
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,25 +32,62 @@ export default function MinistryGallery({ categories, title, subtitle, ministryS
       try {
         let items: MediaItem[] = [];
 
-        // If ministrySlug is provided, fetch from ministry-media collection
-        if (ministrySlug) {
-          const q = query(
-            collection(db, "ministry-media"),
-            where("ministrySlug", "==", ministrySlug),
-            where("deleted", "!=", true)
-          );
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            items.push({
-              id: doc.id,
-              photoUrl: data.photoUrl,
-              title: data.title,
-              subtitle: data.subtitle || "",
-              description: data.description,
-              mediaType: data.mediaType || "image",
-            });
+        // If ministryData is provided directly, use it (no Firestore query needed)
+        if (ministryData) {
+          const subcategories = ministryData.subcategories || [];
+          
+          // If subcategoryId is specified, only get images from that subcategory
+          const targetSubcategories = subcategoryId 
+            ? subcategories.filter((sc: any) => sc.id === subcategoryId)
+            : subcategories;
+          
+          // Flatten images from all (or targeted) subcategories
+          targetSubcategories.forEach((subcat: any) => {
+            if (subcat.images && Array.isArray(subcat.images)) {
+              subcat.images.forEach((img: any) => {
+                items.push({
+                  id: img.id,
+                  photoUrl: img.url,
+                  title: img.caption || subcat.title,
+                  subtitle: subcat.title,
+                  description: subcat.description || "",
+                  mediaType: "image",
+                });
+              });
+            }
           });
+        } 
+        // Fallback: If ministrySlug is provided, fetch from ministry document's subcategories
+        else if (ministrySlug) {
+          const ministriesRef = collection(db, "ministries");
+          const q = query(ministriesRef, where("slug", "==", ministrySlug));
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            const ministryData = querySnapshot.docs[0].data();
+            const subcategories = ministryData.subcategories || [];
+            
+            // If subcategoryId is specified, only get images from that subcategory
+            const targetSubcategories = subcategoryId 
+              ? subcategories.filter((sc: any) => sc.id === subcategoryId)
+              : subcategories;
+            
+            // Flatten images from all (or targeted) subcategories
+            targetSubcategories.forEach((subcat: any) => {
+              if (subcat.images && Array.isArray(subcat.images)) {
+                subcat.images.forEach((img: any) => {
+                  items.push({
+                    id: img.id,
+                    photoUrl: img.url,
+                    title: img.caption || subcat.title,
+                    subtitle: subcat.title,
+                    description: subcat.description || "",
+                    mediaType: "image",
+                  });
+                });
+              }
+            });
+          }
         } else {
           // Fallback to legacy media collection
           const q = query(
@@ -79,7 +118,7 @@ export default function MinistryGallery({ categories, title, subtitle, ministryS
     };
 
     fetchGalleryMedia();
-  }, [categories, ministrySlug]);
+  }, [categories, ministrySlug, subcategoryId, ministryData]);
 
   if (loading) {
     return (

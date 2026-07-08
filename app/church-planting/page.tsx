@@ -32,8 +32,8 @@ export default function ChurchPlanting() {
   const [churchPlants] = useState<ChurchPlant[]>([
     {
       id: "plant-1",
-      name: "Freedom Baptist Mission - Bible College",
-      region: "Western Region (Kakamega)",
+      name: "Congregational service at Mission Bible College",
+      region: "Nyanza Region",
       status: "Completed",
       pastor: "Bishop Reverend Benard Curry (Class of 2023)",
       foundedYear: "2024",
@@ -48,18 +48,16 @@ export default function ChurchPlanting() {
         { label: "Self-Support", value: "85%" }
       ],
       journalSlider: [
-        "/bible-college/bible class.jpeg",
-        "bible-college/bible college class.jpg",
         "/bible-college/mission bible college.png"
       ]
     },
     {
       id: "plant-2",
       name: "Freedom Baptist Mission Outreach",
-      region: "Rift Valley Region (Narok Line)",
+      region: "",
       status: "Under Construction",
-      pastor: "Evangelist Isaac Kiprop (Class of 2024)",
-      foundedYear: "2025",
+      pastor: "Mission Team with Bishop Reverend Benard Curry",
+      foundedYear: "2025 February",
       featuredImage: "/church/management.png",
       vernacularLanguage: "Maa / Swahili",
       historicalContext: "Demonstrating Christ's love through practical care and community outreach as we plant a new church in Narok.",
@@ -79,9 +77,9 @@ export default function ChurchPlanting() {
     {
       id: "plant-3",
       name: "Freedom Baptist Mission Training Outreach",
-      region: "Coastal Strip (Kilifi)",
+      region: "",
       status: "Planning Phase",
-      pastor: "Pastor Titus Mwangi (Alumni Network)",
+      pastor: "Awana program with Missionary Richard",
       foundedYear: "2026",
       featuredImage: "church/outreach.jpg",
       vernacularLanguage: "Giryama / Swahili",
