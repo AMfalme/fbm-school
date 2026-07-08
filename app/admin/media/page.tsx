@@ -680,15 +680,15 @@ export default function AdminMediaPage() {
                     </div>
                   )}
 
-                  {(item.gallery ?? []).length > 1 && (
+                  {(item.gallery ?? []).length > 0 && (
                     <button
                       onClick={() => {
-                        setSelectedGallery(item.gallery ?? []);
+                        setSelectedGallery([{url: item.photoUrl, mediaType: item.mediaType}, ...(item.gallery ?? [])]);
                         setGalleryModalOpen(true);
                       }}
                       className="mt-3 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
                     >
-                      See More ({item.gallery!.length})
+                      See More ({(item.gallery?.length ?? 0) + 1})
                     </button>
                   )}
                 </div>
@@ -697,7 +697,7 @@ export default function AdminMediaPage() {
           </div>
 
           {/* Gallery Modal */}
-          {galleryModalOpen && selectedGallery && (
+          {galleryModalOpen && selectedGallery && selectedGallery.length > 0 && (
             <div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
               onClick={() => setGalleryModalOpen(false)}
@@ -719,7 +719,7 @@ export default function AdminMediaPage() {
                   {selectedGallery.map((media, idx) => (
                     <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
                       {media.mediaType === "video" ? (
-                        <video src={media.url} className="h-full w-full object-cover" controls />
+                        <video src={media.url} className="h-full w-full object-cover" controls autoPlay={idx === 0} />
                       ) : (
                         <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
                       )}

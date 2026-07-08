@@ -133,17 +133,17 @@ export default function GalleryMedia() {
                       </span>
                     </div>
                     <p className="text-sm leading-6 text-slate-600">{item.description}</p>
-                    {(item.gallery ?? []).length > 1 && (
-                      <button
-                        onClick={() => {
-                          setSelectedGallery(item.gallery ?? []);
-                          setGalleryModalOpen(true);
-                        }}
-                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
-                      >
-                        See More ({item.gallery!.length})
-                      </button>
-                    )}
+                     {(item.gallery ?? []).length > 0 && (
+                       <button
+                         onClick={() => {
+                           setSelectedGallery([{url: item.photoUrl, mediaType: item.mediaType || "image"}, ...(item.gallery ?? [])]);
+                           setGalleryModalOpen(true);
+                         }}
+                         className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+                       >
+                         See More ({(item.gallery?.length ?? 0) + 1})
+                       </button>
+                     )}
                   </div>
                 </div>
               ))}
@@ -153,7 +153,7 @@ export default function GalleryMedia() {
       })}
 
       {/* Gallery Modal */}
-      {galleryModalOpen && selectedGallery && (
+      {galleryModalOpen && selectedGallery && selectedGallery.length > 0 && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setGalleryModalOpen(false)}
@@ -175,7 +175,7 @@ export default function GalleryMedia() {
               {selectedGallery.map((media, idx) => (
                 <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
                   {media.mediaType === "video" ? (
-                    <video src={media.url} className="h-full w-full object-cover" controls />
+                    <video src={media.url} className="h-full w-full object-cover" controls autoPlay={idx === 0} />
                   ) : (
                     <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
                   )}
