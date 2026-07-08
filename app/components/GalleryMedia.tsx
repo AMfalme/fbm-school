@@ -68,7 +68,7 @@ export default function GalleryMedia() {
       </section>
     );
   }
-  // Group items by known categories and render each group with one-word headings
+
   const CATEGORY_ORDER = ["construction", "classroom", "church-community", "mission-projects", "conference", "bible-college", "hospital"];
   const CATEGORY_LABELS: Record<string, string> = {
     "construction": "Construction",
@@ -113,79 +113,81 @@ export default function GalleryMedia() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {list.map((item) => (
-                <div key={item.id} className="rounded-[28px] border-2 border-[#E0E7FF] bg-white overflow-hidden shadow-[0_4px_20px_rgba(0,61,122,0.08)] hover:shadow-[0_12px_35px_rgba(0,61,122,0.15)] transition">
-                  <div className="aspect-video overflow-hidden">
-                    {item.mediaType === "video" ? (
-                      <video src={item.photoUrl} className="h-full w-full object-cover" controls />
-                    ) : (
-                      <img src={item.photoUrl} alt={item.title} className="h-full w-full object-cover" />
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-xl font-bold text-slate-950">{item.title}</h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        item.status === 'completed' ? 'bg-[#16a34a] text-white' :
-                        item.status === 'in-progress' ? 'bg-[#FFD966] text-[#003d7a]' : 'bg-slate-200 text-slate-600'
-                      }`}>
-                        {item.status}
-                      </span>
+                <React.Fragment key={item.id}>
+                  {/* Media Card */}
+                  <div className="rounded-[28px] border-2 border-[#E0E7FF] bg-white overflow-hidden shadow-[0_4px_20px_rgba(0,61,122,0.08)] hover:shadow-[0_12px_35px_rgba(0,61,122,0.15)] transition">
+                    <div className="aspect-video overflow-hidden">
+                      {item.mediaType === "video" ? (
+                        <video src={item.photoUrl} className="h-full w-full object-cover" controls />
+                      ) : (
+                        <img src={item.photoUrl} alt={item.title} className="h-full w-full object-cover" />
+                      )}
                     </div>
-                    <p className="text-sm leading-6 text-slate-600">{item.description}</p>
-                     {(item.gallery ?? []).length > 0 && (
-                       <button
-                         onClick={() => setExpandedGallery(expandedGallery === item.id ? null : item.id)}
-                         className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
-                       >
-                         {expandedGallery === item.id ? "Hide Gallery" : "View Gallery ({(item.gallery?.length ?? 0) + 1})"}
-                       </button>
-                     )}
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-xl font-bold text-slate-950">{item.title}</h3>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          item.status === 'completed' ? 'bg-[#16a34a] text-white' :
+                          item.status === 'in-progress' ? 'bg-[#FFD966] text-[#003d7a]' : 'bg-slate-200 text-slate-600'
+                        }`}>
+                          {item.status}
+                        </span>
+                      </div>
+                      <p className="text-sm leading-6 text-slate-600">{item.description}</p>
+                      <button
+                        onClick={() => setExpandedGallery(expandedGallery === item.id ? null : item.id)}
+                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+                      >
+                        {expandedGallery === item.id ? "Hide Gallery" : `View Gallery (${(item.gallery?.length ?? 0) + 1})`}
+                      </button>
+                    </div>
                   </div>
-                </div>
+
+                  {/* Expanded Gallery – renders right below the clicked card (full width) */}
+                  {expandedGallery === item.id && (() => {
+                    const galleryItems = [
+                      { url: item.photoUrl, mediaType: item.mediaType || "image" },
+                      ...(item.gallery ?? [])
+                    ];
+                    return (
+                      <div className="col-span-1 md:col-span-2 lg:col-span-3 -mt-2 mb-2 rounded-2xl border-2 border-[#0055b8] bg-white p-6 shadow-lg">
+                        <div className="mb-4 flex items-center justify-between">
+                          <h3 className="text-2xl font-bold text-slate-900">{item.title} Gallery</h3>
+                          <button
+                            onClick={() => setExpandedGallery(null)}
+                            className="rounded-full bg-slate-100 p-2 hover:bg-slate-200"
+                          >
+                            <X size={20} />
+                          </button>
+                        </div>
+                        <p className="mb-6 text-sm text-slate-600">{item.description}</p>
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                          {galleryItems.map((media, idx) => (
+                            <div key={idx} className="rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+                              <div className="aspect-video bg-slate-100">
+                                {media.mediaType === "video" ? (
+                                  <video src={media.url} className="h-full w-full object-cover" controls />
+                                ) : (
+                                  <img src={media.url} alt={`Media ${idx + 1}`} className="h-full w-full object-cover" />
+                                )}
+                              </div>
+                              {media.description && (
+                                <div className="p-3">
+                                  <p className="text-xs text-slate-600">{media.description}</p>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </React.Fragment>
               ))}
             </div>
           </div>
         );
       })}
-
-      {/* Inline Gallery Expansion */}
-      {expandedGallery && (() => {
-        const expandedItem = items.find((m) => m.id === expandedGallery);
-        if (!expandedItem) return null;
-        const galleryItems = [{url: expandedItem.photoUrl, mediaType: expandedItem.mediaType || "image"}, ...(expandedItem.gallery ?? [])];
-        return (
-          <div className="mt-6 rounded-2xl border-2 border-[#0055b8] bg-white p-6 shadow-lg">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-2xl font-bold text-slate-900">{expandedItem.title}</h3>
-              <button
-                onClick={() => setExpandedGallery(null)}
-                className="rounded-full bg-slate-100 p-2 hover:bg-slate-200"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <p className="mb-6 text-sm text-slate-600">{expandedItem.description}</p>
-            <div className="grid gap-4 md:grid-cols-2">
-              {galleryItems.map((media, idx) => (
-                <div key={idx} className="rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-                  <div className="aspect-video bg-slate-100">
-                    {media.mediaType === "video" ? (
-                      <video src={media.url} className="h-full w-full object-cover" controls />
-                    ) : (
-                      <img src={media.url} alt={`Media ${idx + 1}`} className="h-full w-full object-cover" />
-                    )}
-                  </div>
-                  {media.description && (
-                    <div className="p-3">
-                      <p className="text-xs text-slate-600">{media.description}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })()}
     </section>
   );
 }
