@@ -108,8 +108,7 @@ export default function AdminMediaPage() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
   const [galleryTypes, setGalleryTypes] = useState<("image" | "video")[]>([]);
-  const [galleryModalOpen, setGalleryModalOpen] = useState(false);
-  const [selectedGallery, setSelectedGallery] = useState<MediaItem["gallery"]>([]);
+  const [expandedGallery, setExpandedGallery] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
@@ -682,13 +681,10 @@ export default function AdminMediaPage() {
 
                   {(item.gallery ?? []).length > 0 && (
                     <button
-                      onClick={() => {
-                        setSelectedGallery([{url: item.photoUrl, mediaType: item.mediaType}, ...(item.gallery ?? [])]);
-                        setGalleryModalOpen(true);
-                      }}
+                      onClick={() => setExpandedGallery(expandedGallery === item.id ? null : item.id)}
                       className="mt-3 inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
                     >
-                      See More ({(item.gallery?.length ?? 0) + 1})
+                      {expandedGallery === item.id ? "Hide Gallery" : "View Gallery ({(item.gallery?.length ?? 0) + 1})"}
                     </button>
                   )}
                 </div>
@@ -696,39 +692,44 @@ export default function AdminMediaPage() {
             ))}
           </div>
 
-          {/* Gallery Modal */}
-          {galleryModalOpen && selectedGallery && selectedGallery.length > 0 && (
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-              onClick={() => setGalleryModalOpen(false)}
-            >
-              <div
-                className="max-h-[90vh] max-w-6xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
-                onClick={(e) => e.stopPropagation()}
-              >
+          {/* Inline Gallery Expansion */}
+          {expandedGallery && (() => {
+            const expandedItem = media.find((m) => m.id === expandedGallery);
+            if (!expandedItem) return null;
+            const galleryItems = [{url: expandedItem.photoUrl, mediaType: expandedItem.mediaType, description: expandedItem.description}, ...(expandedItem.gallery ?? [])];
+            return (
+              <div className="mt-6 rounded-2xl border-2 border-[#0055b8] bg-white p-6 shadow-lg">
                 <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-xl font-bold text-slate-900">Gallery</h3>
+                  <h3 className="text-2xl font-bold text-slate-900">{expandedItem.title}</h3>
                   <button
-                    onClick={() => setGalleryModalOpen(false)}
+                    onClick={() => setExpandedGallery(null)}
                     className="rounded-full bg-slate-100 p-2 hover:bg-slate-200"
                   >
                     <X size={20} />
                   </button>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {selectedGallery.map((media, idx) => (
-                    <div key={idx} className="aspect-[4/3] overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
-                      {media.mediaType === "video" ? (
-                        <video src={media.url} className="h-full w-full object-cover" controls autoPlay={idx === 0} />
-                      ) : (
-                        <img src={media.url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                <p className="mb-6 text-sm text-slate-600">{expandedItem.description}</p>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {galleryItems.map((media, idx) => (
+                    <div key={idx} className="rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+                      <div className="aspect-video bg-slate-100">
+                        {media.mediaType === "video" ? (
+                          <video src={media.url} className="h-full w-full object-cover" controls />
+                        ) : (
+                          <img src={media.url} alt={`Media ${idx + 1}`} className="h-full w-full object-cover" />
+                        )}
+                      </div>
+                      {media.description && (
+                        <div className="p-3">
+                          <p className="text-xs text-slate-600">{media.description}</p>
+                        </div>
                       )}
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
         </div>
       </main>
     </div>
