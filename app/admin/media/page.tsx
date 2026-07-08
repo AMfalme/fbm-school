@@ -306,10 +306,9 @@ export default function AdminMediaPage() {
     setPreviewIcon(item.iconUrl || "");
 
     // Load existing gallery items into the form
-    const existing = item.gallery ?? [];
     setGalleryFiles([]);
-    setGalleryPreviews(existing.map(g => g.url));
-    setGalleryTypes(existing.map(g => g.mediaType || "image"));
+    setGalleryPreviews(item.gallery?.map(g => g.url) ?? []);
+    setGalleryTypes(item.gallery?.map(g => g.mediaType || "image") ?? []);
 
     setShowForm(true);
     setEditingId(item.id);
@@ -698,7 +697,7 @@ export default function AdminMediaPage() {
           </div>
 
           {/* Gallery Modal */}
-          {galleryModalOpen && (
+          {galleryModalOpen && selectedGallery && (
             <div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
               onClick={() => setGalleryModalOpen(false)}
