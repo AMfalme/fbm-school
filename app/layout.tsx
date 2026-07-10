@@ -4,6 +4,8 @@ import "./globals.css";
 import WhatsAppButton from "./components/WhatsAppButton";
 import GlobalBanner from "./components/GlobalBanner";
 
+import { Analytics } from '@vercel/analytics/next';
+
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
@@ -28,6 +30,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <GlobalBanner />
         {children}
+        <Analytics />
         <WhatsAppButton />
       </body>
     </html>
