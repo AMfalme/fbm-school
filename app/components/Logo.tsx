@@ -5,12 +5,13 @@ import { usePathname } from "next/navigation";
 export default function Logo() {
   const pathname = usePathname();
   const isFaithAcademy = pathname?.startsWith("/faith-academy");
+  const isChristianFaithAcademy = pathname?.startsWith("/ministries/christian-faith-academy");
 
   return (
     <a href="/" className="inline-flex items-center gap-3 text-slate-950">
       <img
-        src={isFaithAcademy ? "/logo.png" : "/fbm-logo.PNG"}
-        alt={isFaithAcademy ? "Freedom Baptist Mission logo" : "FBM logo"}
+        src={isChristianFaithAcademy ? "/FBM CFA logo.png" : isFaithAcademy ? "/logo.png" : "/fbm-logo.PNG"}
+        alt={isChristianFaithAcademy ? "FBM Christian Faith Academy logo" : isFaithAcademy ? "Freedom Baptist Mission logo" : "FBM logo"}
         className="h-11 w-11 rounded-2xl shadow-sm"
       />
       {isFaithAcademy && (
