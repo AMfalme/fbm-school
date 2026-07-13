@@ -14,10 +14,10 @@ export default function Logo() {
         alt={isChristianFaithAcademy ? "FBM Christian Faith Academy logo" : isFaithAcademy ? "Freedom Baptist Mission logo" : "FBM logo"}
         className="h-11 w-11 rounded-2xl shadow-sm"
       />
-      {isFaithAcademy && (
+      {isChristianFaithAcademy && (
         <div className="leading-tight">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#0055b8]">Freedom Baptist</p>
-          <p className="text-xs text-[#16a34a] font-semibold">Mission</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#0055b8]">Freedom Baptist Mission</p>
+          <p className="text-xs text-[#16a34a] font-semibold">Christian Faith Academy</p>
         </div>
       )}
     </a>
